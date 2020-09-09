@@ -3,28 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Stock Manager</title>
-    <!-- Title/Hero -->
-    <header>
-        <h1>Stock Manager</h1>
-    </header>
-
-    <main>
-        <button>Stocks</button><button>Crypto</button>
-        <ul>
-            <li>Main 1</li>
-            <li>Main 2</li>
-        </ul>
-        <ol>
-            <li>Placeholder 1</li>
-            <li>Placeholder 2</li>
-            <li>Placeholder 3</li>
-            <li>Placeholder 4</li>
-            <li>Placeholder 5</li>
-        </ol>
-    </main>
 </head>
 <body>
-    
+    <!-- Hero -->
+    <section class="hero is-dark">
+        <div class="hero-head">
+            <div class="container">
+                <h1 class="title is-size-1 is-text-left has-text-light ml-3">Stock Manager</h1>
+            </div>
+        </div>
+        <div class="hero-body"></div>
+        <div class="hero-foot">
+            <nav class="tabs is-boxed">
+                <div class="container has-text-centered">
+                    <ul class="space-around">
+                        <li class="is-active is-size-3 mx-2"><a>Stock Exchange</a></li>
+                        <li class="is-size-3 mx-2"><a>Cryptocurrency</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section>
+        <div class="has-text-centered my-2">
+            <h2 class="title is-size-3">General Stocks</h2>
+            <table class="table is-bordered is-narrow center">
+                <tr>
+                    <th>Major Index</th>
+                    <th>Value</th>
+                    <th>Growth</th>
+                    <th>Percent Growth</th>
+                </tr>
+                <tr>
+                    <td>S&P 500</td> 
+                    <td id="sp500_raw" class="raw">####.##</td> 
+                    <td id="sp500_growth" class="growth">+##.##</td>
+                    <td id="sp500_percent" class="percent">#.##%</td>
+                </tr>
+                <tr>
+                    <td>NASDAQ</td> 
+                    <td id="nasdaq_raw" class="raw">####.##</td> 
+                    <td id="nasdaq_growth" class="growth">+##.##</td>
+                    <td id="nasdaq_percent" class="percent">#.##%</td>
+                </tr>
+                <tr>
+                    <td>NYSE</td> 
+                    <td id="nyse_raw" class="raw">####.##</td> 
+                    <td id="nyse_growth" class="growth">+##.##</td>
+                    <td id="nyse_percent" class="percent">#.##%</td>
+                </tr>
+                <tr>
+                    <td>DOW</td> 
+                    <td id="dow_raw" class="raw">####.##</td> 
+                    <td id="dow_growth" class="growth">+##.##</td>
+                    <td id="dow_percent" class="percent">#.##%</td>
+                </tr>
+            </table>
+        </div>
+        <div class="has-text-centered my-2">
+            <h2 class="title is-size-3">Chosen Stocks</h2>
+            <table class="table is-bordered is-narrow center">
+                <tr>
+                    <th>Major Index</th>
+                    <th>Value</th>
+                    <th>Growth</th>
+                    <th>Percent Growth</th>
+                </tr>
+                <tr>
+                    <td>Placeholder 1</td> 
+                    <td id="sp500_raw" class="raw">####.##</td> 
+                    <td id="sp500_growth" class="growth">+##.##</td>
+                    <td id="sp500_percent" class="percent">#.##%</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </body>
 </html>
