@@ -32,18 +32,24 @@ var stock = [
       relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
       betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
       t200AvgMin: "", t200AvgMax: "", t200Avg: "" }
-];     
+];    
+
+var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
 
 var stockSymbol;
-var index;             // the index into the 'stock' array
+var index;               // the index into the 'stock' array
+var dailyCheck = false;  // if "true", the daily parameters have been obtained, no need to request again.
 
 
 
 ///////////////////////////////////////////////////////////////////////////
 // API URLs
-urlKeyAlphaAdvantage  = "&apikey=XMDSSBDY4JYPVPPD";
-var apiStockParamsUrl = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
-var apiStockPriceUrl  = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=";
+var urlKeyAlphaAdvantage    = "&apikey=XMDSSBDY4JYPVPPD";
+var apiStockParamsUrl       = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
+var apiStockPriceUrl        = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=";
+
+var urlKeyFinancialModeling = "a107f24e0f6aaac5f180293fa869cd10";
+var apiMarketIndexUrl       = "https://financialmodelingprep.com/api/v3/quotes/index?apikey=";
 
 
 
@@ -51,42 +57,113 @@ var apiStockPriceUrl  = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE
 // Function to acquire the current data for a specified stock
 var getStockParameters = function (stockSymbol, index) {
 
-    // Construct the finished URL
-    var finalUrl = apiStockParamsUrl + stockSymbol + urlKeyAlphaAdvantage;
+        // Construct the finished URL to obtain the current stock price.
+        var finalUrl = apiStockPriceUrl + stockSymbol + urlKeyAlphaAdvantage;
 
-    // Make the request for the stock's data
-    fetch(finalUrl)
-        .then(function (response) {
+        // Make the request for the stock's price
+        fetch(finalUrl)
+            .then(function (response) {
+    
+                return response.json();
+            })
+            .then(function (response) {
+                console.log( response );
+    
+                // Verify that data was acquired
+                if (response.cod == 404) {
+                    returnValue = -1;
+                    return (returnValue);
+                }
+    
+                // Put the stock's price data in the return variable.
+                var value = "Global Quote.price";
+                stock[index].price = response.value;
+                console.log("Price: ", stock[index].price);
+                return;
+            })
 
-            return response.json();
-        })
-        .then(function (response) {
-            console.log( response );
+            .then(function () {
 
-            // Verify that data was acquired
-            if (response.cod == 404) {
-                returnValue = -1;
-                return (returnValue);
-            }
+                // Check/Reset the "dailyCheck" flag, so this is only done once.
+                if( dailyCheck ) {
+                    return;
+                }
+                else {
+                    dailyCheck = true;
+                }
 
-            // Put the stock's data in the return variables.
-            stock[index].eps     = response.EPS;
-            stock[index].beta    = response.Beta;
-            stock[index].pe      = response.PERatio;
-            stock[index].target  = response.AnalystTargetPrice;
-            stock[index].f50Avg  = response["50DayMovingAverage"];
-            stock[index].t200Avg = response["200DayMovingAverage"];
+                // Construct the finished URL to obtain the stock parameters (once only)
+                finalUrl = apiStockParamsUrl + stockSymbol + urlKeyAlphaAdvantage;
 
-            console.log("EPS: ", stock[index].eps);
-            console.log("beta: ", stock[index].beta);
-            console.log("pe: ", stock[index].pe);
-            console.log("target: ", stock[index].target);
-            console.log("50 day average: ", stock[index].f50Avg);
-            console.log("200 day average: ", stock[index].t200Avg);
-        })
+                // Make the request for the stock's data
+                fetch(finalUrl)
+                    .then(function (response) {
+
+                        return response.json();
+                    })
+                    .then(function (response) {
+                        console.log(response);
+
+                        // Verify that data was acquired
+                        if (response.cod == 404) {
+                            returnValue = -1;
+                            return (returnValue);
+                        }
+
+                        // Put the stock's data in the return variables.
+                        stock[index].eps = response.EPS;
+                        stock[index].beta = response.Beta;
+                        stock[index].pe = response.PERatio;
+                        stock[index].target = response.AnalystTargetPrice;
+                        stock[index].f50Avg = response["50DayMovingAverage"];
+                        stock[index].t200Avg = response["200DayMovingAverage"];
+
+                        console.log("EPS: ", stock[index].eps);
+                        console.log("beta: ", stock[index].beta);
+                        console.log("pe: ", stock[index].pe);
+                        console.log("target: ", stock[index].target);
+                        console.log("50 day average: ", stock[index].f50Avg);
+                        console.log("200 day average: ", stock[index].t200Avg);
+                    })
+            })
+
+            .then(function () {
+                // Check/Reset the "dailyCheck" flag, so this is only done once.
+                if( dailyCheck ) {
+                    return;
+                }
+                
+                // Construct the finished URL to obtain the market index values (once only)
+                finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
+
+                // Make the request for the stock's data
+                fetch(finalUrl)
+                    .then(function (response) {
+
+                        return response.json();
+                    })
+                    .then(function (response) {
+                        console.log(response);
+
+                        // Verify that data was acquired
+                        if (response.cod == 404) {
+                            returnValue = -1;
+                            return (returnValue);
+                        }
+
+                        // Get the index values and put them in the return variables.
+                        indexes[0] = response[7].price;     // S&P 500
+                        indexes[1] = response[19].price;    // NASDAQ
+                        indexes[2] = response[12].price;    // NYSE
+                        indexes[3] = response[31].price;    // DOW
+                        console.log( "Index Prices: ", indexes );
+
+                    })
+            })
+
         .catch(function (error) {
             // Notice this `.catch()` is chained onto the end of the `.then()` method
-            alert("Unable to connect to AlphaAdvantage for stock parameters.");
+            alert("Unable to connect to AlphaAdvantage for stock data.");
             returnValue = -1;
             return (returnValue);
         });
@@ -95,39 +172,39 @@ var getStockParameters = function (stockSymbol, index) {
 
 ///////////////////////////////////////////////////////////////////////////
 // Function to acquire the current data for a specified stock
-var getStockPrice = function (stockSymbol, index) {
+// var getStockPrice = function (stockSymbol, index) {
 
-    // Construct the finished URL
-    var finalUrl = apiStockPriceUrl + stockSymbol + urlKeyAlphaAdvantage;
+//     // Construct the finished URL to obtain the current stock price.
+//     var finalUrl = apiStockPriceUrl + stockSymbol + urlKeyAlphaAdvantage;
 
-    // Make the request for the stock's price
-    fetch(finalUrl)
-        .then(function (response) {
+//     // Make the request for the stock's price
+//     fetch(finalUrl)
+//         .then(function (response) {
 
-            return response.json();
-        })
-        .then(function (response) {
-            console.log( response );
+//             return response.json();
+//         })
+//         .then(function (response) {
+//             console.log( response );
 
-            // Verify that data was acquired
-            if (response.cod == 404) {
-                returnValue = -1;
-                return (returnValue);
-            }
+//             // Verify that data was acquired
+//             if (response.cod == 404) {
+//                 returnValue = -1;
+//                 return (returnValue);
+//             }
 
-            // Put the stock's data in the return variables.
-            stock[index].price = response.price;
+//             // Put the stock's data in the return variables.
+//             stock[index].price = response.price;
 
 
-        })
-        .catch(function (error) {
-            // Notice this `.catch()` is chained onto the end of the `.then()` method
-            alert("Unable to connect to AlphaAdvantage for stock pricing.");
-            returnValue = -1;
-            return (returnValue);
-        });
+//         })
+//         .catch(function (error) {
+//             // Notice this `.catch()` is chained onto the end of the `.then()` method
+//             alert("Unable to connect to AlphaAdvantage for stock pricing.");
+//             returnValue = -1;
+//             return (returnValue);
+//         });
 
-}
+// }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -135,4 +212,4 @@ stockSymbol = "IBM";
 index       = 0;
 
 getStockParameters( stockSymbol, index );
-getStockPrice( stockSymbol, index );
+//getStockPrice( stockSymbol, index );
