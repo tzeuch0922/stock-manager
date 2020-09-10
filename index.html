@@ -11,28 +11,35 @@
     <!-- Hero -->
     <section class="hero is-dark">
         <div class="hero-head">
+            
+        </div>
+        <div class="hero-body">
             <div class="container">
-                <h1 class="title is-size-1 is-text-left has-text-light ml-3">Stock Manager</h1>
+                <h1 class="title is-size-1 has-text-centered has-text-light ml-3">Stock Manager</h1>
             </div>
         </div>
-        <div class="hero-body"></div>
         <div class="hero-foot">
             <nav class="tabs is-boxed">
                 <div class="container has-text-centered">
                     <ul class="space-around">
-                        <li class="is-active is-size-3 mx-2"><a>Stock Exchange</a></li>
-                        <li class="is-size-3 mx-2"><a>Cryptocurrency</a></li>
+                        <li class="is-active is-size-5 mx-2"><a>Stock Exchange</a></li>
+                        <li class="is-size-5 mx-2"><a>Cryptocurrency</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
     </section>
 
-    <!-- Main Content -->
-    <section>
+    <!-- General section -->
+    <section id="generalpage">
+
+    </section>
+
+    <!-- Stock section -->
+    <section id="stockpage">
         <div class="has-text-centered my-2">
             <h2 class="title is-size-3">General Stocks</h2>
-            <table class="table is-bordered is-narrow center">
+            <table class="table is-bordered is-narrow center has-text-left">
                 <tr>
                     <th>Major Index</th>
                     <th>Value</th>
@@ -66,22 +73,128 @@
             </table>
         </div>
         <div class="has-text-centered my-2">
-            <h2 class="title is-size-3">Chosen Stocks</h2>
-            <table class="table is-bordered is-narrow center">
+            <h2 class="title is-size-3">Chosen Stock</h2>
+            <div class="dropdown mb-4">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Chosen Stock</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="stock-dropdown" role="menu">
+                    <div class="dropdown-content">
+                        <a href="" class="dropdown-item">1</a>
+                        <a href="" class="dropdown-item">2</a>
+                        <a href="" class="dropdown-item">3</a>
+                        <a href="" class="dropdown-item">4</a>
+                        <a href="" class="dropdown-item">5</a>
+                    </div>
+                </div>
+            </div>
+            <div id="stock-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
+                <p>Name: <span>****************</span></p>
+                <p>Symbol: <span>***</span></p>
+                <p>Exchange: <span>****</span></p>
+            </div>
+            <table class="table is-bordered is-narrow center has-text-left">
                 <tr>
-                    <th>Major Index</th>
-                    <th>Value</th>
-                    <th>Growth</th>
-                    <th>Percent Growth</th>
+                    <th>Parameters</th>
+                    <th>Minimum Value</th>
+                    <th>Current Value</th>
+                    <th>Maximum Value</th>
+                    <th>Alert</th>
                 </tr>
                 <tr>
-                    <td>Placeholder 1</td> 
-                    <td id="sp500_raw" class="raw">####.##</td> 
-                    <td id="sp500_growth" class="growth">+##.##</td>
-                    <td id="sp500_percent" class="percent">#.##%</td>
+                    <th>Price</th>
+                    <td></td>
+                    <td>$###.##</td>
+                    <td></td>
+                    <td></td>
                 </tr>
+                <tr>
+                    <th>Target</th>
+                    <td></td>
+                    <td>$###.##</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Earnings Per Share</th>
+                    <td></td>
+                    <td>$##.##</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Relative Strength</th>
+                    <td></td>
+                    <td>#</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Price to Earnings Ratio</th>
+                    <td></td>
+                    <td>#</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Beta</th>
+                    <td></td>
+                    <td>#</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>50-day Average</th>
+                    <td></td>
+                    <td>$###.##</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>200-day Average</th>
+                    <td></td>
+                    <td>$###.##</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <!-- <tr>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                    <th>Exchange</th>
+                    <th>Price</th>
+                    <th>Target</th>
+                    <th>Earnings Per Share</th>
+                    <th>Relative Strength</th>
+                    <th>Price-to-Earnings Ratio</th>
+                    <th>Beta</th>
+                    <th>50-day Average</th>
+                    <th>200-day Average</th>
+                </tr>
+                <tr>
+                    <td class="name">**********</td> 
+                    <td class="symbol">***</td> 
+                    <td class="exchange">***</td>
+                    <td class="price">$###.##</td>
+                    <td class="target">$###.##</td>
+                    <td class="eps">$##.##</td>
+                    <td class="strength">#</td>
+                    <td class="peRatio">#</td>
+                    <td class="beta">#</td>
+                    <td class="50avg">$###.##</td>
+                    <td class="200avg">$###.##</td>
+                </tr> -->
             </table>
         </div>
+    </section>
+
+    <!-- Cryptocurrency section -->
+    <section id="cryptopage">
+
     </section>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="./assets/js/script.js"></script>
