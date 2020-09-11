@@ -38,46 +38,36 @@
     <!-- Stock section -->
     <section id="stockpage">
         <div class="has-text-centered my-2">
-            <h2 class="title is-size-3">General Stocks</h2>
+            <h2 class="title is-size-3">Equity Information</h2>
             <table class="table is-bordered is-narrow center has-text-left">
                 <tr>
                     <th>Major Index</th>
                     <th>Value</th>
-                    <th>Growth</th>
-                    <th>Percent Growth</th>
                 </tr>
                 <tr>
                     <td>S&P 500</td> 
                     <td id="sp500_raw" class="raw">####.##</td> 
-                    <td id="sp500_growth" class="growth">+##.##</td>
-                    <td id="sp500_percent" class="percent">#.##%</td>
                 </tr>
                 <tr>
                     <td>NASDAQ</td> 
                     <td id="nasdaq_raw" class="raw">####.##</td> 
-                    <td id="nasdaq_growth" class="growth">+##.##</td>
-                    <td id="nasdaq_percent" class="percent">#.##%</td>
                 </tr>
                 <tr>
                     <td>NYSE</td> 
                     <td id="nyse_raw" class="raw">####.##</td> 
-                    <td id="nyse_growth" class="growth">+##.##</td>
-                    <td id="nyse_percent" class="percent">#.##%</td>
                 </tr>
                 <tr>
                     <td>DOW</td> 
                     <td id="dow_raw" class="raw">####.##</td> 
-                    <td id="dow_growth" class="growth">+##.##</td>
-                    <td id="dow_percent" class="percent">#.##%</td>
                 </tr>
             </table>
         </div>
         <div class="has-text-centered my-2">
-            <h2 class="title is-size-3">Chosen Stock</h2>
+            <h2 class="title is-size-3">Select Stock</h2>
             <div class="dropdown mb-4">
                 <div class="dropdown-trigger">
                     <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span>Chosen Stock</span>
+                        <span>Watched Stocks</span>
                         <span class="icon is-small">
                             <i class="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
@@ -94,9 +84,9 @@
                 </div>
             </div>
             <div id="stock-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
-                <p>Name: <span>****************</span></p>
-                <p>Symbol: <span>***</span></p>
-                <p>Exchange: <span>****</span></p>
+                <p>Name: <span id="stock-name"></span></p>
+                <p>Symbol: <span id="stock-symbol"></span></p>
+                <p>Exchange: <span id="stock-exchange"></span></p>
             </div>
             <table class="table is-bordered is-narrow center has-text-left">
                 <tr>
@@ -106,88 +96,62 @@
                     <th>Maximum Value</th>
                     <th>Alert</th>
                 </tr>
-                <tr>
+                <tr id="stock-price">
                     <th>Price</th>
-                    <td></td>
-                    <td>$###.##</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <tr>
+                <tr id="stock-target">
                     <th>Target</th>
-                    <td></td>
-                    <td>$###.##</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <tr>
+                <tr id="stock-eps">
                     <th>Earnings Per Share</th>
-                    <td></td>
-                    <td>$##.##</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <tr>
+                <tr id="stock-relstr">
                     <th>Relative Strength</th>
-                    <td></td>
-                    <td>#</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <tr>
+                <tr id="stock-per">
                     <th>Price to Earnings Ratio</th>
-                    <td></td>
-                    <td>#</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <tr>
+                <tr id="stock-beta">
                     <th>Beta</th>
-                    <td></td>
-                    <td>#</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <tr>
+                <tr id="stock-50avg">
                     <th>50-day Average</th>
-                    <td></td>
-                    <td>$###.##</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <tr>
+                <tr id="stock-200avg">
                     <th>200-day Average</th>
-                    <td></td>
-                    <td>$###.##</td>
-                    <td></td>
-                    <td></td>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
                 </tr>
-                <!-- <tr>
-                    <th>Name</th>
-                    <th>Symbol</th>
-                    <th>Exchange</th>
-                    <th>Price</th>
-                    <th>Target</th>
-                    <th>Earnings Per Share</th>
-                    <th>Relative Strength</th>
-                    <th>Price-to-Earnings Ratio</th>
-                    <th>Beta</th>
-                    <th>50-day Average</th>
-                    <th>200-day Average</th>
-                </tr>
-                <tr>
-                    <td class="name">**********</td> 
-                    <td class="symbol">***</td> 
-                    <td class="exchange">***</td>
-                    <td class="price">$###.##</td>
-                    <td class="target">$###.##</td>
-                    <td class="eps">$##.##</td>
-                    <td class="strength">#</td>
-                    <td class="peRatio">#</td>
-                    <td class="beta">#</td>
-                    <td class="50avg">$###.##</td>
-                    <td class="200avg">$###.##</td>
-                </tr> -->
             </table>
         </div>
     </section>
