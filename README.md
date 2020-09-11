@@ -39,7 +39,13 @@ The deployment link to display the updated web page is:
 
 ## Technologies Used
 
-1)
+1) The HTML framework employed is 'Bulma'.
+2) Certain fonts are displayed using 'FontAwesome'.
+3) Several different public APIs are used to acquire the financial data:
+* AlphaAdvantage.co
+* FinancialModelingPrep.com
+* Finnhub.io
+* nomics.com
 
 ## Application Screen Shot
 

@@ -48,6 +48,7 @@ var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
 var stockSymbol;
 var index;               // the index into the 'stock' array
 var dailyCheck = false;  // if "true", the daily parameters have been obtained, no need to request again.
+var dataVal;             // generic data value.
 
 
 
@@ -96,9 +97,14 @@ var getStockParameters = function (stockSymbol, index) {
     
                 // Put the stock's price data in the return variable.
                 // var value = "Global Quote.price";
-                // stock[index].price = response["Global Quote"]["05. price"];
+                // stock[index].price = response["Global Quote"]["05. price"];current
                 stock[index].price = response.c;
                 console.log("Price: ", stock[index].price);
+
+                // Update the HTML page with this value
+                dataVal = document.querySelector( "#stock-price.current" );
+                dataVal.textContent = response.c;
+
                 return;
             })
 
@@ -131,19 +137,21 @@ var getStockParameters = function (stockSymbol, index) {
                         }
 
                         // Put the stock's data in the return variables.
-                        stock[index].eps = response.EPS;
-                        stock[index].beta = response.Beta;
-                        stock[index].pe = response.PERatio;
-                        stock[index].target = response.AnalystTargetPrice;
-                        stock[index].f50Avg = response["50DayMovingAverage"];
+                        stock[index].eps     = response.EPS;
+                        stock[index].beta    = response.Beta;
+                        stock[index].pe      = response.PERatio;
+                        stock[index].name    = response.name;
+                        stock[index].target  = response.AnalystTargetPrice;
+                        stock[index].f50Avg  = response["50DayMovingAverage"];
                         stock[index].t200Avg = response["200DayMovingAverage"];
 
-                        console.log("EPS: ", stock[index].eps);
-                        console.log("beta: ", stock[index].beta);
-                        console.log("pe: ", stock[index].pe);
-                        console.log("target: ", stock[index].target);
-                        console.log("50 day average: ", stock[index].f50Avg);
-                        console.log("200 day average: ", stock[index].t200Avg);
+                        console.log("Name: ", stock[index].name );
+                        console.log("EPS: ", stock[index].eps );
+                        console.log("beta: ", stock[index].beta );
+                        console.log("pe: ", stock[index].pe );
+                        console.log("target: ", stock[index].target );
+                        console.log("50 day average: ", stock[index].f50Avg );
+                        console.log("200 day average: ", stock[index].t200Avg );
                     })
             })
 
@@ -292,41 +300,57 @@ var getCryptoParameters = function (cryptoSymbol, index) {
 
 }
 
-///////////////////////////////////////////////////////////////////////////
-// Function to acquire the current data for a specified stock
-// var getStockPrice = function (stockSymbol, index) {
 
-//     // Construct the finished URL to obtain the current stock price.
-//     var finalUrl = apiStockPriceUrl + stockSymbol + urlKeyAlphaAdvantage;
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to save the investment data to local storage.
+var saveInvestments = function() {
 
-//     // Make the request for the stock's price
-//     fetch(finalUrl)
-//         .then(function (response) {
+    // Save the array of stock objects
+    localStorage.setItem( "investmentStocks", JSON.stringify( stock ) );
 
-//             return response.json();
-//         })
-//         .then(function (response) {
-//             console.log( response );
+    // save the array of cryptocurrency objects
+    localStorage.setItem( "investmentCryptos", JSON.stringify( cryptos ) );
 
-//             // Verify that data was acquired
-//             if (response.cod == 404) {
-//                 returnValue = -1;
-//                 return (returnValue);
-//             }
+    // Save the array of market index values
+    localStorage.setItem( "investmentIndexes", JSON.stringify( indexes ) );
+}
 
-//             // Put the stock's data in the return variables.
-//             stock[index].price = response.price;
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to save the investment data to local storage.
+var retrieveInvestments = function() {
+    
+    // Retrieve the array of stock objects
+    var stocksRead = [];
+    stocksRead     = JSON.parse( localStorage.getItem( "investmentStocks" ) );
 
+    if( stocksRead != null ) {
+        stock = stocksRead;
+    }
 
-//         })
-//         .catch(function (error) {
-//             // Notice this `.catch()` is chained onto the end of the `.then()` method
-//             alert("Unable to connect to AlphaAdvantage for stock pricing.");
-//             returnValue = -1;
-//             return (returnValue);
-//         });
+    // Retrieve the array of cryptocurrency objects
+    var cryptosRead = [];
+    cryptosRead     = JSON.parse( localStorage.getItem( "investmentCryptos" ) );
 
-// }
+    if( cryptosRead != null ) {
+        cryptos = cryptosRead;
+    }
+
+    // Retrieve the array of market indexes
+    var indexesRead = [];
+    indexesRead     = JSON.parse( localStorage.getItem( "investmentIndexes" ) );
+
+    if( indexesRead != null ) {
+        indexes = indexesRead;
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to play the 'alert' sound for the user, indicating a parameter is out of range.
+var playAlert = function() {
+    var alertSound = new Audio( "./assets/sounds/alarm07.wav" );
+    alertSound.play();
+
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -334,5 +358,38 @@ stockSymbol  = "IBM";
 cryptoSymbol = "BTC";
 index        = 0;
 
-//getStockParameters( stockSymbol, index );
+getStockParameters( stockSymbol, index );
 getCryptoParameters( cryptoSymbol, index );
+//playAlert();
+
+
+stockSymbol  = "APPL";
+cryptoSymbol = "LTC";
+index        = 1;
+
+getStockParameters( stockSymbol, index );
+getCryptoParameters( cryptoSymbol, index );
+
+
+stockSymbol  = "TSLA";
+cryptoSymbol = "ETC";
+index        = 2;
+
+getStockParameters( stockSymbol, index );
+getCryptoParameters( cryptoSymbol, index );
+
+stockSymbol  = "GOOGL";
+cryptoSymbol = "ETC";
+index        = 3;
+
+getStockParameters( stockSymbol, index );
+getCryptoParameters( cryptoSymbol, index );
+
+stockSymbol  = "NKLA";
+cryptoSymbol = "ETC";
+index        = 2;
+
+getStockParameters( stockSymbol, index );
+getCryptoParameters( cryptoSymbol, index );
+
+saveInvestments();
