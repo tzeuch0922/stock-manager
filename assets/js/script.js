@@ -77,7 +77,7 @@ var getStockParameters = function (stockSymbol, index) {
     
                 // Put the stock's price data in the return variable.
                 var value = "Global Quote.price";
-                stock[index].price = response.value;
+                stock[index].price = response["Global Quote"]["05. price"];
                 console.log("Price: ", stock[index].price);
                 return;
             })
