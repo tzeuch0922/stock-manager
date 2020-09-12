@@ -55,6 +55,7 @@ var index;               // the index into the 'stock' array
 var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
 var dailyCheckCyrptos;   // if "true", the daily parameters have been obtained, no need to request again.
 var dataVal;             // generic data value.
+var checkSymbol;         // symbol for the "alert" columns
 
 // Tab button queries
 var tabListEl = document.querySelector("#tab-list");
@@ -78,8 +79,8 @@ var urlKeyFinnhub           = "&token=btdd1gf48v6t4umjmegg";
 var apiFinnhubStockPriceUrl = "https://finnhub.io/api/v1/quote?symbol=";
 
 var urlKeyNomics            = "25f6ac7783932e08f376ee60095ddd35";
-//var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.nomics.com/v1/currencies/ticker?key=";
-var apiNomicsCryptoPrice    = "https://api.nomics.com/v1/currencies/ticker?key=";
+var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.nomics.com/v1/currencies/ticker?key=";
+//var apiNomicsCryptoPrice    = "https://api.nomics.com/v1/currencies/ticker?key=";
 var apiNomicsIds            = "&ids=";
 var apiNomicsInterval       = "&interval=1d&convert=USD";
 
@@ -291,12 +292,26 @@ var getCryptoParameters = function (cryptoSymbol, index) {
 var showOneStock = function( index ) {
 
     // Display the data from the 'object'
+    
+    dataVal = document.querySelector("#stock-price .current");
+    dataVal.textContent = stock[index].price;
+    dataVal = document.querySelector("#stock-price .min");
+    dataVal.textContent = stock[index].priceMin;
+    dataVal = document.querySelector("#stock-price .max");
+    dataVal.textContent = stock[index].priceMax;
+    checkSymbol = verifyInvestmentItem( stock[index].price, stock[index].priceMin, stock[index].priceMax );
+    dataVal = document.querySelector("#stock-price .alert");
+    dataVal.textContent = checkSymbol;
+
     dataVal = document.querySelector("#stock-eps .current");
     dataVal.textContent = stock[index].eps;
     dataVal = document.querySelector("#stock-eps .min");
     dataVal.textContent = stock[index].epsMin;
     dataVal = document.querySelector("#stock-eps .max");
     dataVal.textContent = stock[index].epsMax;
+    checkSymbol = verifyInvestmentItem( stock[index].eps, stock[index].epsMin, stock[index].epsMax );
+    dataVal = document.querySelector("#stock-eps .alert");
+    dataVal.textContent = checkSymbol;
     
 
     dataVal = document.querySelector("#stock-beta .current");
@@ -305,6 +320,9 @@ var showOneStock = function( index ) {
     dataVal.textContent = stock[index].betaMin;
     dataVal = document.querySelector("#stock-beta .max");
     dataVal.textContent = stock[index].betaMax;
+    checkSymbol = verifyInvestmentItem( stock[index].beta, stock[index].betaMin, stock[index].betaMax );
+    dataVal = document.querySelector("#stock-beta .alert");
+    dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#stock-per .current");
@@ -313,6 +331,9 @@ var showOneStock = function( index ) {
     dataVal.textContent = stock[index].peMin;
     dataVal = document.querySelector("#stock-per .max");
     dataVal.textContent = stock[index].peMax;
+    checkSymbol = verifyInvestmentItem( stock[index].pe, stock[index].peMin, stock[index].peMax );
+    dataVal = document.querySelector("#stock-per .alert");
+    dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#stock-target .current");
@@ -321,6 +342,9 @@ var showOneStock = function( index ) {
     dataVal.textContent = stock[index].targetMin;
     dataVal = document.querySelector("#stock-target .max");
     dataVal.textContent = stock[index].targetMax;
+    checkSymbol = verifyInvestmentItem( stock[index].target, stock[index].targetMin, stock[index].targetMax );
+    dataVal = document.querySelector("#stock-target .alert");
+    dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#stock-50avg .current");
@@ -329,6 +353,9 @@ var showOneStock = function( index ) {
     dataVal.textContent = stock[index].f50AvgMin;
     dataVal = document.querySelector("#stock-50avg .max");
     dataVal.textContent = stock[index].f50AvgMax;
+    checkSymbol = verifyInvestmentItem( stock[index].f50Avg, stock[index].f50AvgMin, stock[index].f50AvgMax );
+    dataVal = document.querySelector("#stock-50avg .alert");
+    dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#stock-200avg .current");
@@ -337,6 +364,9 @@ var showOneStock = function( index ) {
     dataVal.textContent = stock[index].t200AvgMin;
     dataVal = document.querySelector("#stock-200avg .max");
     dataVal.textContent = stock[index].t200AvgMax;
+    checkSymbol = verifyInvestmentItem( stock[index].t200Avg, stock[index].t200AvgMin, stock[index].t200AvgMax );
+    dataVal = document.querySelector("#stock-200avg .alert");
+    dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector( "#stock-name" );
@@ -361,6 +391,10 @@ var showOneCrypto = function( index ) {
     dataVal.textContent = cryptos[index].priceMin;
     dataVal = document.querySelector("#crypto-price .max");
     dataVal.textContent = cryptos[index].priceMax;
+    checkSymbol = verifyInvestmentItem( cryptos[index].price, cryptos[index].priceMin, cryptos[index].priceMax );
+    dataVal = document.querySelector("#crypto-price .alert");
+    dataVal.textContent = checkSymbol;
+
 
     dataVal = document.querySelector("#crypto-volume .current");
     dataVal.textContent = cryptos[index].volume;
@@ -368,6 +402,10 @@ var showOneCrypto = function( index ) {
     dataVal.textContent = cryptos[index].volumeMin;
     dataVal = document.querySelector("#crypto-volume .max");
     dataVal.textContent = cryptos[index].volumeMax;
+    checkSymbol = verifyInvestmentItem( cryptos[index].volume, cryptos[index].volumeMin, cryptos[index].volumeMax );
+    dataVal = document.querySelector("#crypto-volume .alert");
+    dataVal.textContent = checkSymbol;
+
   
     dataVal = document.querySelector("#crypto-supply .current");
     dataVal.textContent = cryptos[index].supply;
@@ -375,6 +413,10 @@ var showOneCrypto = function( index ) {
     dataVal.textContent = cryptos[index].supplyMin;
     dataVal = document.querySelector("#crypto-supply .max");
     dataVal.textContent = cryptos[index].supplyMax;  
+    checkSymbol = verifyInvestmentItem( cryptos[index].supply, cryptos[index].supplyMin, cryptos[index].supplyMax );
+    dataVal = document.querySelector("#crypto-supply .alert");
+    dataVal.textContent = checkSymbol;
+
       
     dataVal = document.querySelector("#crypto-marcap .current");
     dataVal.textContent = cryptos[index].marketCap;
@@ -382,6 +424,9 @@ var showOneCrypto = function( index ) {
     dataVal.textContent = cryptos[index].marketCapMin;
     dataVal = document.querySelector("#crypto-marcap .max");
     dataVal.textContent = cryptos[index].marketCapMax;  
+    checkSymbol = verifyInvestmentItem( cryptos[index].marketCap, cryptos[index].marketCapMin, cryptos[index].marketCapMax );
+    dataVal = document.querySelector("#crypto-marcap .alert");
+    dataVal.textContent = checkSymbol;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -398,6 +443,25 @@ var showEquityIndexes = function() {
     dataVal.textContent = indexes[2];
     dataVal = document.querySelector("#dow_raw");
     dataVal.textContent = indexes[3];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Define the function to verify that the 'current value' is within the range defined by
+// the 'minValue' and 'maxValue'.
+verifyInvestmentItem = function( value, valueMin, valueMax ) {
+
+    // Need to make sure both min/max values are defined.
+    if( valueMin == ""  ||  valueMax == "" ) {
+        return "?";
+    }
+    else if( value < valueMin  ||  value > valueMax ) {
+        return "*";
+    }
+    else {
+        return " ";
+    }
+
 }
 
 

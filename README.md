@@ -31,7 +31,7 @@ Project requirements include:
 
 ## Deployment Link
 The deployment link to display the updated web page is: 
-[GitHub Pages]() 
+[GitHub Pages](https://team-antman-project-1.github.io/stockman/) 
 
 ## Application Logic
 
@@ -43,10 +43,10 @@ The deployment link to display the updated web page is:
 2) Certain fonts are displayed using 'FontAwesome'.
 3) Date and time information is acquired and manipulated via 'moment.js'.
 4) Several different public APIs are used to acquire the financial data:
-* AlphaAdvantage.co
-* FinancialModelingPrep.com
-* Finnhub.io
-* nomics.com
+   * AlphaAdvantage.co
+   * FinancialModelingPrep.com
+   * Finnhub.io
+   * nomics.com
 
 ## Application Screen Shot
 
