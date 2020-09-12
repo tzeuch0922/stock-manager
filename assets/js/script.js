@@ -7,31 +7,31 @@ var stock = [
       targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
       relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
       betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "" },
+      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
 
       { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
       targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
       relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
       betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "" },   
+      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },   
       
       { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
       targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
       relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
       betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "" },
+      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
       
       { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
       targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
       relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
       betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "" },
+      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
       
       { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
       targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
       relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
       betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "" }
+      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" }
 ];    
 
 var cryptos = [
@@ -47,7 +47,8 @@ var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
 
 var stockSymbol;
 var index;               // the index into the 'stock' array
-var dailyCheck = false;  // if "true", the daily parameters have been obtained, no need to request again.
+var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
+var dailyCheckCyrptos;   // if "true", the daily parameters have been obtained, no need to request again.
 var dataVal;             // generic data value.
 
 // Tab button queries
@@ -103,25 +104,17 @@ var getStockParameters = function (stockSymbol, index) {
                 console.log("Price: ", stock[index].price);
 
                 // Update the HTML page with this value
-<<<<<<< HEAD
-                dataVal = document.querySelector( "#stock-price .current" );
-=======
                 dataVal = document.querySelector("#stock-price .current");
->>>>>>> fbe66ec80532f403285e97a1d938305e6039ac52
                 dataVal.textContent = response.c;
             })
 
             .then(function () {
 
-                // Check/Reset the "dailyCheck" flag, so this is only done once.
-                if( dailyCheck ) {
+                // Construct the finished URL to obtain the stock parameters (once only)
+                if( dailyCheckStocks ) {
                     return;
                 }
-                else {
-                    dailyCheck = true;
-                }
 
-                // Construct the finished URL to obtain the stock parameters (once only)
                 finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
 
                 // Make the request for the stock's data
@@ -139,13 +132,37 @@ var getStockParameters = function (stockSymbol, index) {
                         }
 
                         // Put the stock's data in the return variables.
-                        stock[index].eps     = response.EPS;
-                        stock[index].beta    = response.Beta;
-                        stock[index].pe      = response.PERatio;
-                        stock[index].name    = response.Name;
-                        stock[index].target  = response.AnalystTargetPrice;
-                        stock[index].f50Avg  = response["50DayMovingAverage"];
-                        stock[index].t200Avg = response["200DayMovingAverage"];
+                        stock[index].exchange = response.Exchange;
+                        stock[index].eps      = response.EPS;
+                        stock[index].beta     = response.Beta;
+                        stock[index].pe       = response.PERatio;
+                        stock[index].name     = response.Name;
+                        stock[index].target   = response.AnalystTargetPrice;
+                        stock[index].f50Avg   = response["50DayMovingAverage"];
+                        stock[index].t200Avg  = response["200DayMovingAverage"];
+
+                        // Update the HTML page with these values
+                        dataVal = document.querySelector("#stock-eps .current");
+                        dataVal.textContent = response.EPS;
+                        dataVal = document.querySelector("#stock-beta .current");
+                        dataVal.textContent = response.Beta;
+                        dataVal = document.querySelector("#stock-per .current");
+                        dataVal.textContent = response.PERatio;
+                        dataVal = document.querySelector("#stock-target .current");
+                        dataVal.textContent = response.AnalystTargetPrice;
+                       // dataVal = document.querySelector("#stock-relstr .current");
+                        //dataVal.textContent = response.;
+                        dataVal = document.querySelector("#stock-50avg .current");
+                        dataVal.textContent = response["50DayMovingAverage"];
+                        dataVal = document.querySelector("#stock-200avg .current");
+                        dataVal.textContent = response["200DayMovingAverage"];
+
+                        dataVal = document.querySelector( "#stock-name" );
+                        dataVal.textContent = response.Name;
+                        dataVal = document.querySelector( "#stock-symbol" );
+                        dataVal.textContent = stockSymbol;
+                        dataVal = document.querySelector( "#stock-exchange" );
+                        dataVal.textContent = response.Exchange;
 
                         console.log("Name: ", stock[index].name );
                         console.log("EPS: ", stock[index].eps );
@@ -158,10 +175,10 @@ var getStockParameters = function (stockSymbol, index) {
             })
 
             .then(function () {
-                // Check/Reset the "dailyCheck" flag, so this is only done once.
-                if( dailyCheck ) {
-                    return;
-                }
+
+                // Reset the "dailyCheck" flag, so this is only done once.
+                dailyCheckStocks = true;
+                
                 
                 // Construct the finished URL to obtain the market index values (once only)
                 finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
@@ -188,6 +205,18 @@ var getStockParameters = function (stockSymbol, index) {
                         indexes[2] = response[12].price;    // NYSE
                         indexes[3] = response[31].price;    // DOW
                         console.log( "Index Prices: ", indexes );
+
+                        // Update the HTML page with these values
+                        dataVal = document.querySelector("#sp500_raw");
+                        dataVal.textContent = indexes[0];
+                        dataVal = document.querySelector("#nasdaq_raw");
+                        dataVal.textContent = indexes[1];
+                        dataVal = document.querySelector("#nyse_raw");
+                        dataVal.textContent = indexes[2];
+                        dataVal = document.querySelector("#dow_raw");
+                        dataVal.textContent = indexes[3];
+
+                        saveInvestments();
 
                     })
             })
@@ -229,6 +258,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
             cryptos[index].supply    = response[0].max_supply;
             cryptos[index].marketCap = response[0].market_cap;
 
+            saveInvestments();
 
             return;
         })
@@ -257,40 +287,6 @@ var getCryptoParameters = function (cryptoSymbol, index) {
         //             var scorePart1 = response["Crypto Rating (FCAS)"]["3. fcas rating"];
         //             var scorePart2 = response["Crypto Rating (FCAS)"]["4. fcas score"];
         //             cryptos[index].score  = scorePart1 + ", " + scorePart2; 
-        //         })
-        // })
-
-        // .then(function () {
-        //     // Check/Reset the "dailyCheck" flag, so this is only done once.
-        //     if( dailyCheck ) {
-        //         return;
-        //     }
-            
-        //     // Construct the finished URL to obtain the market index values (once only)
-        //     finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
-
-        //     // Make the request for the stock's data
-        //     fetch(finalUrl)
-        //         .then(function (response) {
-
-        //             return response.json();
-        //         })
-        //         .then(function (response) {
-        //             console.log(response);
-
-        //             // Verify that data was acquired
-        //             if (response.cod == 404) {
-        //                 returnValue = -1;
-        //                 return (returnValue);
-        //             }
-
-        //             // Get the index values and put them in the return variables.
-        //             indexes[0] = response[7].price;     // S&P 500
-        //             indexes[1] = response[19].price;    // NASDAQ
-        //             indexes[2] = response[12].price;    // NYSE
-        //             indexes[3] = response[31].price;    // DOW
-        //             console.log( "Index Prices: ", indexes );
-
         //         })
         // })
 
@@ -347,6 +343,41 @@ var retrieveInvestments = function() {
     }
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to obtain the current data, save to local storage if necessary and set the
+// update flag.
+
+var getCurrentDay = function() {
+
+    // Get the current day 
+    var today = moment().format( 'L' );
+
+    // Try to retrieve the date from local storage. 
+    var earlierDate = localStorage.getItem( "savedDate" );
+
+    // If the earlierDate exists, compare it to the current date.  If the dates match, set
+    // the flag indicating today's "daily" data has been obtained.  If the date doesn't 
+    // match set the flag indicating today's daily data has not been obtained.
+
+    if( earlierDate ) {
+        if( today === earlierDate ) {
+            dailyCheckStocks  = true;
+            dailyCheckCryptos = true;
+            return;
+        }
+        else {
+            dailyCheckStocks  = false;
+            dailyCheckCryptos = false;
+        }
+    }
+
+    // For no earlier date, or a different date, save the current date to local storage
+    // for the next time this application is run.
+
+    localStorage.setItem( "savedDate", today );
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // Function to play the 'alert' sound for the user, indicating a parameter is out of range.
 var playAlert = function() {
@@ -361,8 +392,10 @@ stockSymbol  = "IBM";
 cryptoSymbol = "BTC";
 index        = 0;
 
+
+getCurrentDay();
 getStockParameters( stockSymbol, index );
-//getCryptoParameters( cryptoSymbol, index );
+getCryptoParameters( cryptoSymbol, index );
 //playAlert();
 
 
