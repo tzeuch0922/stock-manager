@@ -2,8 +2,11 @@ table.center {
     margin-left: auto;
     margin-right: auto;
 }
-#stock-data {
+#stock-data, #crypto-data {
     width: 45%;
     margin-left: auto;
     margin-right: auto;
+}
+.hidden {
+    display: none;
 }

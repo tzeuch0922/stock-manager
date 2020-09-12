@@ -54,9 +54,13 @@ var dataVal;             // generic data value.
 
 ///////////////////////////////////////////////////////////////////////////
 // API URLs
-var urlKeyAlphaAdvantage    = "&apikey=XMDSSBDY4JYPVPPD";
+// Richard API key
+var urlKeyStockAlphaAdvantage    = "&apikey=XMDSSBDY4JYPVPPD";
+// Tony API key
+var urlKeyCryptoAlphaAdvantage   = "&apikey=T8LGL5SSSR9B2P9R";
 var apiStockParamsUrl       = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
-var apiStockPriceUrl        = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=";
+// No longer used
+// var apiStockPriceUrl        = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=";
 var apiCryptoScoreUrl       = "https://www.alphavantage.co/query?function=CRYPTO_RATING&symbol=";
 
 var urlKeyFinancialModeling = "a107f24e0f6aaac5f180293fa869cd10";
@@ -66,7 +70,7 @@ var urlKeyFinnhub           = "&token=btdd1gf48v6t4umjmegg";
 var apiFinnhubStockPriceUrl = "https://finnhub.io/api/v1/quote?symbol=";
 
 var urlKeyNomics            = "25f6ac7783932e08f376ee60095ddd35";
-var apiNomicsCryptoPrice    = "https://api.nomics.com/v1/currencies/ticker?key=";
+var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.nomics.com/v1/currencies/ticker?key=";
 var apiNomicsIds            = "&ids=";
 var apiNomicsInterval       = "&interval=1d&convert=USD";
 
@@ -77,13 +81,11 @@ var apiNomicsInterval       = "&interval=1d&convert=USD";
 var getStockParameters = function (stockSymbol, index) {
 
         // Construct the finished URL to obtain the current stock price.
-        //var finalUrl = apiStockPriceUrl + stockSymbol + urlKeyAlphaAdvantage;
         var finalUrl = apiFinnhubStockPriceUrl + stockSymbol + urlKeyFinnhub;
 
         // Make the request for the stock's price
         fetch(finalUrl)
             .then(function (response) {
-    
                 return response.json();
             })
             .then(function (response) {
@@ -96,16 +98,12 @@ var getStockParameters = function (stockSymbol, index) {
                 }
     
                 // Put the stock's price data in the return variable.
-                // var value = "Global Quote.price";
-                // stock[index].price = response["Global Quote"]["05. price"];current
                 stock[index].price = response.c;
                 console.log("Price: ", stock[index].price);
 
                 // Update the HTML page with this value
-                dataVal = document.querySelector( "#stock-price.current" );
+                dataVal = document.querySelector( "#stock-price .current");
                 dataVal.textContent = response.c;
-
-                return;
             })
 
             .then(function () {
@@ -119,12 +117,11 @@ var getStockParameters = function (stockSymbol, index) {
                 }
 
                 // Construct the finished URL to obtain the stock parameters (once only)
-                finalUrl = apiStockParamsUrl + stockSymbol + urlKeyAlphaAdvantage;
+                finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
 
                 // Make the request for the stock's data
                 fetch(finalUrl)
                     .then(function (response) {
-
                         return response.json();
                     })
                     .then(function (response) {
@@ -140,7 +137,7 @@ var getStockParameters = function (stockSymbol, index) {
                         stock[index].eps     = response.EPS;
                         stock[index].beta    = response.Beta;
                         stock[index].pe      = response.PERatio;
-                        stock[index].name    = response.name;
+                        stock[index].name    = response.Name;
                         stock[index].target  = response.AnalystTargetPrice;
                         stock[index].f50Avg  = response["50DayMovingAverage"];
                         stock[index].t200Avg = response["200DayMovingAverage"];
@@ -167,10 +164,11 @@ var getStockParameters = function (stockSymbol, index) {
                 // Make the request for the stock's data
                 fetch(finalUrl)
                     .then(function (response) {
-
+                        console.log("financial modeling prep success");
                         return response.json();
                     })
                     .then(function (response) {
+                        console.log("financial modeling prep to json success");
                         console.log(response);
 
                         // Verify that data was acquired
@@ -230,32 +228,32 @@ var getCryptoParameters = function (cryptoSymbol, index) {
             return;
         })
 
-        .then(function () {
+        // .then(function () {
 
-            // Construct the finished URL to obtain the currency's 'Asset Score'
-            finalUrl = apiCryptoScoreUrl + cryptoSymbol + urlKeyAlphaAdvantage;
+        //     // Construct the finished URL to obtain the currency's 'Asset Score'
+        //     finalUrl = apiCryptoScoreUrl + cryptoSymbol + urlKeyCryptoAlphaAdvantage;
 
-            // Make the request for the stock's data
-            fetch(finalUrl)
-                .then(function (response) {
+        //     // Make the request for the stock's data
+        //     fetch(finalUrl)
+        //         .then(function (response) {
 
-                    return response.json();
-                })
-                .then(function (response) {
-                    console.log(response);
+        //             return response.json();
+        //         })
+        //         .then(function (response) {
+        //             console.log(response);
 
-                    // Verify that data was acquired
-                    if (response.cod == 404) {
-                        returnValue = -1;
-                        return (returnValue);
-                    }
+        //             // Verify that data was acquired
+        //             if (response.cod == 404) {
+        //                 returnValue = -1;
+        //                 return (returnValue);
+        //             }
 
-                    // Put the currency's score in the return variables.  
-                    var scorePart1 = response["Crypto Rating (FCAS)"]["3. fcas rating"];
-                    var scorePart2 = response["Crypto Rating (FCAS)"]["4. fcas score"];
-                    cryptos[index].score  = scorePart1 + ", " + scorePart2; 
-                })
-        })
+        //             // Put the currency's score in the return variables.  
+        //             var scorePart1 = response["Crypto Rating (FCAS)"]["3. fcas rating"];
+        //             var scorePart2 = response["Crypto Rating (FCAS)"]["4. fcas score"];
+        //             cryptos[index].score  = scorePart1 + ", " + scorePart2; 
+        //         })
+        // })
 
         // .then(function () {
         //     // Check/Reset the "dailyCheck" flag, so this is only done once.
