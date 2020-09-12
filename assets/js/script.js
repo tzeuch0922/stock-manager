@@ -102,7 +102,7 @@ var getStockParameters = function (stockSymbol, index) {
                 console.log("Price: ", stock[index].price);
 
                 // Update the HTML page with this value
-                dataVal = document.querySelector( "#stock-price.current" );
+                dataVal = document.querySelector( "#stock-price .current" );
                 dataVal.textContent = response.c;
 
                 return;
@@ -230,32 +230,32 @@ var getCryptoParameters = function (cryptoSymbol, index) {
             return;
         })
 
-        .then(function () {
+        // .then(function () {
 
-            // Construct the finished URL to obtain the currency's 'Asset Score'
-            finalUrl = apiCryptoScoreUrl + cryptoSymbol + urlKeyAlphaAdvantage;
+        //     // Construct the finished URL to obtain the currency's 'Asset Score'
+        //     finalUrl = apiCryptoScoreUrl + cryptoSymbol + urlKeyAlphaAdvantage;
 
-            // Make the request for the stock's data
-            fetch(finalUrl)
-                .then(function (response) {
+        //     // Make the request for the stock's data
+        //     fetch(finalUrl)
+        //         .then(function (response) {
 
-                    return response.json();
-                })
-                .then(function (response) {
-                    console.log(response);
+        //             return response.json();
+        //         })
+        //         .then(function (response) {
+        //             console.log(response);
 
-                    // Verify that data was acquired
-                    if (response.cod == 404) {
-                        returnValue = -1;
-                        return (returnValue);
-                    }
+        //             // Verify that data was acquired
+        //             if (response.cod == 404) {
+        //                 returnValue = -1;
+        //                 return (returnValue);
+        //             }
 
-                    // Put the currency's score in the return variables.  
-                    var scorePart1 = response["Crypto Rating (FCAS)"]["3. fcas rating"];
-                    var scorePart2 = response["Crypto Rating (FCAS)"]["4. fcas score"];
-                    cryptos[index].score  = scorePart1 + ", " + scorePart2; 
-                })
-        })
+        //             // Put the currency's score in the return variables.  
+        //             var scorePart1 = response["Crypto Rating (FCAS)"]["3. fcas rating"];
+        //             var scorePart2 = response["Crypto Rating (FCAS)"]["4. fcas score"];
+        //             cryptos[index].score  = scorePart1 + ", " + scorePart2; 
+        //         })
+        // })
 
         // .then(function () {
         //     // Check/Reset the "dailyCheck" flag, so this is only done once.
@@ -359,37 +359,37 @@ cryptoSymbol = "BTC";
 index        = 0;
 
 getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+//getCryptoParameters( cryptoSymbol, index );
 //playAlert();
 
 
-stockSymbol  = "APPL";
-cryptoSymbol = "LTC";
-index        = 1;
+// stockSymbol  = "APPL";
+// cryptoSymbol = "LTC";
+// index        = 1;
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
 
 
-stockSymbol  = "TSLA";
-cryptoSymbol = "ETC";
-index        = 2;
+// stockSymbol  = "TSLA";
+// cryptoSymbol = "ETC";
+// index        = 2;
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
 
-stockSymbol  = "GOOGL";
-cryptoSymbol = "ETC";
-index        = 3;
+// stockSymbol  = "GOOGL";
+// cryptoSymbol = "ETC";
+// index        = 3;
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
 
-stockSymbol  = "NKLA";
-cryptoSymbol = "ETC";
-index        = 2;
+// stockSymbol  = "NKLA";
+// cryptoSymbol = "ETC";
+// index        = 2;
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
 
-saveInvestments();
+// saveInvestments();
