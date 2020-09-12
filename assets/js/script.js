@@ -386,44 +386,46 @@ var showOneCrypto = function( index ) {
 
     // Display the data from the 'object'
     dataVal = document.querySelector("#crypto-price .current");
-    dataVal.textContent = cryptos[index].price;
+    var number = cryptos[index].price;
+    var displayString = number.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:4});
+    dataVal.textContent = displayString;
     dataVal = document.querySelector("#crypto-price .min");
-    dataVal.textContent = cryptos[index].priceMin;
+    dataVal.textContent = cryptos[index].priceMin.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:4});
     dataVal = document.querySelector("#crypto-price .max");
-    dataVal.textContent = cryptos[index].priceMax;
+    dataVal.textContent = cryptos[index].priceMax.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:4});
     checkSymbol = verifyInvestmentItem( cryptos[index].price, cryptos[index].priceMin, cryptos[index].priceMax );
     dataVal = document.querySelector("#crypto-price .alert");
     dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#crypto-volume .current");
-    dataVal.textContent = cryptos[index].volume;
+    dataVal.textContent = cryptos[index].volume.toLocaleString('en-US"');
     dataVal = document.querySelector("#crypto-volume .min");
-    dataVal.textContent = cryptos[index].volumeMin;
+    dataVal.textContent = cryptos[index].volumeMin.toLocaleString('en-US"');
     dataVal = document.querySelector("#crypto-volume .max");
-    dataVal.textContent = cryptos[index].volumeMax;
+    dataVal.textContent = cryptos[index].volumeMax.toLocaleString('en-US"');
     checkSymbol = verifyInvestmentItem( cryptos[index].volume, cryptos[index].volumeMin, cryptos[index].volumeMax );
     dataVal = document.querySelector("#crypto-volume .alert");
     dataVal.textContent = checkSymbol;
 
   
     dataVal = document.querySelector("#crypto-supply .current");
-    dataVal.textContent = cryptos[index].supply;
+    dataVal.textContent = cryptos[index].supply.toLocaleString('en-US"');
     dataVal = document.querySelector("#crypto-supply .min");
-    dataVal.textContent = cryptos[index].supplyMin;
+    dataVal.textContent = cryptos[index].supplyMin.toLocaleString('en-US"');
     dataVal = document.querySelector("#crypto-supply .max");
-    dataVal.textContent = cryptos[index].supplyMax;  
+    dataVal.textContent = cryptos[index].supplyMax.toLocaleString('en-US"');  
     checkSymbol = verifyInvestmentItem( cryptos[index].supply, cryptos[index].supplyMin, cryptos[index].supplyMax );
     dataVal = document.querySelector("#crypto-supply .alert");
     dataVal.textContent = checkSymbol;
 
       
     dataVal = document.querySelector("#crypto-marcap .current");
-    dataVal.textContent = cryptos[index].marketCap;
+    dataVal.textContent = cryptos[index].marketCap.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
     dataVal = document.querySelector("#crypto-marcap .min");
-    dataVal.textContent = cryptos[index].marketCapMin;
+    dataVal.textContent = cryptos[index].marketCapMin.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
     dataVal = document.querySelector("#crypto-marcap .max");
-    dataVal.textContent = cryptos[index].marketCapMax;  
+    dataVal.textContent = cryptos[index].marketCapMax.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});  
     checkSymbol = verifyInvestmentItem( cryptos[index].marketCap, cryptos[index].marketCapMin, cryptos[index].marketCapMax );
     dataVal = document.querySelector("#crypto-marcap .alert");
     dataVal.textContent = checkSymbol;
