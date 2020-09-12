@@ -41,7 +41,8 @@ The deployment link to display the updated web page is:
 
 1) The HTML framework employed is 'Bulma'.
 2) Certain fonts are displayed using 'FontAwesome'.
-3) Several different public APIs are used to acquire the financial data:
+3) Date and time information is acquired and manipulated via 'moment.js'.
+4) Several different public APIs are used to acquire the financial data:
 * AlphaAdvantage.co
 * FinancialModelingPrep.com
 * Finnhub.io
