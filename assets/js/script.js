@@ -275,12 +275,12 @@ var getCryptoParameters = function (cryptoSymbol, index) {
         //         })
         // })
 
-    .catch(function (error) {
-        // Notice this `.catch()` is chained onto the end of the `.then()` method
-        alert("Unable to connect to Nomics for crypto data.");
-        returnValue = -1;
-        return (returnValue);
-    });
+    // .catch(function (error) {
+    //     // Notice this `.catch()` is chained onto the end of the `.then()` method
+    //     alert("Unable to connect to Nomics for crypto data.");
+    //     returnValue = -1;
+    //     return (returnValue);
+    // });
 
 }
 
@@ -494,12 +494,12 @@ var playAlert = function() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-// stockSymbol  = "IBM";
-// cryptoSymbol = "BTC";
-// index        = 0;
+stockSymbol  = "IBM";
+cryptoSymbol = "BTC";
+index        = 0;
 
-// getStockParameters( stockSymbol, index );
-// getCryptoParameters( cryptoSymbol, index );
+getStockParameters( stockSymbol, index );
+getCryptoParameters( cryptoSymbol, index );
 // //playAlert();
 
 
