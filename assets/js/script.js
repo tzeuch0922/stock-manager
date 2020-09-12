@@ -51,7 +51,8 @@ var dailyCheck = false;  // if "true", the daily parameters have been obtained, 
 var dataVal;             // generic data value.
 
 // Tab button queries
-
+var tabListEl = document.querySelector("#tab-list");
+var activeTab = document.querySelector("#general-tab");
 
 ///////////////////////////////////////////////////////////////////////////
 // API URLs
@@ -90,7 +91,7 @@ var getStockParameters = function (stockSymbol, index) {
                 return response.json();
             })
             .then(function (response) {
-                console.log( response );
+                // console.log( response );
     
                 // Verify that data was acquired
                 if (response.cod == 404) {
@@ -100,7 +101,7 @@ var getStockParameters = function (stockSymbol, index) {
     
                 // Put the stock's price data in the return variable.
                 stock[index].price = response.c;
-                console.log("Price: ", stock[index].price);
+                // console.log("Price: ", stock[index].price);
 
                 // Update the HTML page with this value
                 dataVal = document.querySelector("#stock-price .current");
@@ -126,7 +127,7 @@ var getStockParameters = function (stockSymbol, index) {
                         return response.json();
                     })
                     .then(function (response) {
-                        console.log(response);
+                        // console.log(response);
 
                         // Verify that data was acquired
                         if (response.cod == 404) {
@@ -165,12 +166,12 @@ var getStockParameters = function (stockSymbol, index) {
                 // Make the request for the stock's data
                 fetch(finalUrl)
                     .then(function (response) {
-                        console.log("financial modeling prep success");
+                        // console.log("financial modeling prep success");
                         return response.json();
                     })
                     .then(function (response) {
-                        console.log("financial modeling prep to json success");
-                        console.log(response);
+                        // console.log("financial modeling prep to json success");
+                        // console.log(response);
 
                         // Verify that data was acquired
                         if (response.cod == 404) {
@@ -183,14 +184,14 @@ var getStockParameters = function (stockSymbol, index) {
                         indexes[1] = response[19].price;    // NASDAQ
                         indexes[2] = response[12].price;    // NYSE
                         indexes[3] = response[31].price;    // DOW
-                        console.log( "Index Prices: ", indexes );
+                        // console.log( "Index Prices: ", indexes );
 
                     })
             })
 
         .catch(function (error) {
             // Notice this `.catch()` is chained onto the end of the `.then()` method
-            alert("Unable to connect to AlphaAdvantage for stock data.");
+            // alert("Unable to connect to AlphaAdvantage for stock data.");
             returnValue = -1;
             return (returnValue);
         });
@@ -211,7 +212,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
             return response.json();
         })
         .then(function (response) {
-            console.log( response );
+            // console.log( response );
 
             // Verify that data was acquired
             if (response.cod == 404) {
@@ -292,7 +293,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
 
     .catch(function (error) {
         // Notice this `.catch()` is chained onto the end of the `.then()` method
-        alert("Unable to connect to AlphaAdvantage for stock data.");
+        // alert("Unable to connect to AlphaAdvantage for stock data.");
         returnValue = -1;
         return (returnValue);
     });
@@ -353,43 +354,67 @@ var playAlert = function() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-stockSymbol  = "IBM";
-cryptoSymbol = "BTC";
-index        = 0;
+// stockSymbol  = "IBM";
+// cryptoSymbol = "BTC";
+// index        = 0;
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
-//playAlert();
-
-
-stockSymbol  = "APPL";
-cryptoSymbol = "LTC";
-index        = 1;
-
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
+// //playAlert();
 
 
-stockSymbol  = "TSLA";
-cryptoSymbol = "ETC";
-index        = 2;
+// stockSymbol  = "APPL";
+// cryptoSymbol = "LTC";
+// index        = 1;
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
 
-stockSymbol  = "GOOGL";
-cryptoSymbol = "ETC";
-index        = 3;
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// stockSymbol  = "TSLA";
+// cryptoSymbol = "ETC";
+// index        = 2;
 
-stockSymbol  = "NKLA";
-cryptoSymbol = "ETC";
-index        = 2;
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
 
-getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
+// stockSymbol  = "GOOGL";
+// cryptoSymbol = "ETC";
+// index        = 3;
 
-saveInvestments();
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
 
+// stockSymbol  = "NKLA";
+// cryptoSymbol = "ETC";
+// index        = 2;
+
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
+
+// saveInvestments();
+
+// Change tabs event listener
+tabListEl.addEventListener("click", function(event)
+{
+    affectedEl = event.target.parentElement;
+    if(affectedEl.nodeName !== "LI" || affectedEl.classList.contains("is-active"))
+    {
+        return;
+    }
+    else
+    {
+        // Change active element to clicked element.
+        affectedEl.classList.add("is-active");
+        activeTab.classList.remove("is-active");
+
+        // Hide content from previous tab.
+        document.querySelector("#" + activeTab.id.replace("-tab", "page")).classList.add("hidden");
+
+        // Show content from new active tab.
+        document.querySelector("#" + affectedEl.id.replace("-tab", "page")).classList.remove("hidden");
+
+        // Set active tab equal to new active tab.
+        activeTab = affectedEl;
+    }
+});

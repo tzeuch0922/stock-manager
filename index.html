@@ -28,10 +28,10 @@
             <!-- Tabs for switching pages -->
             <nav class="tabs is-boxed">
                 <div class="container has-text-centered">
-                    <ul class="space-around">
-                        <li class="is-active is-size-5 mx-2"><a>General</a></li>
-                        <li class="is-size-5 mx-2"><a>Stock Exchange</a></li>
-                        <li class="is-size-5 mx-2"><a>Cryptocurrency</a></li>
+                    <ul id="tab-list" class="space-around">
+                        <li id="general-tab" class="is-active is-size-5 mx-2"><a>General</a></li>
+                        <li id="stock-tab" class="is-size-5 mx-2"><a>Stock Exchange</a></li>
+                        <li id="crypto-tab" class="is-size-5 mx-2"><a>Cryptocurrency</a></li>
                     </ul>
                 </div>
             </nav>
@@ -116,7 +116,7 @@
     </section>
 
     <!-- Stock tab -->
-    <section id="stockpage">
+    <section id="stockpage" class="hidden">
         <!-- Equity Information section -->
         <div class="has-text-centered my-2">
             <h2 class="title is-size-3">Equity Information</h2>
@@ -245,7 +245,7 @@
     </section>
 
     <!-- Cryptocurrency section -->
-    <section id="cryptopage">
+    <section id="cryptopage" class="hidden">
         <div class="has-text-centered my-2">
             <h2 class="title is-size-3">Select Cryptocurrency</h2>
             <!-- Dropdown Menu -->
