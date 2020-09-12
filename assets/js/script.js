@@ -2,37 +2,31 @@
 ////////////////////////////////////////////////////////////////////////////
 // Global Variable Definitions
 
-var stock = [
-    { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-      targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
-      relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
-      betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
+var stock = [];
+    // { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
+    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
+    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
+    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
 
-      { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-      targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
-      relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
-      betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },   
+    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
+    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
+    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
+    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
       
-      { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-      targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
-      relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
-      betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
+    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
+    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
+    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
+    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
       
-      { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-      targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
-      relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
-      betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
+    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
+    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
+    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
+    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
       
-      { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-      targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "",
-      relStMin: "", relStMax: "", relSt: "", peMin: "", peMax: "", pe: "",
-      betaMin: "", betaMax: "", beta: "", f50AvgMin: "", f50AvgMax: "", f50Avg: "",
-      t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" }
-];    
+    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
+    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
+    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
+    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" }    
 
 var cryptos = [
     { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
@@ -87,10 +81,35 @@ var apiNomicsInterval       = "&interval=1d&convert=USD";
 
 ///////////////////////////////////////////////////////////////////////////
 // Function to acquire the current data for a specified stock
-var getStockParameters = function (stockSymbol, index) {
+var getStockParameters = function (stockSymbol) {
 
         // Construct the finished URL to obtain the current stock price.
         var finalUrl = apiFinnhubStockPriceUrl + stockSymbol + urlKeyFinnhub;
+
+        stockValues = 
+        [
+            name = "",
+            symbol = "",
+            exchange = "",
+            eps = "",
+            epsMin = "",
+            epsMax = "",
+            beta = "",
+            betaMin = "",
+            betaMax = "",
+            pe = "",
+            peMin = "",
+            peMax = "",
+            target = "",
+            targetMin = "",
+            targetMax = "",
+            f50Avg = "",
+            f50AvgMin = "",
+            f50AvgMax = "",
+            t200Avg = "",
+            t200AvgMin = "",
+            t200AvgMax = ""
+        ];
 
         // Make the request for the stock's price
         fetch(finalUrl)
@@ -98,33 +117,37 @@ var getStockParameters = function (stockSymbol, index) {
                 return response.json();
             })
             .then(function (response) {
-                // console.log( response );
+                console.log( response );
     
                 // Verify that data was acquired
                 if (response.cod == 404) {
                     returnValue = -1;
+                    console.log("error");
                     return (returnValue);
                 }
     
                 // Put the stock's price data in the return variable.
-                stock[index].price = response.c;
+                stockValues.price = response.c;
                 // console.log("Price: ", stock[index].price);
 
                 // Update the HTML page with this value
                 dataVal = document.querySelector("#stock-price .current");
                 dataVal.textContent = response.c;
+                console.log("finished finnhub");
             })
 
             .then(function () {
 
                 // Construct the finished URL to obtain the stock parameters (once only)
                 if( dailyCheckStocks ) {
-                    showOneStock( index );           // show the saved data for the current day
-                    showEquityIndexes( index );
-                    return;
+                    // showOneStock( index );           // show the saved data for the current day
+                    // showEquityIndexes( index );
+                    // return;
                 }
 
                 finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
+
+                console.log("created url for alphavantage");
 
                 // Make the request for the stock's data
                 fetch(finalUrl)
@@ -132,7 +155,7 @@ var getStockParameters = function (stockSymbol, index) {
                         return response.json();
                     })
                     .then(function (response) {
-                        // console.log(response);
+                        console.log(response);
 
                         // Verify that data was acquired
                         if (response.cod == 404) {
@@ -141,27 +164,31 @@ var getStockParameters = function (stockSymbol, index) {
                         }
 
                         // Put the stock's data in the return variables.
-                        stock[index].symbol   = stockSymbol;
-                        stock[index].exchange = response.Exchange;
-                        stock[index].eps      = response.EPS;
-                        stock[index].beta     = response.Beta;
-                        stock[index].pe       = response.PERatio;
-                        stock[index].name     = response.Name;
-                        stock[index].target   = response.AnalystTargetPrice;
-                        stock[index].f50Avg   = response["50DayMovingAverage"];
-                        stock[index].t200Avg  = response["200DayMovingAverage"];
+                        stockValues.symbol   = stockSymbol;
+                        stockValues.exchange = response.Exchange;
+                        stockValues.eps      = response.EPS;
+                        stockValues.beta     = response.Beta;
+                        stockValues.pe       = response.PERatio;
+                        stockValues.name     = response.Name;
+                        stockValues.target   = response.AnalystTargetPrice;
+                        stockValues.f50Avg   = response["50DayMovingAverage"];
+                        stockValues.t200Avg  = response["200DayMovingAverage"];
+
+                        stock.push(stockValues);
+                        console.log("stock length: ", stock.length);
+                        console.log(stock);
 
                         // Update the HTML page with these values
-                        showOneStock( index );
+                        showOneStock(stock.length - 1);
 
 
-                        console.log("Name: ", stock[index].name );
-                        console.log("EPS: ", stock[index].eps );
-                        console.log("beta: ", stock[index].beta );
-                        console.log("pe: ", stock[index].pe );
-                        console.log("target: ", stock[index].target );
-                        console.log("50 day average: ", stock[index].f50Avg );
-                        console.log("200 day average: ", stock[index].t200Avg );
+                        console.log("Name: ", stockValues.name );
+                        console.log("EPS: ", stockValues.eps );
+                        console.log("beta: ", stockValues.beta );
+                        console.log("pe: ", stockValues.pe );
+                        console.log("target: ", stockValues.target );
+                        console.log("50 day average: ", stockValues.f50Avg );
+                        console.log("200 day average: ", stockValues.t200Avg );
                     })
             })
 
@@ -200,17 +227,18 @@ var getStockParameters = function (stockSymbol, index) {
                         // Update the HTML page with these values
                         showEquityIndexes( index );
 
+                        updateStockTable();
                         saveInvestments();
 
                     })
             })
 
-        .catch(function (error) {
-            // Notice this `.catch()` is chained onto the end of the `.then()` method
-            // alert("Unable to connect to AlphaAdvantage for stock data.");
-            returnValue = -1;
-            return (returnValue);
-        });
+        // .catch(function (error) {
+        //     // Notice this `.catch()` is chained onto the end of the `.then()` method
+        //     // alert("Unable to connect to AlphaAdvantage for stock data.");
+        //     returnValue = -1;
+        //     return (returnValue);
+        // });
 
 }
 
@@ -493,13 +521,13 @@ var playAlert = function() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-stockSymbol  = "IBM";
-cryptoSymbol = "BTC";
-index        = 0;
+// stockSymbol  = "IBM";
+// cryptoSymbol = "BTC";
+// index        = 0;
 
-//getStockParameters( stockSymbol, index );
-getCryptoParameters( cryptoSymbol, index );
-// //playAlert();
+// getStockParameters( stockSymbol, index );
+// getCryptoParameters( cryptoSymbol, index );
+// playAlert();
 
 
 // getCurrentDay();
@@ -507,7 +535,7 @@ getCryptoParameters( cryptoSymbol, index );
 
 // getStockParameters( stockSymbol, index );
 // getCryptoParameters( cryptoSymbol, index );
-//playAlert();
+//vplayAlert();
 
 // stockSymbol  = "APPL";
 // cryptoSymbol = "LTC";
@@ -539,6 +567,98 @@ getCryptoParameters( cryptoSymbol, index );
 // getCryptoParameters( cryptoSymbol, index );
 
 // saveInvestments();
+// Temporary add event listeners.
+var searchStockEl = document.querySelector("#stock-search-btn");
+var searchCryptoEl = document.querySelector("#crypto-search-btn");
+searchStockEl.addEventListener("click", searchStock);
+searchCryptoEl.addEventListener("click", searchCrypto);
+
+// Search functions
+function searchStock()
+{
+    // Take value from searchbar textcontent
+    var stockVal = document.querySelector("#stock-search").value;
+
+    // Search for stock data
+    getStockParameters(stockVal);
+    console.log("finished getting parameters")
+
+    // Remake stock table
+    // updateStockTable();
+    // console.log("updated table");
+
+    // Save function
+    saveInvestments();
+}
+function searchCrypto()
+{
+    // Take value from searchbar text content
+
+    // Search for crypto data
+
+    // Store data in variables
+
+    // Add data to cryptos variable
+
+    // Remake crypto table
+
+    // Save function
+    // saveInvestments();
+}
+// Update functions
+function updateStockTable()
+{
+    // Get general stock table element.
+    var generalStockTableEl = document.querySelector("#general-stock-table");
+
+    // Clear table.
+    generalStockTableEl.innerHTML = "";
+
+    // Add title row to table.
+    var titleRowEl = document.createElement("tr");
+    var titleEl = document.createElement("th");
+    titleEl.setAttribute("colspan","3");
+    titleEl.classList.add("has-text-centered");
+    titleEl.textContent = "Equities";
+    titleRowEl.appendChild(titleEl);
+    generalStockTableEl.appendChild(titleRowEl);
+
+    // Add header row to table.
+    var headerRowEl = document.createElement("tr");
+    var nameHeaderEl = document.createElement("th");
+    nameHeaderEl.textContent = "Name";
+    headerRowEl.appendChild(nameHeaderEl);
+    var symbolHeaderEl = document.createElement("th");
+    symbolHeaderEl.textContent = "Symbol";
+    headerRowEl.appendChild(symbolHeaderEl);
+    var alertHeaderEl = document.createElement("th");
+    alertHeaderEl.textContent = "Alert";
+    headerRowEl.appendChild(alertHeaderEl);
+    generalStockTableEl.appendChild(headerRowEl);
+
+    // Add data for each stock.
+    stock.forEach(function(value)
+    {
+        var dataRowEl = document.createElement("tr");
+        var nameEl = document.createElement("td");
+        var symbolEl = document.createElement("td");
+        var alertEl = document.createElement("td");
+
+        nameEl.textContent = value.name;
+        symbolEl.textContent = value.symbol;
+        // Add in alert data
+
+        dataRowEl.appendChild(nameEl);
+        dataRowEl.appendChild(symbolEl);
+        dataRowEl.appendChild(alertEl);
+        
+        generalStockTableEl.appendChild(dataRowEl);
+    });
+}
+function addGeneralHeaders(table)
+{
+    
+}
 
 // Change tabs event listener
 tabListEl.addEventListener("click", function(event)

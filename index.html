@@ -42,7 +42,7 @@
     <!-- General tab -->
     <section id="generalpage">
         <!-- Equities section -->
-        <table class="table is-bordered is-narrow center has-text-left my-3">
+        <table class="table is-bordered is-narrow center has-text-left my-3" id="general-stock-table">
             <tr>
                 <th class="has-text-centered" colspan="3">Equities</th>
             </tr>
@@ -54,31 +54,27 @@
             <tr>
                 <td>Apple</td>
                 <td>AAPL</td>
-                <td></td>
+                <td>
+                    <p class="control">
+                        <a class="button is-info">Set Alert</a>
+                    </p>
+                </td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="3">
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                            <input type="text" class="input" placeholder="Enter stock symbol" id="stock-search">
+                        </p>
+                        <p class="control">
+                            <a class="button is-info" id="stock-search-btn">Search</a>
+                        </p>
+                    </div>
+                </td>
             </tr>
         </table>
         <!-- Cryptocurrency section -->
-        <table class="table is-bordered is-narrow center has-text-left my-3">
+        <table class="table is-bordered is-narrow center has-text-left my-3" id="general-crypto-table">
             <tr>
                 <th class="has-text-centered" colspan="3">Cryptocurrency</th>
             </tr>
@@ -90,12 +86,19 @@
             <tr>
                 <td>Bitcoin</td>
                 <td>BTC</td>
-                <td></td>
+                <td class="has-text-centered"><i style="color:crimson" class="fas fa-exclamation-triangle"></i></td>
             </tr>
             <tr>
-                <td colspan="2"></td>
-                <td></td>
-                <td></td>
+                <td colspan="3">
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                            <input type="text" class="input" placeholder="Enter crypto symbol" id="crypto-search">
+                        </p>
+                        <p class="control">
+                            <a class="button is-info" id="crypto-search-btn">Search</a>
+                        </p>
+                    </div>
+                </td>
             </tr>
         </table>
     </section>
@@ -188,14 +191,14 @@
                     <td class="min"></td>
                     <td class="current"></td>
                     <td class="max"></td>
-                    <td class="alert"></td>
+                    <td class="alert"><i class="fas fa-question-circle"></i></td>
                 </tr>
                 <tr id="stock-per">
                     <th>Price to Earnings Ratio</th>
                     <td class="min"></td>
                     <td class="current"></td>
                     <td class="max"></td>
-                    <td class="alert"></td>
+                    <td class="alert"><i class="fas fa-check-circle"></i></td>
                 </tr>
                 <tr id="stock-beta">
                     <th>Beta</th>
