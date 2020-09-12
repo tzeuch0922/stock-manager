@@ -3,28 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Stock Manager</title>
-    <!-- Title/Hero -->
-    <header>
-        <h1>Stock Manager</h1>
-    </header>
-
-    <main>
-        <button>Stocks</button><button>Crypto</button>
-        <ul>
-            <li>Main 1</li>
-            <li>Main 2</li>
-        </ul>
-        <ol>
-            <li>Placeholder 1</li>
-            <li>Placeholder 2</li>
-            <li>Placeholder 3</li>
-            <li>Placeholder 4</li>
-            <li>Placeholder 5</li>
-        </ol>
-    </main>
 </head>
 <body>
-    
+    <!-- Hero -->
+    <section class="hero is-dark">
+
+        <!-- Hero head sticks to top of container, but also adds spacing -->
+        <div class="hero-head">
+            
+        </div>
+
+        <!-- Hero body doesn't stick to top or bottom -->
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-size-1 has-text-centered has-text-light ml-3">Stock Manager</h1>
+            </div>
+        </div>
+
+        <!-- Hero foot sticks to bottom of container -->
+        <div class="hero-foot">
+            <!-- Tabs for switching pages -->
+            <nav class="tabs is-boxed">
+                <div class="container has-text-centered">
+                    <ul id="tab-list" class="space-around">
+                        <li id="general-tab" class="is-active is-size-5 mx-2"><a>General</a></li>
+                        <li id="stock-tab" class="is-size-5 mx-2"><a>Stock Exchange</a></li>
+                        <li id="crypto-tab" class="is-size-5 mx-2"><a>Cryptocurrency</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+    </section>
+
+    <!-- General tab -->
+    <section id="generalpage">
+        <!-- Equities section -->
+        <table class="table is-bordered is-narrow center has-text-left my-3">
+            <tr>
+                <th class="has-text-centered" colspan="3">Equities</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Alert</th>
+            </tr>
+            <tr>
+                <td>Apple</td>
+                <td>AAPL</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <!-- Cryptocurrency section -->
+        <table class="table is-bordered is-narrow center has-text-left my-3">
+            <tr>
+                <th class="has-text-centered" colspan="3">Cryptocurrency</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Alert</th>
+            </tr>
+            <tr>
+                <td>Bitcoin</td>
+                <td>BTC</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tr>
+        </table>
+    </section>
+
+    <!-- Stock tab -->
+    <section id="stockpage" class="hidden">
+        <!-- Equity Information section -->
+        <div class="has-text-centered my-2">
+            <h2 class="title is-size-3">Equity Information</h2>
+            <!-- Major Indexes table -->
+            <table class="table is-bordered is-narrow center has-text-left">
+                <tr>
+                    <th>Major Index</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>S&P 500</td> 
+                    <td id="sp500_raw" class="raw">####.##</td> 
+                </tr>
+                <tr>
+                    <td>NASDAQ</td> 
+                    <td id="nasdaq_raw" class="raw">####.##</td> 
+                </tr>
+                <tr>
+                    <td>NYSE</td> 
+                    <td id="nyse_raw" class="raw">####.##</td> 
+                </tr>
+                <tr>
+                    <td>DOW</td> 
+                    <td id="dow_raw" class="raw">####.##</td> 
+                </tr>
+            </table>
+        </div>
+
+        <!-- Selected Stock Section -->
+        <div class="has-text-centered my-2">
+            <h2 class="title is-size-3">Select Stock</h2>
+            <!-- Dropdown Menu -->
+            <div class="dropdown mb-4">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Watched Stocks</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="stock-dropdown" role="menu">
+                    <!-- Dropdown Menu items-->
+                    <div class="dropdown-content">
+                        <a href="" class="dropdown-item">1</a>
+                        <a href="" class="dropdown-item">2</a>
+                        <a href="" class="dropdown-item">3</a>
+                        <a href="" class="dropdown-item">4</a>
+                        <a href="" class="dropdown-item">5</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Stock General information -->
+            <div id="stock-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
+                <p>Name: <span id="stock-name"></span></p>
+                <p>Symbol: <span id="stock-symbol"></span></p>
+                <p>Exchange: <span id="stock-exchange"></span></p>
+            </div>
+            <!-- Stock Table with alerts-->
+            <table class="table is-bordered is-narrow center has-text-left">
+                <tr>
+                    <th>Parameters</th>
+                    <th>Minimum Value</th>
+                    <th>Current Value</th>
+                    <th>Maximum Value</th>
+                    <th>Alert</th>
+                </tr>
+                <tr id="stock-price">
+                    <th>Price</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="stock-target">
+                    <th>Target</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="stock-eps">
+                    <th>Earnings Per Share</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="stock-per">
+                    <th>Price to Earnings Ratio</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="stock-beta">
+                    <th>Beta</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="stock-50avg">
+                    <th>50-day Average</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="stock-200avg">
+                    <th>200-day Average</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- Cryptocurrency section -->
+    <section id="cryptopage" class="hidden">
+        <div class="has-text-centered my-2">
+            <h2 class="title is-size-3">Select Cryptocurrency</h2>
+            <!-- Dropdown Menu -->
+            <div class="dropdown mb-4">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Watched Cryptocurrency</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="stock-dropdown" role="menu">
+                    <!-- Dropdown Menu items-->
+                    <div class="dropdown-content">
+                        <a href="" class="dropdown-item">1</a>
+                        <a href="" class="dropdown-item">2</a>
+                        <a href="" class="dropdown-item">3</a>
+                        <a href="" class="dropdown-item">4</a>
+                        <a href="" class="dropdown-item">5</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Cryptocurrency general data -->
+            <div id="crypto-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
+                <p>Name: <span id="crypto-name"></span></p>
+                <p>Symbol: <span id="crypto-symbol"></span></p>
+            </div>
+            <table class="table is-bordered is-narrow center has-text-left">
+                <tr>
+                    <th>Parameters</th>
+                    <th>Minimum Value</th>
+                    <th>Current Value</th>
+                    <th>Maximum Value</th>
+                    <th>Alert</th>
+                </tr>
+                <tr id="crypto-price">
+                    <th>Price</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="crypto-volume">
+                    <th>Volume</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="crypto-supply">
+                    <th>Supply</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+                <tr id="stock-marcap">
+                    <th>Market Cap</th>
+                    <td class="min"></td>
+                    <td class="current"></td>
+                    <td class="max"></td>
+                    <td class="alert"></td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
