@@ -50,6 +50,7 @@ var index;               // the index into the 'stock' array
 var dailyCheck = false;  // if "true", the daily parameters have been obtained, no need to request again.
 var dataVal;             // generic data value.
 
+// Tab button queries
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -102,7 +103,7 @@ var getStockParameters = function (stockSymbol, index) {
                 console.log("Price: ", stock[index].price);
 
                 // Update the HTML page with this value
-                dataVal = document.querySelector( "#stock-price .current");
+                dataVal = document.querySelector("#stock-price .current");
                 dataVal.textContent = response.c;
             })
 
@@ -391,3 +392,4 @@ getStockParameters( stockSymbol, index );
 getCryptoParameters( cryptoSymbol, index );
 
 saveInvestments();
+
