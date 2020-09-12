@@ -78,8 +78,8 @@ var urlKeyFinnhub           = "&token=btdd1gf48v6t4umjmegg";
 var apiFinnhubStockPriceUrl = "https://finnhub.io/api/v1/quote?symbol=";
 
 var urlKeyNomics            = "25f6ac7783932e08f376ee60095ddd35";
-//var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.nomics.com/v1/currencies/ticker?key=";
-var apiNomicsCryptoPrice    = "https://api.nomics.com/v1/currencies/ticker?key=";
+var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.nomics.com/v1/currencies/ticker?key=";
+// var apiNomicsCryptoPrice    = "https://api.nomics.com/v1/currencies/ticker?key=";
 var apiNomicsIds            = "&ids=";
 var apiNomicsInterval       = "&interval=1d&convert=USD";
 
@@ -353,7 +353,6 @@ var showOneStock = function( index ) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // Function to display the data for one cryptocurrency.
 var showOneCrypto = function( index ) {
-
     // Display the data from the 'object'
     dataVal = document.querySelector("#crypto-price .current");
     dataVal.textContent = cryptos[index].price;
@@ -498,7 +497,7 @@ stockSymbol  = "IBM";
 cryptoSymbol = "BTC";
 index        = 0;
 
-getStockParameters( stockSymbol, index );
+//getStockParameters( stockSymbol, index );
 getCryptoParameters( cryptoSymbol, index );
 // //playAlert();
 
