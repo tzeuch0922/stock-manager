@@ -397,7 +397,10 @@ var playAlert = function() {
 // Change tabs event listener
 tabListEl.addEventListener("click", function(event)
 {
+    // Getting list element that was clicked on.
     affectedEl = event.target.parentElement;
+
+    // Checks to see if they just clicked on the container or the active tab.
     if(affectedEl.nodeName !== "LI" || affectedEl.classList.contains("is-active"))
     {
         return;
