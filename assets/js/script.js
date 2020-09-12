@@ -356,32 +356,32 @@ var showOneCrypto = function( index ) {
 
     // Display the data from the 'object'
     dataVal = document.querySelector("#crypto-price .current");
-    dataVal.textContent = cyrptos[index].price;
+    dataVal.textContent = cryptos[index].price;
     dataVal = document.querySelector("#crypto-price .min");
-    dataVal.textContent = cyrptos[index].priceMin;
+    dataVal.textContent = cryptos[index].priceMin;
     dataVal = document.querySelector("#crypto-price .max");
-    dataVal.textContent = cyrptos[index].priceMax;
+    dataVal.textContent = cryptos[index].priceMax;
 
     dataVal = document.querySelector("#crypto-volume .current");
-    dataVal.textContent = cyrptos[index].volume;
+    dataVal.textContent = cryptos[index].volume;
     dataVal = document.querySelector("#crypto-volume .min");
-    dataVal.textContent = cyrptos[index].volumeMin;
+    dataVal.textContent = cryptos[index].volumeMin;
     dataVal = document.querySelector("#crypto-volume .max");
-    dataVal.textContent = cyrptos[index].volumeMax;
+    dataVal.textContent = cryptos[index].volumeMax;
   
     dataVal = document.querySelector("#crypto-supply .current");
-    dataVal.textContent = cyrptos[index].supply;
+    dataVal.textContent = cryptos[index].supply;
     dataVal = document.querySelector("#crypto-supply .min");
-    dataVal.textContent = cyrptos[index].supplyMin;
+    dataVal.textContent = cryptos[index].supplyMin;
     dataVal = document.querySelector("#crypto-supply .max");
-    dataVal.textContent = cyrptos[index].supplyMax;  
+    dataVal.textContent = cryptos[index].supplyMax;  
       
     dataVal = document.querySelector("#crypto-marcap .current");
-    dataVal.textContent = cyrptos[index].marketCap;
+    dataVal.textContent = cryptos[index].marketCap;
     dataVal = document.querySelector("#crypto-marcap .min");
-    dataVal.textContent = cyrptos[index].marketCapMin;
+    dataVal.textContent = cryptos[index].marketCapMin;
     dataVal = document.querySelector("#crypto-marcap .max");
-    dataVal.textContent = cyrptos[index].marketCapMax;  
+    dataVal.textContent = cryptos[index].marketCapMax;  
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
