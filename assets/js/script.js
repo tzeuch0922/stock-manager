@@ -230,32 +230,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
             return;
         })
 
-        // .then(function () {
 
-        //     // Construct the finished URL to obtain the currency's 'Asset Score'
-        //     finalUrl = apiCryptoScoreUrl + cryptoSymbol + urlKeyAlphaAdvantage;
-
-        //     // Make the request for the stock's data
-        //     fetch(finalUrl)
-        //         .then(function (response) {
-
-        //             return response.json();
-        //         })
-        //         .then(function (response) {
-        //             console.log(response);
-
-        //             // Verify that data was acquired
-        //             if (response.cod == 404) {
-        //                 returnValue = -1;
-        //                 return (returnValue);
-        //             }
-
-        //             // Put the currency's score in the return variables.  
-        //             var scorePart1 = response["Crypto Rating (FCAS)"]["3. fcas rating"];
-        //             var scorePart2 = response["Crypto Rating (FCAS)"]["4. fcas score"];
-        //             cryptos[index].score  = scorePart1 + ", " + scorePart2; 
-        //         })
-        // })
 
         // .then(function () {
         //     // Check/Reset the "dailyCheck" flag, so this is only done once.
