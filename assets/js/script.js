@@ -57,11 +57,11 @@ var dataVal;             // generic data value.
 // Richard API key
 var urlKeyStockAlphaAdvantage    = "&apikey=XMDSSBDY4JYPVPPD";
 // Tony API key
-var urlKeyCryptoAlphaAdvantage   = "&apikey=T8LGL5SSSR9B2P9R";
+// var urlKeyCryptoAlphaAdvantage   = "&apikey=T8LGL5SSSR9B2P9R";
 var apiStockParamsUrl       = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
 // No longer used
 // var apiStockPriceUrl        = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=";
-var apiCryptoScoreUrl       = "https://www.alphavantage.co/query?function=CRYPTO_RATING&symbol=";
+// var apiCryptoScoreUrl       = "https://www.alphavantage.co/query?function=CRYPTO_RATING&symbol=";
 
 var urlKeyFinancialModeling = "a107f24e0f6aaac5f180293fa869cd10";
 var apiMarketIndexUrl       = "https://financialmodelingprep.com/api/v3/quotes/index?apikey=";
