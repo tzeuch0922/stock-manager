@@ -244,10 +244,12 @@ var getCryptoParameters = function (cryptoSymbol, index) {
         //     returnValue = -1;
         //     return (returnValue);
         // }
+        console.log(response[0].name);
         if(!response[0].name)
         {
             throw "not found";
         }
+        console.log("different error");
 
         // Put the currency's  data in the return variables.
         cryptoValues.name      = response[0].name;
@@ -283,21 +285,21 @@ var showOneStock = function( index ) {
     // Display the data from the 'object'
     
     dataVal = document.querySelector("#stock-price .current");
-    dataVal.textContent = stock[index].price;
+    dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-price .min");
-    dataVal.textContent = stock[index].priceMin;
+    dataVal.textContent = parseFloat(stock[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-price .max");
-    dataVal.textContent = stock[index].priceMax;
+    dataVal.textContent = parseFloat(stock[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     checkSymbol = verifyInvestmentItem( stock[index].price, stock[index].priceMin, stock[index].priceMax );
     dataVal = document.querySelector("#stock-price .alert");
     dataVal.textContent = checkSymbol;
 
     dataVal = document.querySelector("#stock-eps .current");
-    dataVal.textContent = stock[index].eps;
+    dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-eps .min");
-    dataVal.textContent = stock[index].epsMin;
+    dataVal.textContent = parseFloat(stock[index].epsMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-eps .max");
-    dataVal.textContent = stock[index].epsMax;
+    dataVal.textContent = parseFloat(stock[index].epsMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});;
     checkSymbol = verifyInvestmentItem( stock[index].eps, stock[index].epsMin, stock[index].epsMax );
     dataVal = document.querySelector("#stock-eps .alert");
     dataVal.textContent = checkSymbol;
@@ -326,33 +328,33 @@ var showOneStock = function( index ) {
 
 
     dataVal = document.querySelector("#stock-target .current");
-    dataVal.textContent = stock[index].target;
+    dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-target .min");
-    dataVal.textContent = stock[index].targetMin;
+    dataVal.textContent = parseFloat(stock[index].targetMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-target .max");
-    dataVal.textContent = stock[index].targetMax;
+    dataVal.textContent = parseFloat(stock[index].targetMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     checkSymbol = verifyInvestmentItem( stock[index].target, stock[index].targetMin, stock[index].targetMax );
     dataVal = document.querySelector("#stock-target .alert");
     dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#stock-50avg .current");
-    dataVal.textContent = stock[index].f50Avg;
+    dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-50avg .min");
-    dataVal.textContent = stock[index].f50AvgMin;
+    dataVal.textContent = parseFloat(stock[index].f50AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-50avg .max");
-    dataVal.textContent = stock[index].f50AvgMax;
+    dataVal.textContent = parseFloat(stock[index].f50AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     checkSymbol = verifyInvestmentItem( stock[index].f50Avg, stock[index].f50AvgMin, stock[index].f50AvgMax );
     dataVal = document.querySelector("#stock-50avg .alert");
     dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#stock-200avg .current");
-    dataVal.textContent = stock[index].t200Avg;
+    dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-200avg .min");
-    dataVal.textContent = stock[index].t200AvgMin;
+    dataVal.textContent = parseFloat(stock[index].t200AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-200avg .max");
-    dataVal.textContent = stock[index].t200AvgMax;
+    dataVal.textContent = parseFloat(stock[index].t200AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     checkSymbol = verifyInvestmentItem( stock[index].t200Avg, stock[index].t200AvgMin, stock[index].t200AvgMax );
     dataVal = document.querySelector("#stock-200avg .alert");
     dataVal.textContent = checkSymbol;
@@ -374,47 +376,47 @@ var showOneStock = function( index ) {
 var showOneCrypto = function( index ) {
     // Display the data from the 'object'
     dataVal = document.querySelector("#crypto-price .current");
-    var number = cryptos[index].price;
-    var displayString = number.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:4});
+ 
+    var displayString = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     dataVal.textContent = displayString;
     dataVal = document.querySelector("#crypto-price .min");
-    dataVal.textContent = cryptos[index].priceMin.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:4});
+    dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     dataVal = document.querySelector("#crypto-price .max");
-    dataVal.textContent = cryptos[index].priceMax.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:4});
+    dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 4, maximumFractionalDigits:4});
     checkSymbol = verifyInvestmentItem( cryptos[index].price, cryptos[index].priceMin, cryptos[index].priceMax );
     dataVal = document.querySelector("#crypto-price .alert");
     dataVal.textContent = checkSymbol;
 
 
     dataVal = document.querySelector("#crypto-volume .current");
-    dataVal.textContent = cryptos[index].volume.toLocaleString('en-US"');
+    dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-volume .min");
-    dataVal.textContent = cryptos[index].volumeMin.toLocaleString('en-US"');
+    dataVal.textContent = parseFloat(cryptos[index].volumeMin).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-volume .max");
-    dataVal.textContent = cryptos[index].volumeMax.toLocaleString('en-US"');
+    dataVal.textContent = parseFloat(cryptos[index].volumeMax).toLocaleString('en-US');
     checkSymbol = verifyInvestmentItem( cryptos[index].volume, cryptos[index].volumeMin, cryptos[index].volumeMax );
     dataVal = document.querySelector("#crypto-volume .alert");
     dataVal.textContent = checkSymbol;
 
   
     dataVal = document.querySelector("#crypto-supply .current");
-    dataVal.textContent = cryptos[index].supply.toLocaleString('en-US"');
+    dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-supply .min");
-    dataVal.textContent = cryptos[index].supplyMin.toLocaleString('en-US"');
+    dataVal.textContent = parseFloat(cryptos[index].supplyMin).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-supply .max");
-    dataVal.textContent = cryptos[index].supplyMax.toLocaleString('en-US"');  
+    dataVal.textContent = parseFloat(cryptos[index].supplyMax).toLocaleString('en-US');  
     checkSymbol = verifyInvestmentItem( cryptos[index].supply, cryptos[index].supplyMin, cryptos[index].supplyMax );
     dataVal = document.querySelector("#crypto-supply .alert");
     dataVal.textContent = checkSymbol;
 
       
     dataVal = document.querySelector("#crypto-marcap .current");
-    dataVal.textContent = cryptos[index].marcap.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
+    dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
     dataVal = document.querySelector("#crypto-marcap .min");
-    dataVal.textContent = cryptos[index].marcapMin.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
+    dataVal.textContent = parseFloat(cryptos[index].marcapMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
     dataVal = document.querySelector("#crypto-marcap .max");
-    dataVal.textContent = cryptos[index].marcapMax.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});  
-    checkSymbol = verifyInvestmentItem( cryptos[index].marketCap, cryptos[index].marketCapMin, cryptos[index].marketCapMax );
+    dataVal.textContent = parseFloat(cryptos[index].marcapMax).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});  
+    checkSymbol = verifyInvestmentItem( cryptos[index].marcap, cryptos[index].marcapMin, cryptos[index].marcapMax );
     dataVal = document.querySelector("#crypto-marcap .alert");
     dataVal.textContent = checkSymbol;
 }
