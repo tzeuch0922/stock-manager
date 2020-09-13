@@ -56,5 +56,5 @@ The deployment link to display the application web page is:
 
 ## Application Screen Shot
 
-![Stockman Image]()
+![Stockman Image](https://github.com/CaptainRich/Weather-Dashboard/blob/master/stockman.jpg)
 
