@@ -190,11 +190,9 @@ var getStockParameters = function (stockSymbol)
                     console.log("error");
                     return false;
                 }
-                console.log("made it past return 1");
         
                 // Put the stock's price data in the return variable.
                 stockValues.price = response.c;
-                // console.log("Price: ", stock[index].price);
         
                 // Update the HTML page with this value
                 dataVal = document.querySelector("#stock-price .current");
