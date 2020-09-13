@@ -2,43 +2,9 @@
 ////////////////////////////////////////////////////////////////////////////
 // Global Variable Definitions
 
-var stock = [];
-    // { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
+var stock = [];         // array for the stock objects containing investment parameters
 
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
-      
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
-      
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
-      
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" }    
-
-var cryptos = [];
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" } ];
+var cryptos = [];       // array for the cryptocurrency objects containing investment parameters
 
 
 
@@ -47,7 +13,6 @@ var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
 var stockSymbol;
 var index;               // the index into the 'stock' array
 var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
-var dailyCheckCyrptos;   // if "true", the daily parameters have been obtained, no need to request again.
 var dataVal;             // generic data value.
 var checkSymbol;         // symbol for the "alert" columns
 
@@ -670,19 +635,13 @@ var getCurrentDay = function() {
     if( earlierDate ) {
         if( today === earlierDate ) {
             dailyCheckStocks  = true;
-            dailyCheckCryptos = true;
-            //return;   /////  For debugging purposes only /////////  Remove this comment on the return for production //   
+            return;      
         }
         else {
             dailyCheckStocks  = false;
-            dailyCheckCryptos = false;
         }
     }
 
-    ///////////  For debugging purposes only //////////////  Remove this for production ////////////
-    dailyCheckCyrptos = false;
-    dailyCheckStocks  = false;
-    ///////////  For debugging purposes only ..............  Remove this for production ///////////
 
     // For no earlier date, or a different date, save the current date to local storage
     // for the next time this application is run.
