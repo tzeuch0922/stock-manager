@@ -55,16 +55,14 @@ var checkSymbol;         // symbol for the "alert" columns
 var tabListEl = document.querySelector("#tab-list");
 var activeTab = document.querySelector("#general-tab");
 
+// Modal close button queries
+var modalCloseBtnEl = document.querySelector("#error-close");
+modalCloseBtnEl.addEventListener("click", closeModal);
+
 ///////////////////////////////////////////////////////////////////////////
 // API URLs
-// Richard API key
 var urlKeyStockAlphaAdvantage    = "&apikey=XMDSSBDY4JYPVPPD";
-// Tony API key
-// var urlKeyCryptoAlphaAdvantage   = "&apikey=T8LGL5SSSR9B2P9R";
 var apiStockParamsUrl       = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
-// No longer used
-// var apiStockPriceUrl        = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=";
-// var apiCryptoScoreUrl       = "https://www.alphavantage.co/query?function=CRYPTO_RATING&symbol=";
 
 var urlKeyFinancialModeling = "a107f24e0f6aaac5f180293fa869cd10";
 var apiMarketIndexUrl       = "https://financialmodelingprep.com/api/v3/quotes/index?apikey=";
@@ -74,7 +72,7 @@ var apiFinnhubStockPriceUrl = "https://finnhub.io/api/v1/quote?symbol=";
 
 var urlKeyNomics            = "25f6ac7783932e08f376ee60095ddd35";
 var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.nomics.com/v1/currencies/ticker?key=";
-// var apiNomicsCryptoPrice    = "https://api.nomics.com/v1/currencies/ticker?key=";
+
 var apiNomicsIds            = "&ids=";
 var apiNomicsInterval       = "&interval=1d&convert=USD";
 
@@ -109,7 +107,6 @@ var getStockParameters = function (stockSymbol)
 
     finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
     // Make the request for the stock's data
-
     fetch(finalUrl).then(function (response) 
     {
         return response.json();
@@ -142,7 +139,6 @@ var getStockParameters = function (stockSymbol)
     {
         // Reset the "dailyCheck" flag, so this is only done once.
         dailyCheckStocks = true;
-        
         
         // Construct the finished URL to obtain the market index values (once only)
         finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
@@ -218,7 +214,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
 
     // Construct the finished URL to obtain the current cryptocurrency data.
     var finalUrl = apiNomicsCryptoPrice + urlKeyNomics + apiNomicsIds + cryptoSymbol + apiNomicsInterval;
-
+    console.log(finalUrl);
     cryptoValues = 
     {
         name: "",
@@ -238,68 +234,44 @@ var getCryptoParameters = function (cryptoSymbol, index) {
     };
 
     // Make the request for the currency's data
-    fetch(finalUrl)
-        .then(function (response) {
+    fetch(finalUrl).then(function (response) 
+    {
+        return response.json();
+    }).then(function (response) 
+    {
+        // Verify that data was acquired
+        // if (response.cod == 404) {
+        //     returnValue = -1;
+        //     return (returnValue);
+        // }
+        if(!response[0].name)
+        {
+            throw "not found";
+        }
 
-            return response.json();
-        })
-        .then(function (response) {
-            console.log( "Crypto Data: ", response );
+        // Put the currency's  data in the return variables.
+        cryptoValues.name      = response[0].name;
+        cryptoValues.symbol    = response[0].symbol;
+        cryptoValues.price     = response[0].price;
+        cryptoValues.volume    = response[0].circulating_supply;
+        cryptoValues.supply    = response[0].max_supply;
+        cryptoValues.marcap    = response[0].market_cap;
 
-            // Verify that data was acquired
-            if (response.cod == 404) {
-                returnValue = -1;
-                return (returnValue);
-            }
+        cryptos.push(cryptoValues);
 
-            // Put the currency's  data in the return variables.
-            cryptoValues.price     = response[0].price;
-            cryptoValues.volume    = response[0].circulating_supply;
-            cryptoValues.supply    = response[0].max_supply;
-            cryptoValues.marketCap = response[0].market_cap;
+        updateCryptoTable();
 
-            cryptos.push(cryptoValues);
+        showOneCrypto(cryptos.length - 1);
+        saveInvestments();
 
-            showOneCrypto( index );
-            saveInvestments();
-
-            return;
-        })
-
-        // .then(function () {
-
-        //     // Construct the finished URL to obtain the currency's 'Asset Score'
-        //     finalUrl = apiCryptoScoreUrl + cryptoSymbol + urlKeyCryptoAlphaAdvantage;
-
-        //     // Make the request for the stock's data
-        //     fetch(finalUrl)
-        //         .then(function (response) {
-
-        //             return response.json();
-        //         })
-        //         .then(function (response) {
-        //             console.log(response);
-
-        //             // Verify that data was acquired
-        //             if (response.cod == 404) {
-        //                 returnValue = -1;
-        //                 return (returnValue);
-        //             }
-
-        //             // Put the currency's score in the return variables.  
-        //             var scorePart1 = response["Crypto Rating (FCAS)"]["3. fcas rating"];
-        //             var scorePart2 = response["Crypto Rating (FCAS)"]["4. fcas score"];
-        //             cryptos[index].score  = scorePart1 + ", " + scorePart2; 
-        //         })
-        // })
-
-    // .catch(function (error) {
-    //     // Notice this `.catch()` is chained onto the end of the `.then()` method
-    //     alert("Unable to connect to Nomics for crypto data.");
-    //     returnValue = -1;
-    //     return (returnValue);
-    // });
-
+        return;
+    })
+    .catch(function (error) 
+    {
+        console.log(error);
+        invalidCrypto();
+        return;
+    });
 }
 
 
@@ -437,11 +409,11 @@ var showOneCrypto = function( index ) {
 
       
     dataVal = document.querySelector("#crypto-marcap .current");
-    dataVal.textContent = cryptos[index].marketCap.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
+    dataVal.textContent = cryptos[index].marcap.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
     dataVal = document.querySelector("#crypto-marcap .min");
-    dataVal.textContent = cryptos[index].marketCapMin.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
+    dataVal.textContent = cryptos[index].marcapMin.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});
     dataVal = document.querySelector("#crypto-marcap .max");
-    dataVal.textContent = cryptos[index].marketCapMax.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});  
+    dataVal.textContent = cryptos[index].marcapMax.toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionalDigits:0});  
     checkSymbol = verifyInvestmentItem( cryptos[index].marketCap, cryptos[index].marketCapMin, cryptos[index].marketCapMax );
     dataVal = document.querySelector("#crypto-marcap .alert");
     dataVal.textContent = checkSymbol;
@@ -574,55 +546,7 @@ var playAlert = function() {
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-// stockSymbol  = "IBM";
-// cryptoSymbol = "BTC";
-// index        = 0;
-
-// getStockParameters( stockSymbol, index );
-// getCryptoParameters( cryptoSymbol, index );
-// playAlert();
-
-
-// getCurrentDay();
-// retrieveInvestments();           
-
-// getStockParameters( stockSymbol, index );
-// getCryptoParameters( cryptoSymbol, index );
-//vplayAlert();
-
-// stockSymbol  = "APPL";
-// cryptoSymbol = "LTC";
-// index        = 1;
-
-// getStockParameters( stockSymbol, index );
-// getCryptoParameters( cryptoSymbol, index );
-
-
-// stockSymbol  = "TSLA";
-// cryptoSymbol = "ETC";
-// index        = 2;
-
-// getStockParameters( stockSymbol, index );
-// getCryptoParameters( cryptoSymbol, index );
-
-// stockSymbol  = "GOOGL";
-// cryptoSymbol = "ETC";
-// index        = 3;
-
-// getStockParameters( stockSymbol, index );
-// getCryptoParameters( cryptoSymbol, index );
-
-// stockSymbol  = "NKLA";
-// cryptoSymbol = "ETC";
-// index        = 2;
-
-// getStockParameters( stockSymbol, index );
-// getCryptoParameters( cryptoSymbol, index );
-
-// saveInvestments();
-// Temporary add event listeners.
+// Temporary search buttons and event listeners, will delete later.
 var searchStockEl = document.querySelector("#stock-search-btn");
 var searchCryptoEl = document.querySelector("#crypto-search-btn");
 searchStockEl.addEventListener("click", searchStock);
@@ -640,26 +564,46 @@ function searchStock()
     // Save function
     saveInvestments();
 }
+function searchCrypto()
+{
+    // Take value from searchbar text content
+    var cryptoVal = document.querySelector("#crypto-search").value;
+
+    // Search for crypto data
+    getCryptoParameters(cryptoVal);
+
+    // Save function
+    saveInvestments();
+}
 function invalidStock()
 {
     // Clear stock search bar
     document.querySelector("#stock-search").value = "";
+
+    // Query for error modal
+    var errorModalEl = document.querySelector("#error-modal");
+
+    // Set modal to active
+    errorModalEl.classList.add("is-active");
 }
-function searchCrypto()
+function invalidCrypto()
 {
-    // Take value from searchbar text content
-    // var cryptoVal = document.querySelector("#crypto-search");
+    // Clear crypto search bar
+    document.querySelector("#crypto-search").value = "";
 
-    // Search for crypto data
+    // Query for error modal
+    var errorModalEl = document.querySelector("#error-modal");
 
-    // Store data in variables
-
-    // Add data to cryptos variable
-
-    // Remake crypto table
-
-    // Save function
-    // saveInvestments();
+    // Set modal to active
+    errorModalEl.classList.add("is-active");
+}
+function closeModal()
+{
+    // Query for error modal.
+    var errorModalEl = document.querySelector("#error-modal");
+    
+    // Remove active from modal
+    errorModalEl.classList.remove("is-active");
 }
 // Update functions
 function updateStockTable()
@@ -747,9 +691,92 @@ function updateStockTable()
         generalStockTableEl.appendChild(searchRowEl);
     }
 }
-function addGeneralHeaders(table)
+function updateCryptoTable()
 {
-    
+    // Get general stock table element.
+    var generalCryptoTableEl = document.querySelector("#general-crypto-table");
+
+    // Clear table.
+    generalCryptoTableEl.innerHTML = "";
+
+    // Add title row to table.
+    var titleRowEl = document.createElement("tr");
+    var titleEl = document.createElement("th");
+    titleEl.setAttribute("colspan","3");
+    titleEl.classList.add("has-text-centered");
+    titleEl.textContent = "Cryptocurrency";
+    titleRowEl.appendChild(titleEl);
+    generalCryptoTableEl.appendChild(titleRowEl);
+
+    // Add header row to table.
+    var headerRowEl = document.createElement("tr");
+    var nameHeaderEl = document.createElement("th");
+    nameHeaderEl.textContent = "Name";
+    headerRowEl.appendChild(nameHeaderEl);
+    var symbolHeaderEl = document.createElement("th");
+    symbolHeaderEl.textContent = "Symbol";
+    headerRowEl.appendChild(symbolHeaderEl);
+    var alertHeaderEl = document.createElement("th");
+    alertHeaderEl.textContent = "Alert";
+    headerRowEl.appendChild(alertHeaderEl);
+    generalCryptoTableEl.appendChild(headerRowEl);
+
+    console.log("cryptos length", cryptos.length);
+    console.log(cryptos);
+    // Add data for each stock.
+    cryptos.forEach(function(value)
+    {
+        var dataRowEl = document.createElement("tr");
+        var nameEl = document.createElement("td");
+        var symbolEl = document.createElement("td");
+        var alertEl = document.createElement("td");
+
+        nameEl.textContent = value.name;
+        symbolEl.textContent = value.symbol;
+        // Add in alert data
+
+        dataRowEl.appendChild(nameEl);
+        dataRowEl.appendChild(symbolEl);
+        dataRowEl.appendChild(alertEl);
+        
+        generalCryptoTableEl.appendChild(dataRowEl);
+    });
+
+    if(cryptos.length < 5)
+    {
+        var searchRowEl = document.createElement("tr");
+
+        var searchEl = document.createElement("td");
+        searchEl.setAttribute("colspan", "3");
+
+        var searchContainerEl = document.createElement("div");
+        searchContainerEl.classList.add("field", "is-grouped");
+
+        var inputContainerEl = document.createElement("p");
+        inputContainerEl.classList.add("control", "is-expanded");
+        var inputEl = document.createElement("input");
+        inputEl.classList.add("input");
+        inputEl.setAttribute("type", "text");
+        inputEl.setAttribute("placeholder", "Enter cryptocurrency symbol");
+        inputEl.id = "crypto-search";
+        inputContainerEl.appendChild(inputEl);
+        searchContainerEl.appendChild(inputContainerEl);
+
+        var btnContainerEl = document.createElement("p");
+        btnContainerEl.classList.add("control");
+        var btnEl = document.createElement("a");
+        btnEl.classList.add("button", "is-info");
+        btnEl.id = "crypto-search-btn";
+        btnEl.textContent = "Search";
+        btnEl.addEventListener("click", searchCrypto);
+        btnContainerEl.appendChild(btnEl);
+        searchContainerEl.appendChild(btnContainerEl);
+
+        searchEl.appendChild(searchContainerEl);
+        searchRowEl.appendChild(searchEl);
+
+        generalCryptoTableEl.appendChild(searchRowEl);
+    }
 }
 
 // Change tabs event listener
