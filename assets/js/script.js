@@ -137,8 +137,6 @@ var getStockParameters = function (stockSymbol)
         return true;
     }).then(function () 
     {
-        // Reset the "dailyCheck" flag, so this is only done once.
-        dailyCheckStocks = true;
         
         // Construct the finished URL to obtain the market index values (once only)
         finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
@@ -209,6 +207,117 @@ var getStockParameters = function (stockSymbol)
 }
 
 ///////////////////////////////////////////////////////////////////////////
+// Function to update the  data for a specified stock. This assumes the 
+// stock is already in the array.
+var updateStockParameters = function (index) 
+{
+    // Get the stock symbol from the array.
+    var stockSymbol = stock[index].symbol;
+
+    // Construct the finished URL to obtain the current stock price.
+    var finalUrl = apiFinnhubStockPriceUrl + stockSymbol + urlKeyFinnhub;
+
+    // Make the request for the stock's price
+    fetch(finalUrl).then(function (response) 
+    {
+        return response.json();
+
+    }).then(function (response) 
+    {
+        console.log(response);
+        // Verify that data was acquired
+        if (!response.c) {
+            console.log("error");
+            return false;
+        }
+
+        // Put the stock's updated price data in the array.
+        stock[index].price = response.c;
+
+        return true;
+
+    }).then(function () 
+    {
+
+        // Construct the finished URL to obtain the market index values 
+        finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
+
+        // Make the request for the stock's data
+        fetch(finalUrl).then(function (response) {
+            return response.json();
+
+        }).then(function (response) {
+            // Verify that data was acquired
+            if (response.cod == 404) {
+                returnValue = -1;
+                return (returnValue);
+            }
+
+            // Get the index values and put them in the return variables.
+            indexes[0] = response[7].price;     // S&P 500
+            indexes[1] = response[19].price;    // NASDAQ
+            indexes[2] = response[12].price;    // NYSE
+            indexes[3] = response[31].price;    // DOW
+
+            // Update the HTML page with these values
+            showEquityIndexes(index);
+
+            return;
+
+        }).then(function (response) 
+        {
+            // Check the "dailyCheck" flag, so the basic stock parameters
+            // are only checked once a day - since they won't be changed 
+            // until after the market closes.
+
+            if (dailyCheckStocks) {
+                saveInvestments();
+                return;
+            }
+
+            finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
+
+            // Make the request for the stock's data (updated daily)
+            fetch(finalUrl).then(function (response) {
+                return response.json();
+
+            }).then(function (response) 
+            {
+                // Verify that data was acquired
+                if (!response.Name) {
+                    throw "Error: Symbol not found.";
+                }
+
+                // Put the stock's updated data back in the array.
+                // stockValues.symbol   = stockSymbol;
+                // stockValues.exchange = response.Exchange;
+                // stockValues.name     = response.Name;
+                stock[index].eps     = response.EPS;
+                stock[index].beta    = response.Beta;
+                stock[index].pe      = response.PERatio;
+                stock[index].target  = response.AnalystTargetPrice;
+                stock[index].f50Avg  = response["50DayMovingAverage"];
+                stock[index].t200Avg = response["200DayMovingAverage"];
+
+                // Reset the "dailyCheck" flag, so this is only done once.
+                dailyCheckStocks = true;
+
+                // This save is necessary because we updated the stock parameters.
+                saveInvestments();
+
+                return true;
+            })
+        })
+    }).catch(function (error) {
+        // Notice this `.catch()` is chained onto the end of the `.then()` methods
+        console.log(error);
+        invalidStock();
+        return;
+    });
+        
+}
+
+///////////////////////////////////////////////////////////////////////////
 // Function to acquire the current data for a specified cryptocurrency
 var getCryptoParameters = function (cryptoSymbol, index) {
 
@@ -276,6 +385,47 @@ var getCryptoParameters = function (cryptoSymbol, index) {
     });
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to update the current data for a specified cryptocurrency.  This assumes the 
+// cryptocurrency is already in the array.
+var updateCryptoParameters = function (index) 
+{
+    // Construct the finished URL to obtain the current cryptocurrency data.
+    var finalUrl = apiNomicsCryptoPrice + urlKeyNomics + apiNomicsIds + cryptoSymbol + apiNomicsInterval;
+    console.log(finalUrl);
+
+    // Make the request for the currency's data
+    fetch(finalUrl).then(function (response) 
+    {
+        return response.json();
+    }).then(function (response) 
+    {
+        console.log(response[0].name);
+        if(!response[0].name)
+        {
+            throw "not found";
+        }
+        console.log("different error");
+
+        // Put the currency's  data in the return variables.
+        cryptos[index].price     = response[0].price;
+        cryptos[index].volume    = response[0].circulating_supply;
+        cryptos[index].supply    = response[0].max_supply;
+        cryptos[index].marcap    = response[0].market_cap;
+
+        showOneCrypto(cryptos.length - 1);
+        saveInvestments();
+
+        return;
+    })
+    .catch(function (error) 
+    {
+        console.log(error);
+        invalidCrypto();
+        return;
+    });
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -542,11 +692,11 @@ var getCurrentDay = function() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // Function to play the 'alert' sound for the user, indicating a parameter is out of range.
-var playAlert = function() {
-    var alertSound = new Audio( "./assets/sounds/alarm07.wav" );
-    alertSound.play();
+// var playAlert = function() {
+//     var alertSound = new Audio( "./assets/sounds/alarm07.wav" );
+//     alertSound.play();
 
-}
+// }
 
 // Temporary search buttons and event listeners, will delete later.
 var searchStockEl = document.querySelector("#stock-search-btn");
@@ -808,3 +958,23 @@ tabListEl.addEventListener("click", function(event)
         activeTab = affectedEl;
     }
 });
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Start a timer to update the stock and cryptocurrency pages every 10 minutes.
+var updateAll = setInterval( function() {
+
+    console.log( "In 10-min update function.");
+    
+    // Update the data in the 'stock' array.
+    stock.forEach(function(value, index)
+    {
+        updateStockParameters(index);
+    });
+
+    // Update the data in the 'cryptos' array.
+    cryptos.forEach(function(value, index)
+    {
+        updateCryptoParameters(index);
+    });
+
+}, (1000 * 60 * 10) );   // 1000 milliseconds/second * 60 seconds/minute * 10 minutes.
