@@ -28,17 +28,17 @@ var stock = [];
     //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
     //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" }    
 
-var cryptos = [
-    { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" } ];
+var cryptos = [];
+    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
+    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
+    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
+    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
+    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
+    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
+    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
+    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
+    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
+    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" } ];
 
 
 
@@ -77,169 +77,140 @@ var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.n
 var apiNomicsIds            = "&ids=";
 var apiNomicsInterval       = "&interval=1d&convert=USD";
 
-
-
 ///////////////////////////////////////////////////////////////////////////
 // Function to acquire the current data for a specified stock
-var getStockParameters = function (stockSymbol) {
+var getStockParameters = function (stockSymbol) 
+{
+    stockValues = 
+    {
+        name : "",
+        symbol : "",
+        exchange : "",
+        eps : "",
+        epsMin : "",
+        epsMax : "",
+        beta : "",
+        betaMin : "",
+        betaMax : "",
+        pe : "",
+        peMin : "",
+        peMax : "",
+        target : "",
+        targetMin : "",
+        targetMax : "",
+        f50Avg : "",
+        f50AvgMin : "",
+        f50AvgMax : "",
+        t200Avg : "",
+        t200AvgMin : "",
+        t200AvgMax : ""
+    };
 
-        // Construct the finished URL to obtain the current stock price.
-        var finalUrl = apiFinnhubStockPriceUrl + stockSymbol + urlKeyFinnhub;
+    finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
+    // Make the request for the stock's data
 
-        stockValues = 
-        [
-            name = "",
-            symbol = "",
-            exchange = "",
-            eps = "",
-            epsMin = "",
-            epsMax = "",
-            beta = "",
-            betaMin = "",
-            betaMax = "",
-            pe = "",
-            peMin = "",
-            peMax = "",
-            target = "",
-            targetMin = "",
-            targetMax = "",
-            f50Avg = "",
-            f50AvgMin = "",
-            f50AvgMax = "",
-            t200Avg = "",
-            t200AvgMin = "",
-            t200AvgMax = ""
-        ];
+    fetch(finalUrl).then(function (response) 
+    {
+        return response.json();
+    }).then(function (response)
+    {
+        // Verify that data was acquired
+        if (!response.Name)
+        {
+            throw "Error: Symbol not found.";
+        }
 
-        // Make the request for the stock's price
-        fetch(finalUrl)
-            .then(function (response) {
+        // Put the stock's data in the return variables.
+        stockValues.symbol   = stockSymbol;
+        stockValues.exchange = response.Exchange;
+        stockValues.eps      = response.EPS;
+        stockValues.beta     = response.Beta;
+        stockValues.pe       = response.PERatio;
+        stockValues.name     = response.Name;
+        stockValues.target   = response.AnalystTargetPrice;
+        stockValues.f50Avg   = response["50DayMovingAverage"];
+        stockValues.t200Avg  = response["200DayMovingAverage"];
+
+        stock.push(stockValues);
+
+        // Update the HTML page with these values
+        showOneStock(stock.length - 1);
+
+        return true;
+    }).then(function () 
+    {
+        // Reset the "dailyCheck" flag, so this is only done once.
+        dailyCheckStocks = true;
+        
+        
+        // Construct the finished URL to obtain the market index values (once only)
+        finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
+
+        // Make the request for the stock's data
+        fetch(finalUrl).then(function (response) 
+        {
+            return response.json();
+        }).then(function (response) 
+        {
+            // Verify that data was acquired
+            if (response.cod == 404) 
+            {
+                returnValue = -1;
+                return (returnValue);
+            }
+
+            // Get the index values and put them in the return variables.
+            indexes[0] = response[7].price;     // S&P 500
+            indexes[1] = response[19].price;    // NASDAQ
+            indexes[2] = response[12].price;    // NYSE
+            indexes[3] = response[31].price;    // DOW
+
+            // Update the HTML page with these values
+            showEquityIndexes( index );
+
+            updateStockTable();
+            saveInvestments();
+
+            return;
+        }).then(function() 
+        {
+            // Construct the finished URL to obtain the current stock price.
+            var finalUrl = apiFinnhubStockPriceUrl + stockSymbol + urlKeyFinnhub;
+
+            // Make the request for the stock's price
+            fetch(finalUrl).then(function(response) 
+            {
                 return response.json();
-            })
-            .then(function (response) {
-                console.log( response );
-    
+            }).then(function(response) 
+            {
+                console.log(response);
                 // Verify that data was acquired
-                if (response.cod == 404) {
-                    returnValue = -1;
+                if (!response.c)
+                {
                     console.log("error");
-                    return (returnValue);
+                    return false;
                 }
-    
+                console.log("made it past return 1");
+        
                 // Put the stock's price data in the return variable.
                 stockValues.price = response.c;
                 // console.log("Price: ", stock[index].price);
-
+        
                 // Update the HTML page with this value
                 dataVal = document.querySelector("#stock-price .current");
                 dataVal.textContent = response.c;
-                console.log("finished finnhub");
-            })
-
-            .then(function () {
-
-                // Construct the finished URL to obtain the stock parameters (once only)
-                if( dailyCheckStocks ) {
-                    // showOneStock( index );           // show the saved data for the current day
-                    // showEquityIndexes( index );
-                    // return;
-                }
-
-                finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
-
-                console.log("created url for alphavantage");
-
-                // Make the request for the stock's data
-                fetch(finalUrl)
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (response) {
-                        console.log(response);
-
-                        // Verify that data was acquired
-                        if (response.cod == 404) {
-                            returnValue = -1;
-                            return (returnValue);
-                        }
-
-                        // Put the stock's data in the return variables.
-                        stockValues.symbol   = stockSymbol;
-                        stockValues.exchange = response.Exchange;
-                        stockValues.eps      = response.EPS;
-                        stockValues.beta     = response.Beta;
-                        stockValues.pe       = response.PERatio;
-                        stockValues.name     = response.Name;
-                        stockValues.target   = response.AnalystTargetPrice;
-                        stockValues.f50Avg   = response["50DayMovingAverage"];
-                        stockValues.t200Avg  = response["200DayMovingAverage"];
-
-                        stock.push(stockValues);
-                        console.log("stock length: ", stock.length);
-                        console.log(stock);
-
-                        // Update the HTML page with these values
-                        showOneStock(stock.length - 1);
-
-
-                        console.log("Name: ", stockValues.name );
-                        console.log("EPS: ", stockValues.eps );
-                        console.log("beta: ", stockValues.beta );
-                        console.log("pe: ", stockValues.pe );
-                        console.log("target: ", stockValues.target );
-                        console.log("50 day average: ", stockValues.f50Avg );
-                        console.log("200 day average: ", stockValues.t200Avg );
-                    })
-            })
-
-            .then(function () {
-
-                // Reset the "dailyCheck" flag, so this is only done once.
-                dailyCheckStocks = true;
                 
-                
-                // Construct the finished URL to obtain the market index values (once only)
-                finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
-
-                // Make the request for the stock's data
-                fetch(finalUrl)
-                    .then(function (response) {
-                        // console.log("financial modeling prep success");
-                        return response.json();
-                    })
-                    .then(function (response) {
-                        // console.log("financial modeling prep to json success");
-                        // console.log(response);
-
-                        // Verify that data was acquired
-                        if (response.cod == 404) {
-                            returnValue = -1;
-                            return (returnValue);
-                        }
-
-                        // Get the index values and put them in the return variables.
-                        indexes[0] = response[7].price;     // S&P 500
-                        indexes[1] = response[19].price;    // NASDAQ
-                        indexes[2] = response[12].price;    // NYSE
-                        indexes[3] = response[31].price;    // DOW
-                        // console.log( "Index Prices: ", indexes );
-
-                        // Update the HTML page with these values
-                        showEquityIndexes( index );
-
-                        updateStockTable();
-                        saveInvestments();
-
-                    })
-            })
-
-        // .catch(function (error) {
-        //     // Notice this `.catch()` is chained onto the end of the `.then()` method
-        //     // alert("Unable to connect to AlphaAdvantage for stock data.");
-        //     returnValue = -1;
-        //     return (returnValue);
-        // });
-
+                return true;
+            });
+        });
+    }).catch(function (error) 
+    {
+        // Notice this `.catch()` is chained onto the end of the `.then()` method
+        // alert("Unable to connect to AlphaAdvantage for stock data.");
+        console.log(error);
+        invalidStock();
+        return;
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -248,6 +219,24 @@ var getCryptoParameters = function (cryptoSymbol, index) {
 
     // Construct the finished URL to obtain the current cryptocurrency data.
     var finalUrl = apiNomicsCryptoPrice + urlKeyNomics + apiNomicsIds + cryptoSymbol + apiNomicsInterval;
+
+    cryptoValues = 
+    {
+        name: "",
+        symbol: "",
+        price: "",
+        priceMin: "",
+        priceMax: "",
+        volume: "",
+        volumeMin: "",
+        volumeMax: "",
+        supply: "",
+        supplyMin: "",
+        supplyMax: "",
+        marcap: "",
+        marcapMin: "",
+        marcapMax: ""
+    };
 
     // Make the request for the currency's data
     fetch(finalUrl)
@@ -265,10 +254,12 @@ var getCryptoParameters = function (cryptoSymbol, index) {
             }
 
             // Put the currency's  data in the return variables.
-            cryptos[index].price     = response[0].price;
-            cryptos[index].volume    = response[0].circulating_supply;
-            cryptos[index].supply    = response[0].max_supply;
-            cryptos[index].marketCap = response[0].market_cap;
+            cryptoValues.price     = response[0].price;
+            cryptoValues.volume    = response[0].circulating_supply;
+            cryptoValues.supply    = response[0].max_supply;
+            cryptoValues.marketCap = response[0].market_cap;
+
+            cryptos.push(cryptoValues);
 
             showOneCrypto( index );
             saveInvestments();
@@ -581,18 +572,19 @@ function searchStock()
 
     // Search for stock data
     getStockParameters(stockVal);
-    console.log("finished getting parameters")
-
-    // Remake stock table
-    // updateStockTable();
-    // console.log("updated table");
 
     // Save function
     saveInvestments();
 }
+function invalidStock()
+{
+    // Clear stock search bar
+    document.querySelector("#stock-search").value = "";
+}
 function searchCrypto()
 {
     // Take value from searchbar text content
+    // var cryptoVal = document.querySelector("#crypto-search");
 
     // Search for crypto data
 
@@ -654,6 +646,42 @@ function updateStockTable()
         
         generalStockTableEl.appendChild(dataRowEl);
     });
+
+    if(stock.length < 5)
+    {
+        var searchRowEl = document.createElement("tr");
+
+        var searchEl = document.createElement("td");
+        searchEl.setAttribute("colspan", "3");
+
+        var searchContainerEl = document.createElement("div");
+        searchContainerEl.classList.add("field", "is-grouped");
+
+        var inputContainerEl = document.createElement("p");
+        inputContainerEl.classList.add("control", "is-expanded");
+        var inputEl = document.createElement("input");
+        inputEl.classList.add("input");
+        inputEl.setAttribute("type", "text");
+        inputEl.setAttribute("placeholder", "Enter stock symbol");
+        inputEl.id = "stock-search";
+        inputContainerEl.appendChild(inputEl);
+        searchContainerEl.appendChild(inputContainerEl);
+
+        var btnContainerEl = document.createElement("p");
+        btnContainerEl.classList.add("control");
+        var btnEl = document.createElement("a");
+        btnEl.classList.add("button", "is-info");
+        btnEl.id = "stock-search-btn";
+        btnEl.textContent = "Search";
+        btnEl.addEventListener("click", searchStock);
+        btnContainerEl.appendChild(btnEl);
+        searchContainerEl.appendChild(btnContainerEl);
+
+        searchEl.appendChild(searchContainerEl);
+        searchRowEl.appendChild(searchEl);
+
+        generalStockTableEl.appendChild(searchRowEl);
+    }
 }
 function addGeneralHeaders(table)
 {
