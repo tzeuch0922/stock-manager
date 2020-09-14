@@ -3,45 +3,7 @@
 // Global Variable Definitions
 
 var stock = [];
-    // { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
-
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
-      
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
-      
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" },
-      
-    //   { name: "", symbol: "", exchange: "", priceMin: "", priceMax: "", price: "",
-    //   targetMin: "", targetMax: "", target: "", epsMin: "", epsMax: "", eps: "", 
-    //   peMin: "", peMax: "", pe: "", betaMin: "", betaMax: "", beta: "", f50AvgMin: "", 
-    //   f50AvgMax: "", f50Avg: "", t200AvgMin: "", t200AvgMax: "", t200Avg: "", exchange: "" }    
-
 var cryptos = [];
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" },
-    // { marketCapMin: "", marketCapMax: "", marketCap: "", priceMin: "", priceMax: "", price: "", 
-    // volumeMin: "", volumeMax: "", volume: "", supplyMin: "", supplyMax: "", supply: "" } ];
-
-
-
 var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
 
 var stockSymbol;
@@ -655,6 +617,16 @@ function updateStockTable()
         dataRowEl.appendChild(alertEl);
         
         generalStockTableEl.appendChild(dataRowEl);
+
+        // Add dropdown menu items for item page.
+        var menuItemEl = $("<a>").addClass("dropdown-item").text(value.name).attr("index", index);
+        console.log(menuItemEl);
+        menuItemEl.click(function(e)
+        {
+            e.stopPropagation();
+            console.log(this);
+        });
+        $("#dropdown-stock-list").append(menuItemEl);
     });
 
     if(stock.length < 5)
@@ -695,7 +667,7 @@ function updateStockTable()
 }
 function updateCryptoTable()
 {
-    // Get general stock table element.
+    // Get general crypto table element.
     var generalCryptoTableEl = document.querySelector("#general-crypto-table");
 
     // Clear table.
@@ -723,11 +695,10 @@ function updateCryptoTable()
     headerRowEl.appendChild(alertHeaderEl);
     generalCryptoTableEl.appendChild(headerRowEl);
 
-    console.log("cryptos length", cryptos.length);
-    console.log(cryptos);
-    // Add data for each stock.
-    cryptos.forEach(function(value)
+    // Add data for each crypto.
+    cryptos.forEach(function(value, index)
     {
+        // Add data to general table for each crypto.
         var dataRowEl = document.createElement("tr");
         var nameEl = document.createElement("td");
         var symbolEl = document.createElement("td");
@@ -735,7 +706,7 @@ function updateCryptoTable()
 
         nameEl.textContent = value.name;
         symbolEl.textContent = value.symbol;
-        // Add in alert data
+        // Add in alert data here
 
         dataRowEl.appendChild(nameEl);
         dataRowEl.appendChild(symbolEl);
@@ -743,7 +714,7 @@ function updateCryptoTable()
         
         generalCryptoTableEl.appendChild(dataRowEl);
     });
-
+    // Add search bar on crypto table on general page
     if(cryptos.length < 5)
     {
         var searchRowEl = document.createElement("tr");
@@ -781,11 +752,42 @@ function updateCryptoTable()
     }
 }
 
+var editStockButton = $("#stock-edit-btn");
+editStockButton.click(editStockAlerts);
+
+var closeStockButtonEl = $("#stock-close-btn");
+closeStockButtonEl.click(closeStockEdit);
+
+var stockXButtonEl = $("#stock-close");
+stockXButtonEl.click(closeStockEdit);
+
+// Edit stock data
+function editStockAlerts()
+{
+    var stockModalEl = $("#stock-edit-modal");
+    stockModalEl.addClass("is-active");
+}
+
+// Close edit stock modal
+function closeStockEdit()
+{
+    var stockModalEl = $("#stock-edit-modal");
+    stockModalEl.removeClass("is-active");
+}
+
+// Stock dropdown
+var stockDropdownBtnEl = $("#stock-dropdown-btn");
+var stockDropdownEl = $("#stock-dropdown");
+stockDropdownBtnEl.click(function()
+{
+    stockDropdownEl.toggleClass("is-active");
+});
+
 // Change tabs event listener
 tabListEl.addEventListener("click", function(event)
 {
     // Getting list element that was clicked on.
-    affectedEl = event.target.parentElement;
+    var affectedEl = event.target.parentElement;
 
     // Checks to see if they just clicked on the container or the active tab.
     if(affectedEl.nodeName !== "LI" || affectedEl.classList.contains("is-active"))
