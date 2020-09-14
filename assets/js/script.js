@@ -47,6 +47,8 @@ var getStockParameters = function (stockSymbol)
         symbol : "",
         exchange : "",
         price: "",
+        priceMin: "",
+        priceMax: "",
         eps : "",
         epsMin : "",
         epsMax : "",
@@ -151,8 +153,8 @@ var getStockParameters = function (stockSymbol)
                 
 
                 // Update the HTML page with these values
-                showOneStock(stock.length - 1);
-                
+                // showOneStock(stock.length - 1);
+
                 updateStockTable();
                 saveInvestments();
 
@@ -395,83 +397,126 @@ var updateCryptoParameters = function (index)
 // Function to display the data for one equity.
 var showOneStock = function( index ) {
 
+    // Query and display stock-info.
+    var stockInfoEl = document.querySelector("#select-stock");
+    if(stockInfoEl.classList.contains("hidden"))
+    {
+        stockInfoEl.classList.remove("hidden");
+    }
+
     // Display the data from the 'object'
     
-    dataVal = document.querySelector("#stock-price .current");
+    var dataVal = document.querySelector("#stock-price .current");
     dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-price .min");
-    dataVal.textContent = parseFloat(stock[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-price .max");
-    dataVal.textContent = parseFloat(stock[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    if(stock[index].priceMin !== "")
+    {
+        dataVal = document.querySelector("#stock-price .min");
+        dataVal.textContent = parseFloat(stock[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }
+    if(stock[index].priceMax !== "")
+    {
+        dataVal = document.querySelector("#stock-price .max");
+        dataVal.textContent = parseFloat(stock[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }
     checkSymbol = verifyInvestmentItem( stock[index].price, stock[index].priceMin, stock[index].priceMax );
     dataVal = document.querySelector("#stock-price .alert");
     dataVal.textContent = checkSymbol;
 
     dataVal = document.querySelector("#stock-eps .current");
     dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-eps .min");
-    dataVal.textContent = parseFloat(stock[index].epsMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-eps .max");
-    dataVal.textContent = parseFloat(stock[index].epsMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});;
+    if(stock[index].epsMin !== "")
+    {    
+        dataVal = document.querySelector("#stock-eps .min");
+        dataVal.textContent = parseFloat(stock[index].epsMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }
+    if(stock[index].epsMax !== "")
+    {    
+        dataVal = document.querySelector("#stock-eps .max");
+        dataVal.textContent = parseFloat(stock[index].epsMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});;
+    }    
     checkSymbol = verifyInvestmentItem( stock[index].eps, stock[index].epsMin, stock[index].epsMax );
     dataVal = document.querySelector("#stock-eps .alert");
     dataVal.textContent = checkSymbol;
-    
 
     dataVal = document.querySelector("#stock-beta .current");
     dataVal.textContent = stock[index].beta;
-    dataVal = document.querySelector("#stock-beta .min");
-    dataVal.textContent = stock[index].betaMin;
-    dataVal = document.querySelector("#stock-beta .max");
-    dataVal.textContent = stock[index].betaMax;
+    if(stock[index].betaMin !== "")
+    {
+        dataVal = document.querySelector("#stock-beta .min");
+        dataVal.textContent = stock[index].betaMin;
+    }
+    if(stock[index].betaMax !== "")
+    {
+        dataVal = document.querySelector("#stock-beta .max");
+        dataVal.textContent = stock[index].betaMax;
+    }    
     checkSymbol = verifyInvestmentItem( stock[index].beta, stock[index].betaMin, stock[index].betaMax );
     dataVal = document.querySelector("#stock-beta .alert");
     dataVal.textContent = checkSymbol;
 
-
     dataVal = document.querySelector("#stock-per .current");
     dataVal.textContent = stock[index].pe;
-    dataVal = document.querySelector("#stock-per .min");
-    dataVal.textContent = stock[index].peMin;
-    dataVal = document.querySelector("#stock-per .max");
-    dataVal.textContent = stock[index].peMax;
+    if(stock[index].peMin !== "")
+    {
+        dataVal = document.querySelector("#stock-per .min");
+        dataVal.textContent = stock[index].peMin;
+    }
+    if(stock[index].peMax !== "")
+    {
+        dataVal = document.querySelector("#stock-per .max");
+        dataVal.textContent = stock[index].peMax;
+    }    
     checkSymbol = verifyInvestmentItem( stock[index].pe, stock[index].peMin, stock[index].peMax );
     dataVal = document.querySelector("#stock-per .alert");
     dataVal.textContent = checkSymbol;
 
-
     dataVal = document.querySelector("#stock-target .current");
     dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-target .min");
-    dataVal.textContent = parseFloat(stock[index].targetMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-target .max");
-    dataVal.textContent = parseFloat(stock[index].targetMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    if(stock[index].targetMin !== "")
+    {    
+        dataVal = document.querySelector("#stock-target .min");
+        dataVal.textContent = parseFloat(stock[index].targetMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }    
+    if(stock[index].targetMax !== "")
+    {
+        dataVal = document.querySelector("#stock-target .max");
+        dataVal.textContent = parseFloat(stock[index].targetMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }    
     checkSymbol = verifyInvestmentItem( stock[index].target, stock[index].targetMin, stock[index].targetMax );
     dataVal = document.querySelector("#stock-target .alert");
     dataVal.textContent = checkSymbol;
 
-
     dataVal = document.querySelector("#stock-50avg .current");
     dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-50avg .min");
-    dataVal.textContent = parseFloat(stock[index].f50AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-50avg .max");
-    dataVal.textContent = parseFloat(stock[index].f50AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    if(stock[index].f50AvgMin !== "")
+    {
+        dataVal = document.querySelector("#stock-50avg .min");
+        dataVal.textContent = parseFloat(stock[index].f50AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }    
+    if(stock[index].f50AvgMax !== "")
+    {
+        dataVal = document.querySelector("#stock-50avg .max");
+        dataVal.textContent = parseFloat(stock[index].f50AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }    
     checkSymbol = verifyInvestmentItem( stock[index].f50Avg, stock[index].f50AvgMin, stock[index].f50AvgMax );
     dataVal = document.querySelector("#stock-50avg .alert");
     dataVal.textContent = checkSymbol;
 
-
     dataVal = document.querySelector("#stock-200avg .current");
     dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-200avg .min");
-    dataVal.textContent = parseFloat(stock[index].t200AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-200avg .max");
-    dataVal.textContent = parseFloat(stock[index].t200AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    if(stock[index].t200AvgMin !== "")
+    {
+        dataVal = document.querySelector("#stock-200avg .min");
+        dataVal.textContent = parseFloat(stock[index].t200AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }
+    if(stock[index].t200AvgMax !== "")
+    {
+        dataVal = document.querySelector("#stock-200avg .max");
+        dataVal.textContent = parseFloat(stock[index].t200AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    }    
     checkSymbol = verifyInvestmentItem( stock[index].t200Avg, stock[index].t200AvgMin, stock[index].t200AvgMax );
     dataVal = document.querySelector("#stock-200avg .alert");
     dataVal.textContent = checkSymbol;
-
 
     dataVal = document.querySelector( "#stock-name" );
     dataVal.textContent = stock[index].name; 
@@ -479,7 +524,6 @@ var showOneStock = function( index ) {
     dataVal.textContent = stock[index].symbol;
     dataVal = document.querySelector( "#stock-exchange" );
     dataVal.textContent = stock[index].exchange;
-
 }
 
 
@@ -744,9 +788,41 @@ function updateStockTable()
     alertHeaderEl.textContent = "Alert";
     headerRowEl.appendChild(alertHeaderEl);
     generalStockTableEl.appendChild(headerRowEl);
+    
+    // Clear select menu
+    var selectMenuEl = document.querySelector("#select-stock-list");
+    selectMenuEl.innerHTML = "";
+
+    // Add default select item
+    var defaultSelectEl = document.createElement("option");
+    defaultSelectEl.value = "";
+    defaultSelectEl.text = "Watched Stocks";
+    defaultSelectEl.setAttribute("selected", true);
+    defaultSelectEl.setAttribute("hidden", true);
+    defaultSelectEl.setAttribute("disabled", true);
+
+    selectMenuEl.appendChild(defaultSelectEl);
+
+    // Add item for when no stocks are present.
+    if(stock.length === 0)
+    {
+        var selectItemEl = document.createElement("option");
+        selectItemEl.value = "";
+        selectItemEl.text = "No stocks found.";
+        selectItemEl.setAttribute("disabled", true);
+
+        selectMenuEl.appendChild(selectItemEl);
+    }
+
+    // Hide stock info
+    var stockInfoEl = document.querySelector("#select-stock");
+    if(!stockInfoEl.classList.contains("hidden"))
+    {
+        stockInfoEl.classList.add("hidden");
+    }
 
     // Add data for each stock.
-    stock.forEach(function(value)
+    stock.forEach(function(value, index)
     {
         var dataRowEl = document.createElement("tr");
         var nameEl = document.createElement("td");
@@ -763,15 +839,12 @@ function updateStockTable()
         
         generalStockTableEl.appendChild(dataRowEl);
 
-        // Add dropdown menu items for item page.
-        var menuItemEl = $("<a>").addClass("dropdown-item").text(value.name).attr("index", index);
-        console.log(menuItemEl);
-        menuItemEl.click(function(e)
-        {
-            e.stopPropagation();
-            console.log(this);
-        });
-        $("#dropdown-stock-list").append(menuItemEl);
+        // Add option to select menu.
+        var selectItemEl = document.createElement("option");
+        selectItemEl.value = index;
+        selectItemEl.text = value.name;
+
+        selectMenuEl.appendChild(selectItemEl);
     });
 
     if(stock.length < 5)
@@ -920,13 +993,12 @@ function closeStockEdit()
     stockModalEl.removeClass("is-active");
 }
 
-// Stock dropdown
-var stockDropdownBtnEl = $("#stock-dropdown-btn");
-var stockDropdownEl = $("#stock-dropdown");
-stockDropdownBtnEl.click(function()
+function updateMainStock()
 {
-    stockDropdownEl.toggleClass("is-active");
-});
+    // Query select menu
+    var selectStockEl = document.querySelector("#select-stock-list");
+    showOneStock(selectStockEl.value);
+}
 
 // Change tabs event listener
 tabListEl.addEventListener("click", function(event)

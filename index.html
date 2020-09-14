@@ -150,28 +150,14 @@
         <!-- Selected Stock Section -->
         <div class="has-text-centered my-2">
             <h2 class="title is-size-3">Select Stock</h2>
-            <!-- Dropdown Menu -->
-            <div class="dropdown mb-4" id="stock-dropdown">
-                <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" id="stock-dropdown-btn">
-                        <span>Watched Stocks</span>
-                        <span class="icon is-small">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </div>
-                <div class="dropdown-menu" role="menu">
-                    <!-- Dropdown Menu items-->
-                    <div class="dropdown-content" id="dropdown-stock-list">
-                        <a class="dropdown-item">1</a>
-                        <a class="dropdown-item">2</a>
-                        <a class="dropdown-item">3</a>
-                        <a class="dropdown-item">4</a>
-                        <a class="dropdown-item">5</a>
-                    </div>
-                </div>
+            <!-- Select Menu for Stocks -->
+            <div class="select">
+                <select id="select-stock-list" onchange="updateMainStock()">
+                  <option value="" selected disabled hidden>Watched Stocks</option>
+                  <option value="" disabled>No Stocks Found</option>
+                </select>
             </div>
-            <div id="select-stock">
+            <div id="select-stock" class="hidden">
                 <!-- Stock General information -->
                 <div id="stock-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
                     <p>Name: <span id="stock-name"></span></p>
