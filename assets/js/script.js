@@ -46,6 +46,7 @@ var getStockParameters = function (stockSymbol)
         name : "",
         symbol : "",
         exchange : "",
+        price: "",
         eps : "",
         epsMin : "",
         epsMax : "",
@@ -90,11 +91,6 @@ var getStockParameters = function (stockSymbol)
         stockValues.f50Avg   = response["50DayMovingAverage"];
         stockValues.t200Avg  = response["200DayMovingAverage"];
 
-        stock.push(stockValues);
-
-        // Update the HTML page with these values
-        showOneStock(stock.length - 1);
-
         return true;
     }).then(function () 
     {
@@ -124,9 +120,6 @@ var getStockParameters = function (stockSymbol)
             // Update the HTML page with these values
             showEquityIndexes( index );
 
-            updateStockTable();
-            saveInvestments();
-
             return;
         }).then(function() 
         {
@@ -151,9 +144,18 @@ var getStockParameters = function (stockSymbol)
                 stockValues.price = response.c;
         
                 // Update the HTML page with this value
-                dataVal = document.querySelector("#stock-price .current");
-                dataVal.textContent = response.c;
+                // dataVal = document.querySelector("#stock-price .current");
+                // dataVal.textContent = response.c;
+
+                stock.push(stockValues);
                 
+
+                // Update the HTML page with these values
+                showOneStock(stock.length - 1);
+                
+                updateStockTable();
+                saveInvestments();
+
                 return true;
             });
         });
