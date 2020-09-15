@@ -625,7 +625,7 @@ var saveInvestments = function() {
     localStorage.setItem( "investmentCryptos", JSON.stringify( cryptos ) );
 
     // Save the array of market index values
-    localStorage.setItem( "investmentIndexes", JSON.stringify( indexes ) );
+    //localStorage.setItem( "investmentIndexes", JSON.stringify( indexes ) );
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -648,13 +648,13 @@ var retrieveInvestments = function() {
         cryptos = cryptosRead;
     }
 
-    // Retrieve the array of market indexes
-    var indexesRead = [];
-    indexesRead     = JSON.parse( localStorage.getItem( "investmentIndexes" ) );
+    // // Retrieve the array of market indexes
+    // var indexesRead = [];
+    // indexesRead     = JSON.parse( localStorage.getItem( "investmentIndexes" ) );
 
-    if( indexesRead != null ) {
-        indexes = indexesRead;
-    }
+    // if( indexesRead != null ) {
+    //     indexes = indexesRead;
+    // }
 }
 
 
