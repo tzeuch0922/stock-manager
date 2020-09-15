@@ -770,10 +770,10 @@ function searchStock()
     var stockVal = document.querySelector("#stock-search").value.toUpperCase();
 
     // Make sure the entered ticker is not a duplicate of one already defined.
-    var duplicate = checkForDuplicateStocks( stockVal );
-    if( duplicate ) {
-        return;
-    }
+    //var duplicate = checkForDuplicateStocks( stockVal );
+    // if( duplicate ) {
+    //     return;
+    // }
     
     // Search for stock data
     getStockParameters(stockVal);
