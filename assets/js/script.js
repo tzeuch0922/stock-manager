@@ -645,11 +645,7 @@ var saveInvestments = function() {
     localStorage.setItem( "investmentCryptos", JSON.stringify( cryptos ) );
 
     // Save the array of market index values
-<<<<<<< HEAD
-    //localStorage.setItem( "investmentIndexes", JSON.stringify( indexes ) );
-=======
     // localStorage.setItem( "investmentIndexes", JSON.stringify( indexes ) );
->>>>>>> f700ef762c80c99727e10fc5380d1c4a4960314f
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -735,6 +731,12 @@ function searchStock()
     // Take value from searchbar textcontent
     var stockVal = document.querySelector("#stock-search").value.toUpperCase();
 
+    // Make sure the entered ticker is not a duplicate of one already defined.
+    var duplicate = checkForDuplicateStocks( stockVal );
+    if( duplicate ) {
+        return;
+    }
+    
     // Search for stock data
     getStockParameters(stockVal);
 
@@ -906,6 +908,8 @@ function updateStockTable()
 
         generalStockTableEl.appendChild(searchRowEl);
     }
+
+    saveInvestments();
 }
 function updateCryptoTable()
 {
@@ -992,6 +996,8 @@ function updateCryptoTable()
 
         generalCryptoTableEl.appendChild(searchRowEl);
     }
+
+    saveInvestments();
 }
 
 var editStockButton = $("#stock-edit-btn");
@@ -1003,7 +1009,7 @@ closeStockButtonEl.click(closeStockEdit);
 var stockXButtonEl = $("#stock-close");
 stockXButtonEl.click(closeStockEdit);
 
-// Edit stock data
+// Edit stock data ranges
 function editStockAlerts()
 {
     var stockModalEl = $("#stock-edit-modal");
@@ -1029,7 +1035,7 @@ function removeStock()
 var stockConfirmEl = document.querySelector("#stock-confirm-btn");
 stockConfirmEl.addEventListener("click", confirmStockEdits);
 
-// Apply changes from stock edit modal
+// Apply changes from stock edit ranges modal
 function confirmStockEdits()
 {
     // Get list index of active stock element
@@ -1119,9 +1125,10 @@ function confirmStockEdits()
 
     // Close modal
     closeStockEdit();
+    saveInvestments();
 }
 
-// Close edit stock modal
+// Close edit stock ranges modal
 function closeStockEdit()
 {
     var stockModalEl = $("#stock-edit-modal");
@@ -1183,3 +1190,6 @@ var updateAll = setInterval( function() {
     });
 
 }, (1000 * 60 * 10) );   // 1000 milliseconds/second * 60 seconds/minute * 10 minutes.
+
+
+retrieveInvestments();
