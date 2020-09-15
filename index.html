@@ -121,9 +121,9 @@
     <section id="stockpage" class="hidden">
         <!-- Equity Information section -->
         <div class="has-text-centered my-2">
-            <h2 class="title is-size-3">Equity Information</h2>
+            <!-- <h2 class="title is-size-3">Equity Information</h2> -->
             <!-- Major Indexes table -->
-            <table class="table is-bordered is-narrow center has-text-left">
+            <!-- <table class="table is-bordered is-narrow center has-text-left">
                 <tr>
                     <th>Major Index</th>
                     <th>Value</th>
@@ -144,7 +144,7 @@
                     <td>DOW</td> 
                     <td id="dow_raw" class="raw">####.##</td> 
                 </tr>
-            </table>
+            </table> -->
         </div>
 
         <!-- Selected Stock Section -->
@@ -223,8 +223,8 @@
                         <td class="alert"></td>
                     </tr>
                 </table>
-                <button class="button is-success" id="stock-edit-btn">Edit Alarms</button>
-                <button class="button is-danger">Remove</button>
+                <button class="button is-success" id="stock-edit-btn">Edit Ranges</button>
+                <button class="button is-danger" id="stock-remove-btn">Remove</button>
             </div>
         </div>
 
@@ -232,67 +232,67 @@
         <div class="modal" id="stock-edit-modal">
             <div class="modal-background"></div>
             <div class="modal-card is-large">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Edit Stock Alerts</p>
-                <button class="delete" aria-label="close" id="stock-close"></button>
-              </header>
-              <section class="modal-card-body">
-                <p>This will set an alert that will notify you on the general tab and the stock tab, if your stock went above the max value or below the min value.</p>
-                <table class="table">
-                    <tr>
-                        <th>Parameter</th>
-                        <th>Current Value</th>
-                        <th>Min Value</th>
-                        <th>Max Value</th>
-                    </tr>
-                    <tr>
-                        <td>Price</td>
-                        <td><span id="stock-price-modal"></span></td>
-                        <td><input type="text" placeholder="min" class="min"></td>
-                        <td><input type="text" placeholder="max" class="max"></td>
-                    </tr>
-                    <tr>
-                        <td>Target</td>
-                        <td><span id="stock-target-modal"></span></td>
-                        <td><input type="text" placeholder="min" class="min"></td>
-                        <td><input type="text" placeholder="max" class="max"></td>
-                    </tr>
-                    <tr>
-                        <td>Earnings per Share</td>
-                        <td><span id="stock-eps-modal"></span></td>
-                        <td><input type="text" placeholder="min" class="min"></td>
-                        <td><input type="text" placeholder="max" class="max"></td>
-                    </tr>
-                    <tr>
-                        <td>Price-to-Earnings Ratio</td>
-                        <td><span id="stock-per-modal"></span></td>
-                        <td><input type="text" placeholder="min" class="min"></td>
-                        <td><input type="text" placeholder="max" class="max"></td>
-                    </tr>
-                    <tr>
-                        <td>Beta</td>
-                        <td><span id="stock-beta-modal"></span></td>
-                        <td><input type="text" placeholder="min" class="min"></td>
-                        <td><input type="text" placeholder="max" class="max"></td>
-                    </tr>
-                    <tr>
-                        <td>50-day Average</td>
-                        <td><span id="stock-50avg-modal"></span></td>
-                        <td><input type="text" placeholder="min" class="min"></td>
-                        <td><input type="text" placeholder="max" class="max"></td>
-                    </tr>
-                    <tr>
-                        <td>200-day Average</td>
-                        <td><span id="stock-200avg-modal"></span></td>
-                        <td><input type="text" placeholder="min" class="min"></td>
-                        <td><input type="text" placeholder="max" class="max"></td>
-                    </tr>
-                </table>
-              </section>
-              <footer class="modal-card-foot">
-                <button class="button is-success">Confirm</button>
-                <button class="button" id="stock-close-btn">Cancel</button>
-              </footer>
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Stock Alerts</p>
+                    <button class="delete" aria-label="close" id="stock-close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p>This will set an alert that will notify you on the general tab and the stock tab, if your stock went above the max value or below the min value.</p>
+                    <table class="table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th class="has-text-right">Value</th>
+                            <th class="has-text-right">Min Value</th>
+                            <th class="has-text-right">Max Value</th>
+                        </tr>
+                        <tr id="stock-price-input">
+                            <td>Price</td>
+                            <td class="has-text-right"><span id="stock-price-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-target-input">
+                            <td>Target</td>
+                            <td class="has-text-right"><span id="stock-target-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-eps-input">
+                            <td>Earnings per Share</td>
+                            <td class="has-text-right"><span id="stock-eps-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-per-input">
+                            <td>Price-to-Earnings Ratio</td>
+                            <td class="has-text-right"><span id="stock-per-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-beta-input">
+                            <td>Beta</td>
+                            <td class="has-text-right"><span id="stock-beta-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-50avg-input">
+                            <td>50-day Average</td>
+                            <td class="has-text-right"><span id="stock-50avg-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-200avg-input">
+                            <td>200-day Average</td>
+                            <td class="has-text-right"><span id="stock-200avg-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                    </table>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success" id="stock-confirm-btn">Confirm</button>
+                    <button class="button" id="stock-close-btn">Cancel</button>
+                </footer>
             </div>
         </div>
     </section>

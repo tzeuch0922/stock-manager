@@ -4,7 +4,7 @@
 
 var stock = [];
 var cryptos = [];
-var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
+//var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
 
 var stockSymbol;
 var index;               // the index into the 'stock' array
@@ -25,8 +25,8 @@ modalCloseBtnEl.addEventListener("click", closeModal);
 var urlKeyStockAlphaAdvantage    = "&apikey=XMDSSBDY4JYPVPPD";
 var apiStockParamsUrl       = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=";
 
-var urlKeyFinancialModeling = "a107f24e0f6aaac5f180293fa869cd10";
-var apiMarketIndexUrl       = "https://financialmodelingprep.com/api/v3/quotes/index?apikey=";
+// var urlKeyFinancialModeling = "a107f24e0f6aaac5f180293fa869cd10";
+// var apiMarketIndexUrl       = "https://financialmodelingprep.com/api/v3/quotes/index?apikey=";
 
 var urlKeyFinnhub           = "&token=btdd1gf48v6t4umjmegg";
 var apiFinnhubStockPriceUrl = "https://finnhub.io/api/v1/quote?symbol=";
@@ -94,72 +94,41 @@ var getStockParameters = function (stockSymbol)
         stockValues.t200Avg  = response["200DayMovingAverage"];
 
         return true;
-    }).then(function () 
+    }).then(function() 
     {
-        
-        // Construct the finished URL to obtain the market index values (once only)
-        finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
+        // Construct the finished URL to obtain the current stock price.
+        var finalUrl = apiFinnhubStockPriceUrl + stockSymbol + urlKeyFinnhub;
 
-        // Make the request for the stock's data
-        fetch(finalUrl).then(function (response) 
+        // Make the request for the stock's price
+        fetch(finalUrl).then(function(response) 
         {
             return response.json();
-        }).then(function (response) 
+        }).then(function(response) 
         {
             // Verify that data was acquired
-            if (response.cod == 404) 
+            if (!response.c)
             {
-                returnValue = -1;
-                return (returnValue);
+                console.log("error");
+                return false;
             }
+    
+            // Put the stock's price data in the return variable.
+            stockValues.price = response.c;
+    
+            // Update the HTML page with this value
+            // dataVal = document.querySelector("#stock-price .current");
+            // dataVal.textContent = response.c;
 
-            // Get the index values and put them in the return variables.
-            indexes[0] = response[7].price;     // S&P 500
-            indexes[1] = response[19].price;    // NASDAQ
-            indexes[2] = response[12].price;    // NYSE
-            indexes[3] = response[31].price;    // DOW
+            stock.push(stockValues);
+            
 
             // Update the HTML page with these values
-            showEquityIndexes( index );
+            // showOneStock(stock.length - 1);
 
-            return;
-        }).then(function() 
-        {
-            // Construct the finished URL to obtain the current stock price.
-            var finalUrl = apiFinnhubStockPriceUrl + stockSymbol + urlKeyFinnhub;
+            updateStockTable();
+            saveInvestments();
 
-            // Make the request for the stock's price
-            fetch(finalUrl).then(function(response) 
-            {
-                return response.json();
-            }).then(function(response) 
-            {
-                console.log(response);
-                // Verify that data was acquired
-                if (!response.c)
-                {
-                    console.log("error");
-                    return false;
-                }
-        
-                // Put the stock's price data in the return variable.
-                stockValues.price = response.c;
-        
-                // Update the HTML page with this value
-                // dataVal = document.querySelector("#stock-price .current");
-                // dataVal.textContent = response.c;
-
-                stock.push(stockValues);
-                
-
-                // Update the HTML page with these values
-                // showOneStock(stock.length - 1);
-
-                updateStockTable();
-                saveInvestments();
-
-                return true;
-            });
+            return true;
         });
     }).catch(function (error) 
     {
@@ -170,6 +139,38 @@ var getStockParameters = function (stockSymbol)
         return;
     });
 }
+    // .then(function () 
+    // {
+        
+    //     // Construct the finished URL to obtain the market index values (once only)
+    //     finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
+
+    //     // Make the request for the stock's data
+    //     fetch(finalUrl).then(function (response) 
+    //     {
+    //         return response.json();
+    //     }).then(function (response) 
+    //     {
+    //         // Verify that data was acquired
+    //         if (response.cod == 404) 
+    //         {
+    //             returnValue = -1;
+    //             return (returnValue);
+    //         }
+
+    //         //console.log(response);
+    //         // Get the index values and put them in the return variables.
+    //         // indexes[0] = response[7].price;     // S&P 500
+    //         // indexes[1] = response[19].price;    // NASDAQ
+    //         // indexes[2] = response[12].price;    // NYSE
+    //         // indexes[3] = response[31].price;    // DOW
+
+    //         // // Update the HTML page with these values
+    //         // showEquityIndexes( index );
+
+    //         return;
+    //     })
+        
 
 ///////////////////////////////////////////////////////////////////////////
 // Function to update the  data for a specified stock. This assumes the 
@@ -371,7 +372,6 @@ var updateCryptoParameters = function (index)
         {
             throw "not found";
         }
-        console.log("different error");
 
         // Put the currency's  data in the return variables.
         cryptos[index].price     = response[0].price;
@@ -404,9 +404,10 @@ var showOneStock = function( index ) {
         stockInfoEl.classList.remove("hidden");
     }
 
-    // Display the data from the 'object'
-    
+    // Display the price data of the stock
     var dataVal = document.querySelector("#stock-price .current");
+    dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-price-modal");
     dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     if(stock[index].priceMin !== "")
     {
@@ -422,7 +423,10 @@ var showOneStock = function( index ) {
     dataVal = document.querySelector("#stock-price .alert");
     dataVal.textContent = checkSymbol;
 
+    // display the eps data of the stock
     dataVal = document.querySelector("#stock-eps .current");
+    dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-eps-modal");
     dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     if(stock[index].epsMin !== "")
     {    
@@ -438,7 +442,10 @@ var showOneStock = function( index ) {
     dataVal = document.querySelector("#stock-eps .alert");
     dataVal.textContent = checkSymbol;
 
+    // display the beta data of the stock
     dataVal = document.querySelector("#stock-beta .current");
+    dataVal.textContent = stock[index].beta;
+    dataVal = document.querySelector("#stock-beta-modal");
     dataVal.textContent = stock[index].beta;
     if(stock[index].betaMin !== "")
     {
@@ -454,7 +461,10 @@ var showOneStock = function( index ) {
     dataVal = document.querySelector("#stock-beta .alert");
     dataVal.textContent = checkSymbol;
 
+    // display the per data of the stock
     dataVal = document.querySelector("#stock-per .current");
+    dataVal.textContent = stock[index].pe;
+    dataVal = document.querySelector("#stock-per-modal");
     dataVal.textContent = stock[index].pe;
     if(stock[index].peMin !== "")
     {
@@ -470,7 +480,10 @@ var showOneStock = function( index ) {
     dataVal = document.querySelector("#stock-per .alert");
     dataVal.textContent = checkSymbol;
 
+    // display the target data of the stock
     dataVal = document.querySelector("#stock-target .current");
+    dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-target-modal");
     dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     if(stock[index].targetMin !== "")
     {    
@@ -486,7 +499,10 @@ var showOneStock = function( index ) {
     dataVal = document.querySelector("#stock-target .alert");
     dataVal.textContent = checkSymbol;
 
+    // display the 50day avg data of the stock
     dataVal = document.querySelector("#stock-50avg .current");
+    dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-50avg-modal");
     dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     if(stock[index].f50AvgMin !== "")
     {
@@ -502,7 +518,10 @@ var showOneStock = function( index ) {
     dataVal = document.querySelector("#stock-50avg .alert");
     dataVal.textContent = checkSymbol;
 
+    // display the 200 day avg data of the stock
     dataVal = document.querySelector("#stock-200avg .current");
+    dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-200avg-modal");
     dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     if(stock[index].t200AvgMin !== "")
     {
@@ -518,6 +537,7 @@ var showOneStock = function( index ) {
     dataVal = document.querySelector("#stock-200avg .alert");
     dataVal.textContent = checkSymbol;
 
+    // display the basic info of the stock
     dataVal = document.querySelector( "#stock-name" );
     dataVal.textContent = stock[index].name; 
     dataVal = document.querySelector( "#stock-symbol" );
@@ -625,7 +645,11 @@ var saveInvestments = function() {
     localStorage.setItem( "investmentCryptos", JSON.stringify( cryptos ) );
 
     // Save the array of market index values
+<<<<<<< HEAD
     //localStorage.setItem( "investmentIndexes", JSON.stringify( indexes ) );
+=======
+    // localStorage.setItem( "investmentIndexes", JSON.stringify( indexes ) );
+>>>>>>> f700ef762c80c99727e10fc5380d1c4a4960314f
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -709,7 +733,7 @@ searchCryptoEl.addEventListener("click", searchCrypto);
 function searchStock()
 {
     // Take value from searchbar textcontent
-    var stockVal = document.querySelector("#stock-search").value;
+    var stockVal = document.querySelector("#stock-search").value.toUpperCase();
 
     // Search for stock data
     getStockParameters(stockVal);
@@ -720,7 +744,7 @@ function searchStock()
 function searchCrypto()
 {
     // Take value from searchbar text content
-    var cryptoVal = document.querySelector("#crypto-search").value;
+    var cryptoVal = document.querySelector("#crypto-search").value.toUpperCase();
 
     // Search for crypto data
     getCryptoParameters(cryptoVal);
@@ -986,6 +1010,117 @@ function editStockAlerts()
     stockModalEl.addClass("is-active");
 }
 
+var stockRemoveEl = document.querySelector("#stock-remove-btn");
+stockRemoveEl.addEventListener("click", removeStock);
+
+// Remove current stock
+function removeStock()
+{
+    // Get list index of active stock element
+    var index = document.querySelector("#select-stock-list").value;
+
+    // Remove element from list.
+    stock.splice(index, 1);
+
+    // Update table and hide it
+    updateStockTable();
+}
+
+var stockConfirmEl = document.querySelector("#stock-confirm-btn");
+stockConfirmEl.addEventListener("click", confirmStockEdits);
+
+// Apply changes from stock edit modal
+function confirmStockEdits()
+{
+    // Get list index of active stock element
+    var index = document.querySelector("#select-stock-list").value;
+
+    // Update pricemin and pricemax
+    var stockEl = document.querySelector("#stock-price-input");
+    console.log(stockEl);
+    console.log(stockEl.parentElement.parentElement);
+    if(stockEl.parentElement.querySelector(".min").value)
+    {
+        stock[index].priceMin = stockEl.querySelector(".min").value;
+    }
+    if(stockEl.querySelector(".max").value)
+    {
+        stock[index].priceMax = stockEl.querySelector(".max").value;
+    }
+
+    // Update targetmin and targetmax
+    stockEl = document.querySelector("#stock-target-input");
+    if(stockEl.querySelector(".min").value)
+    {
+        stock[index].targetMin = stockEl.querySelector(".min").value;
+    }
+    if(stockEl.querySelector(".max").value)
+    {
+        stock[index].targetMax = stockEl.querySelector(".max").value;
+    }
+
+    // Update epsmin and epsmax
+    stockEl = document.querySelector("#stock-eps-input");
+    if(stockEl.querySelector(".min").value)
+    {
+        stock[index].epsMin = stockEl.querySelector(".min").value;
+    }
+    if(stockEl.querySelector(".max").value)
+    {
+        stock[index].epsMax = stockEl.querySelector(".max").value;
+    }
+
+    // Update permin and permax
+    stockEl = document.querySelector("#stock-per-input");
+    if(stockEl.querySelector(".min").value)
+    {
+        stock[index].peMin = stockEl.querySelector(".min").value;
+    }
+    if(stockEl.querySelector(".max").value)
+    {
+        stock[index].peMax = stockEl.querySelector(".max").value;
+    }
+
+    // Update betamin and betamax
+    stockEl = document.querySelector("#stock-beta-input");
+    if(stockEl.querySelector(".min").value)
+    {
+        stock[index].betaMin = stockEl.querySelector(".min").value;
+    }
+    if(stockEl.querySelector(".max").value)
+    {
+        stock[index].betaMax = stockEl.querySelector(".max").value;
+    }
+
+    // Update 50avgmin and 50avgmax
+    stockEl = document.querySelector("#stock-50avg-input");
+    if(stockEl.querySelector(".min").value)
+    {
+        stock[index].f50AvgMin = stockEl.querySelector(".min").value;
+    }
+    if(stockEl.querySelector(".max").value)
+    {
+        stock[index].f50AvgMax = stockEl.querySelector(".max").value;
+    }
+    
+    // Update 200avgmin and 200avgmax
+    stockEl = document.querySelector("#stock-200avg-input");
+    if(stockEl.querySelector(".min").value)
+    {
+        stock[index].t200AvgMin = stockEl.querySelector(".min").value;
+    }
+    if(stockEl.querySelector(".max").value)
+    {
+        stock[index].t200AvgMax = stockEl.querySelector(".max").value;
+    }
+
+    // Update stock table with values
+    showOneStock(index);
+
+    // Close modal
+    closeStockEdit();
+}
+
 // Close edit stock modal
 function closeStockEdit()
 {
@@ -993,6 +1128,7 @@ function closeStockEdit()
     stockModalEl.removeClass("is-active");
 }
 
+// function to be called when select menu is changed
 function updateMainStock()
 {
     // Query select menu
