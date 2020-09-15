@@ -564,6 +564,8 @@ var showOneCrypto = function( index ) {
     // Display the price of the crypto
     dataVal = document.querySelector("#crypto-price .current");
     dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
+    dataVal = document.querySelector("#crypto-price-modal");
+    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     if(cryptos[index].priceMin !== "")
     {
         dataVal = document.querySelector("#crypto-price .min");
@@ -580,6 +582,8 @@ var showOneCrypto = function( index ) {
 
     // display the volume of the crypto
     dataVal = document.querySelector("#crypto-volume .current");
+    dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
+    dataVal = document.querySelector("#crypto-volume-modal");
     dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
     if(cryptos[index].volumeMin !== "")
     {    
@@ -598,6 +602,8 @@ var showOneCrypto = function( index ) {
     // display the supply of the crypto
     dataVal = document.querySelector("#crypto-supply .current");
     dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
+    dataVal = document.querySelector("#crypto-supply-modal");
+    dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
     if(cryptos[index].supplyMin !== "")
     {    
         dataVal = document.querySelector("#crypto-supply .min");
@@ -614,6 +620,8 @@ var showOneCrypto = function( index ) {
 
     // display market cap of crypto
     dataVal = document.querySelector("#crypto-marcap .current");
+    dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
+    dataVal = document.querySelector("#crypto-marcap-modal");
     dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
     if(cryptos[index].marcapMin !== "")
     {    
