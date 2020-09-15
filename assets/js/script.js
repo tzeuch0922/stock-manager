@@ -6,7 +6,7 @@ var stock = [];
 var cryptos = [];
 //var indexes = [4];       // Indexes are: S&P, NASDAQ, NYSE, DOW
 
-var stockSymbol;
+//var stockSymbol;
 var index;               // the index into the 'stock' array
 var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
 var dataVal;             // generic data value.
