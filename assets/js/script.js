@@ -757,13 +757,6 @@ var getCurrentDay = function() {
     localStorage.setItem( "savedDate", today );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// Function to play the 'alert' sound for the user, indicating a parameter is out of range.
-// var playAlert = function() {
-//     var alertSound = new Audio( "./assets/sounds/alarm07.wav" );
-//     alertSound.play();
-
-// }
 
 // Temporary search buttons and event listeners, will delete later.
 var searchStockEl = document.querySelector("#stock-search-btn");
@@ -771,6 +764,7 @@ var searchCryptoEl = document.querySelector("#crypto-search-btn");
 searchStockEl.addEventListener("click", searchStock);
 searchCryptoEl.addEventListener("click", searchCrypto);
 
+////////////////////////////////////////////////////////////////////////////////////////////////
 // Search functions
 function searchStock()
 {
@@ -778,10 +772,11 @@ function searchStock()
     var stockVal = document.querySelector("#stock-search").value.toUpperCase();
 
     // Make sure the entered ticker is not a duplicate of one already defined.
-    //var duplicate = checkForDuplicateStocks( stockVal );
-    // if( duplicate ) {
-    //     return;
-    // }
+    var duplicate = checkForDuplicateStocks( stockVal );
+
+    if( duplicate ) {
+        return;
+    }
     
     // Search for stock data
     getStockParameters(stockVal);
@@ -789,17 +784,61 @@ function searchStock()
     // Save function
     saveInvestments();
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to search for a duplicate stock ticker
+checkForDuplicateStocks = function( stockVal ) {
+
+    // Scan the stock array for 'this' symbol.  Return 'true' if a match is found.
+    var duplicate = false;
+
+    for( var i = 0; i < stock.length; i++ ) {
+        if( stock[i].symbol === stockVal.toUpperCase() ) {
+            // Clear stock search bar
+            document.querySelector("#stock-search").value = "";
+            return true;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 function searchCrypto()
 {
     // Take value from searchbar text content
     var cryptoVal = document.querySelector("#crypto-search").value.toUpperCase();
 
+    // Make sure the entered ticker is not a duplicate of one already defined.
+    var duplicate = checkForDuplicateCryptos( cryptoVal );
+
+    if( duplicate ) {
+        return;
+    }
+    
     // Search for crypto data
     getCryptoParameters(cryptoVal);
 
     // Save function
     saveInvestments();
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to search for a duplicate crypto ticker
+checkForDuplicateCryptos = function( cryptoVal ) {
+
+    // Scan the crypto array for 'this' symbol.  Return 'true' if a match is found.
+    var duplicate = false;
+
+    for( var i = 0; i < cryptos.length; i++ ) {
+        if( cryptos[i].symbol === cryptoVal.toUpperCase() ) {
+            // Clear stock search bar
+            document.querySelector("#crypto-search").value = "";
+            return true;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 function invalidStock()
 {
     // Clear stock search bar
@@ -811,6 +850,8 @@ function invalidStock()
     // Set modal to active
     errorModalEl.classList.add("is-active");
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 function invalidCrypto()
 {
     // Clear crypto search bar
@@ -822,6 +863,8 @@ function invalidCrypto()
     // Set modal to active
     errorModalEl.classList.add("is-active");
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 function closeModal()
 {
     // Query for error modal.
@@ -830,6 +873,8 @@ function closeModal()
     // Remove active from modal
     errorModalEl.classList.remove("is-active");
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
 // Update functions
 function updateStockTable()
 {
@@ -957,6 +1002,8 @@ function updateStockTable()
 
     saveInvestments();
 }
+
+/////////////////////////////////////////////////////////////////////////////////
 function updateCryptoTable()
 {
     // Get general crypto table element.
@@ -1045,6 +1092,7 @@ function updateCryptoTable()
 
         selectMenuEl.appendChild(selectItemEl);
     });
+
     // Add search bar on crypto table on general page
     if(cryptos.length < 5)
     {
@@ -1301,8 +1349,10 @@ function confirmCryptoEdits()
     // Update stock table with values
     showOneCrypto(index);
 
+
     // Close modal
     closeCryptoEdit();
+    saveInvestments();
 }
 
 // Close edit stock modal
