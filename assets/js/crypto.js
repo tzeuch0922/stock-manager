@@ -455,44 +455,44 @@ function confirmCryptoEdits()
 
     // Update pricemin and pricemax
     var cryptoEl = document.querySelector("#crypto-price-input");
-    if(cryptoEl.parentElement.querySelector(".min").value)
+    if(cryptoEl.querySelector(".min").value  && !isNaN(parseFloat(cryptoEl.querySelector(".min").value)))
     {
         cryptos[index].priceMin = cryptoEl.querySelector(".min").value;
     }
-    if(cryptoEl.querySelector(".max").value)
+    if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].priceMax = cryptoEl.querySelector(".max").value;
     }
 
     // Update volumemin and volumemax
     cryptoEl = document.querySelector("#crypto-volume-input");
-    if(cryptoEl.querySelector(".min").value)
+    if(cryptoEl.querySelector(".min").value  && !isNaN(parseFloat(cryptoEl.querySelector(".min").value)))
     {
         cryptos[index].volumeMin = cryptoEl.querySelector(".min").value;
     }
-    if(cryptoEl.querySelector(".max").value)
+    if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].volumeMax = cryptoEl.querySelector(".max").value;
     }
 
     // Update supplymin and supplymax
     cryptoEl = document.querySelector("#crypto-supply-input");
-    if(cryptoEl.querySelector(".min").value)
+    if(cryptoEl.querySelector(".min").value  && !isNaN(parseFloat(cryptoEl.querySelector(".min").value)))
     {
         cryptos[index].supplyMin = cryptoEl.querySelector(".min").value;
     }
-    if(cryptoEl.querySelector(".max").value)
+    if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].supplyMax = cryptoEl.querySelector(".max").value;
     }
 
     // Update marcapmin and marcapmax
     cryptoEl = document.querySelector("#crypto-marcap-input");
-    if(cryptoEl.querySelector(".min").value)
+    if(cryptoEl.querySelector(".min").value  && !isNaN(parseFloat(cryptoEl.querySelector(".min").value)))
     {
         cryptos[index].marcapMin = cryptoEl.querySelector(".min").value;
     }
-    if(cryptoEl.querySelector(".max").value)
+    if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].marcapMax = cryptoEl.querySelector(".max").value;
     }

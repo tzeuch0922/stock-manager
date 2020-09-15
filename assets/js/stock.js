@@ -608,77 +608,77 @@ function confirmStockEdits()
 
     // Update pricemin and pricemax
     var stockEl = document.querySelector("#stock-price-input");
-    if(stockEl.parentElement.querySelector(".min").value)
+    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
     {
         stock[index].priceMin = stockEl.querySelector(".min").value;
     }
-    if(stockEl.querySelector(".max").value)
+    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].priceMax = stockEl.querySelector(".max").value;
     }
 
     // Update targetmin and targetmax
     stockEl = document.querySelector("#stock-target-input");
-    if(stockEl.querySelector(".min").value)
+    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
     {
         stock[index].targetMin = stockEl.querySelector(".min").value;
     }
-    if(stockEl.querySelector(".max").value)
+    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].targetMax = stockEl.querySelector(".max").value;
     }
 
     // Update epsmin and epsmax
     stockEl = document.querySelector("#stock-eps-input");
-    if(stockEl.querySelector(".min").value)
+    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
     {
         stock[index].epsMin = stockEl.querySelector(".min").value;
     }
-    if(stockEl.querySelector(".max").value)
+    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].epsMax = stockEl.querySelector(".max").value;
     }
 
     // Update permin and permax
     stockEl = document.querySelector("#stock-per-input");
-    if(stockEl.querySelector(".min").value)
+    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
     {
         stock[index].peMin = stockEl.querySelector(".min").value;
     }
-    if(stockEl.querySelector(".max").value)
+    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].peMax = stockEl.querySelector(".max").value;
     }
 
     // Update betamin and betamax
     stockEl = document.querySelector("#stock-beta-input");
-    if(stockEl.querySelector(".min").value)
+    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
     {
         stock[index].betaMin = stockEl.querySelector(".min").value;
     }
-    if(stockEl.querySelector(".max").value)
+    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].betaMax = stockEl.querySelector(".max").value;
     }
 
     // Update 50avgmin and 50avgmax
     stockEl = document.querySelector("#stock-50avg-input");
-    if(stockEl.querySelector(".min").value)
+    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
     {
         stock[index].f50AvgMin = stockEl.querySelector(".min").value;
     }
-    if(stockEl.querySelector(".max").value)
+    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].f50AvgMax = stockEl.querySelector(".max").value;
     }
     
     // Update 200avgmin and 200avgmax
     stockEl = document.querySelector("#stock-200avg-input");
-    if(stockEl.querySelector(".min").value)
+    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
     {
         stock[index].t200AvgMin = stockEl.querySelector(".min").value;
     }
-    if(stockEl.querySelector(".max").value)
+    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].t200AvgMax = stockEl.querySelector(".max").value;
     }
