@@ -311,6 +311,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
     // Make the request for the currency's data
     fetch(finalUrl).then(function (response) 
     {
+        console.log(response);
         return response.json();
     }).then(function (response) 
     {
@@ -319,7 +320,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
         //     returnValue = -1;
         //     return (returnValue);
         // }
-        console.log(response[0].name);
+        console.log(response);
         if(!response[0].name)
         {
             throw "not found";
@@ -338,7 +339,7 @@ var getCryptoParameters = function (cryptoSymbol, index) {
 
         updateCryptoTable();
 
-        showOneCrypto(cryptos.length - 1);
+        // showOneCrypto(cryptos.length - 1);
         saveInvestments();
 
         return;
@@ -364,6 +365,7 @@ var updateCryptoParameters = function (index)
     // Make the request for the currency's data
     fetch(finalUrl).then(function (response) 
     {
+        console.log(response);
         return response.json();
     }).then(function (response) 
     {
@@ -379,7 +381,7 @@ var updateCryptoParameters = function (index)
         cryptos[index].supply    = response[0].max_supply;
         cryptos[index].marcap    = response[0].market_cap;
 
-        showOneCrypto(cryptos.length - 1);
+        // showOneCrypto(cryptos.length - 1);
         saveInvestments();
 
         return;
@@ -551,51 +553,87 @@ var showOneStock = function( index ) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // Function to display the data for one cryptocurrency.
 var showOneCrypto = function( index ) {
-    // Display the data from the 'object'
+
+    // Query and display crypto-info.
+    var cryptoInfoEl = document.querySelector("#select-crypto");
+    if(cryptoInfoEl.classList.contains("hidden"))
+    {
+        cryptoInfoEl.classList.remove("hidden");
+    }
+
+    // Display the price of the crypto
     dataVal = document.querySelector("#crypto-price .current");
- 
-    var displayString = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
-    dataVal.textContent = displayString;
-    dataVal = document.querySelector("#crypto-price .min");
-    dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
-    dataVal = document.querySelector("#crypto-price .max");
-    dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 4, maximumFractionalDigits:4});
+    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
+    if(cryptos[index].priceMin !== "")
+    {
+        dataVal = document.querySelector("#crypto-price .min");
+        dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
+    }
+    if(cryptos[index].priceMax !== "")
+    {
+        dataVal = document.querySelector("#crypto-price .max");
+        dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 4, maximumFractionalDigits:4});
+    }
     checkSymbol = verifyInvestmentItem( cryptos[index].price, cryptos[index].priceMin, cryptos[index].priceMax );
     dataVal = document.querySelector("#crypto-price .alert");
     dataVal.textContent = checkSymbol;
 
-
+    // display the volume of the crypto
     dataVal = document.querySelector("#crypto-volume .current");
     dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
-    dataVal = document.querySelector("#crypto-volume .min");
-    dataVal.textContent = parseFloat(cryptos[index].volumeMin).toLocaleString('en-US');
-    dataVal = document.querySelector("#crypto-volume .max");
-    dataVal.textContent = parseFloat(cryptos[index].volumeMax).toLocaleString('en-US');
+    if(cryptos[index].volumeMin !== "")
+    {    
+        dataVal = document.querySelector("#crypto-volume .min");
+        dataVal.textContent = parseFloat(cryptos[index].volumeMin).toLocaleString('en-US');
+    }    
+    if(cryptos[index].volumeMax !== "")
+    {    
+        dataVal = document.querySelector("#crypto-volume .max");
+        dataVal.textContent = parseFloat(cryptos[index].volumeMax).toLocaleString('en-US');
+    }    
     checkSymbol = verifyInvestmentItem( cryptos[index].volume, cryptos[index].volumeMin, cryptos[index].volumeMax );
     dataVal = document.querySelector("#crypto-volume .alert");
     dataVal.textContent = checkSymbol;
 
-  
+    // display the supply of the crypto
     dataVal = document.querySelector("#crypto-supply .current");
     dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
-    dataVal = document.querySelector("#crypto-supply .min");
-    dataVal.textContent = parseFloat(cryptos[index].supplyMin).toLocaleString('en-US');
-    dataVal = document.querySelector("#crypto-supply .max");
-    dataVal.textContent = parseFloat(cryptos[index].supplyMax).toLocaleString('en-US');  
+    if(cryptos[index].supplyMin !== "")
+    {    
+        dataVal = document.querySelector("#crypto-supply .min");
+        dataVal.textContent = parseFloat(cryptos[index].supplyMin).toLocaleString('en-US');
+    }
+    if(cryptos[index].supplyMax !== "")
+    {    
+        dataVal = document.querySelector("#crypto-supply .max");
+        dataVal.textContent = parseFloat(cryptos[index].supplyMax).toLocaleString('en-US');  
+    }
     checkSymbol = verifyInvestmentItem( cryptos[index].supply, cryptos[index].supplyMin, cryptos[index].supplyMax );
     dataVal = document.querySelector("#crypto-supply .alert");
     dataVal.textContent = checkSymbol;
 
-      
+    // display market cap of crypto
     dataVal = document.querySelector("#crypto-marcap .current");
     dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
-    dataVal = document.querySelector("#crypto-marcap .min");
-    dataVal.textContent = parseFloat(cryptos[index].marcapMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
-    dataVal = document.querySelector("#crypto-marcap .max");
-    dataVal.textContent = parseFloat(cryptos[index].marcapMax).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});  
+    if(cryptos[index].marcapMin !== "")
+    {    
+        dataVal = document.querySelector("#crypto-marcap .min");
+        dataVal.textContent = parseFloat(cryptos[index].marcapMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
+    }    
+    if(cryptos[index].marcapMax !== "")
+    {    
+        dataVal = document.querySelector("#crypto-marcap .max");
+        dataVal.textContent = parseFloat(cryptos[index].marcapMax).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});  
+    }    
     checkSymbol = verifyInvestmentItem( cryptos[index].marcap, cryptos[index].marcapMin, cryptos[index].marcapMax );
     dataVal = document.querySelector("#crypto-marcap .alert");
     dataVal.textContent = checkSymbol;
+
+    // display the basic info of the crypto
+    dataVal = document.querySelector( "#crypto-name" );
+    dataVal.textContent = cryptos[index].name;
+    dataVal = document.querySelector( "#crypto-symbol" );
+    dataVal.textContent = cryptos[index].symbol;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -669,12 +707,12 @@ var retrieveInvestments = function() {
     }
 
     // Retrieve the array of market indexes
-    var indexesRead = [];
-    indexesRead     = JSON.parse( localStorage.getItem( "investmentIndexes" ) );
+    // var indexesRead = [];
+    // indexesRead     = JSON.parse( localStorage.getItem( "investmentIndexes" ) );
 
-    if( indexesRead != null ) {
-        indexes = indexesRead;
-    }
+    // if( indexesRead != null ) {
+    //     indexes = indexesRead;
+    // }
 }
 
 
@@ -932,6 +970,38 @@ function updateCryptoTable()
     alertHeaderEl.textContent = "Alert";
     headerRowEl.appendChild(alertHeaderEl);
     generalCryptoTableEl.appendChild(headerRowEl);
+    
+    // Clear select menu
+    var selectMenuEl = document.querySelector("#select-crypto-list");
+    selectMenuEl.innerHTML = "";
+
+    // Add default select item
+    var defaultSelectEl = document.createElement("option");
+    defaultSelectEl.value = "";
+    defaultSelectEl.text = "Watched Cryptocurrency";
+    defaultSelectEl.setAttribute("selected", true);
+    defaultSelectEl.setAttribute("hidden", true);
+    defaultSelectEl.setAttribute("disabled", true);
+
+    selectMenuEl.appendChild(defaultSelectEl);
+
+    // Add item for when no crypto are present.
+    if(cryptos.length === 0)
+    {
+        var selectItemEl = document.createElement("option");
+        selectItemEl.value = "";
+        selectItemEl.text = "No cryptocurrency found.";
+        selectItemEl.setAttribute("disabled", true);
+
+        selectMenuEl.appendChild(selectItemEl);
+    }
+
+    // Hide crypto info
+    var cryptoInfoEl = document.querySelector("#select-crypto");
+    if(!cryptoInfoEl.classList.contains("hidden"))
+    {
+        cryptoInfoEl.classList.add("hidden");
+    }
 
     // Add data for each crypto.
     cryptos.forEach(function(value, index)
@@ -951,6 +1021,13 @@ function updateCryptoTable()
         dataRowEl.appendChild(alertEl);
         
         generalCryptoTableEl.appendChild(dataRowEl);
+
+        // Add option to select menu.
+        var selectItemEl = document.createElement("option");
+        selectItemEl.value = index;
+        selectItemEl.text = value.name;
+
+        selectMenuEl.appendChild(selectItemEl);
     });
     // Add search bar on crypto table on general page
     if(cryptos.length < 5)
@@ -1020,6 +1097,38 @@ function removeStock()
 
     // Update table and hide it
     updateStockTable();
+}
+
+var editCryptoButton = $("#crypto-edit-btn");
+editCryptoButton.click(editCryptoAlerts);
+
+var closeCryptoButtonEl = $("#crypto-close-btn");
+closeCryptoButtonEl.click(closeCryptoEdit);
+
+var cryptoXButtonEl = $("#crypto-close");
+cryptoXButtonEl.click(closeCryptoEdit);
+
+// Edit stock data
+function editCryptoAlerts()
+{
+    var cryptoModalEl = $("#crypto-edit-modal");
+    cryptoModalEl.addClass("is-active");
+}
+
+var cryptoRemoveEl = document.querySelector("#crypto-remove-btn");
+cryptoRemoveEl.addEventListener("click", removeCrypto);
+
+// Remove current stock
+function removeCrypto()
+{
+    // Get list index of active stock element
+    var index = document.querySelector("#select-crypto-list").value;
+
+    // Remove element from list.
+    cryptos.splice(index, 1);
+
+    // Update table and hide it
+    updateCryptoTable();
 }
 
 var stockConfirmEl = document.querySelector("#stock-confirm-btn");
@@ -1117,11 +1226,78 @@ function confirmStockEdits()
     closeStockEdit();
 }
 
+var cryptoConfirmEl = document.querySelector("#crypto-confirm-btn");
+cryptoConfirmEl.addEventListener("click", confirmCryptoEdits);
+
+// Apply changes from stock edit modal
+function confirmCryptoEdits()
+{
+    // Get list index of active stock element
+    var index = document.querySelector("#select-crypto-list").value;
+
+    // Update pricemin and pricemax
+    var cryptoEl = document.querySelector("#crypto-price-input");
+    if(cryptoEl.parentElement.querySelector(".min").value)
+    {
+        cryptos[index].priceMin = cryptoEl.querySelector(".min").value;
+    }
+    if(cryptoEl.querySelector(".max").value)
+    {
+        cryptos[index].priceMax = cryptoEl.querySelector(".max").value;
+    }
+
+    // Update targetmin and targetmax
+    cryptoEl = document.querySelector("#crypto-volume-input");
+    if(cryptoEl.querySelector(".min").value)
+    {
+        cryptos[index].volumeMin = cryptoEl.querySelector(".min").value;
+    }
+    if(cryptoEl.querySelector(".max").value)
+    {
+        cryptos[index].volumeMax = cryptoEl.querySelector(".max").value;
+    }
+
+    // Update epsmin and epsmax
+    cryptoEl = document.querySelector("#crypto-supply-input");
+    if(cryptoEl.querySelector(".min").value)
+    {
+        cryptos[index].supplyMin = cryptoEl.querySelector(".min").value;
+    }
+    if(cryptoEl.querySelector(".max").value)
+    {
+        cryptos[index].supplyMax = cryptoEl.querySelector(".max").value;
+    }
+
+    // Update permin and permax
+    cryptoEl = document.querySelector("#crypto-marcap-input");
+    if(cryptoEl.querySelector(".min").value)
+    {
+        cryptos[index].marcapMin = cryptoEl.querySelector(".min").value;
+    }
+    if(cryptoEl.querySelector(".max").value)
+    {
+        cryptos[index].marcapMax = cryptoEl.querySelector(".max").value;
+    }
+
+    // Update stock table with values
+    showOneCrypto(index);
+
+    // Close modal
+    closeCryptoEdit();
+}
+
 // Close edit stock modal
 function closeStockEdit()
 {
     var stockModalEl = $("#stock-edit-modal");
     stockModalEl.removeClass("is-active");
+}
+
+// Close edit crypto modal
+function closeCryptoEdit()
+{
+    var cryptoModalEl = document.querySelector("#crypto-edit-modal");
+    cryptoModalEl.classList.remove("is-active");
 }
 
 // function to be called when select menu is changed
@@ -1130,6 +1306,16 @@ function updateMainStock()
     // Query select menu
     var selectStockEl = document.querySelector("#select-stock-list");
     showOneStock(selectStockEl.value);
+}
+
+// function to be called when select menu is changed
+function updateMainCrypto()
+{
+    // Query select menu
+    var selectCryptoEl = document.querySelector("#select-crypto-list");
+    console.log(selectCryptoEl);
+    console.log(selectCryptoEl.value);
+    showOneCrypto(selectCryptoEl.value);
 }
 
 // Change tabs event listener
