@@ -1,9 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////
 // Global Variable Definitions
 
-
 var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
-
 var checkSymbol;         // symbol for the "alert" columns
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +24,6 @@ var updateAll = setInterval( function()
 
 }, (1000 * 60 * 10) );   // 1000 milliseconds/second * 60 seconds/minute * 10 minutes.
 
-// retrieveInvestments();
+retrieveInvestments();
 updateStockTable();
 updateCryptoTable();
