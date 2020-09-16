@@ -134,6 +134,9 @@ var getCryptoParameters = function (cryptoSymbol) {
 // Function to update the data for the crypto at the specified index.
 var updateCryptoParameters = function (index) 
 {
+    // Get the stock symbol from the array.
+    var cryptoSymbol = cryptos[index].symbol;
+
     // Construct the finished URL to obtain the current cryptocurrency data.
     var finalUrl = apiNomicsCryptoPrice + urlKeyNomics + apiNomicsIds + cryptoSymbol + apiNomicsInterval;
     console.log(finalUrl);
