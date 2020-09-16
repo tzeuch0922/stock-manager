@@ -10,9 +10,6 @@ table.center {
 .modal-card-body .modal-input{
     width: 80%;
 }
-/* .modal-card-body .numeric .min, .modal-card-body .numeric .max {
-    width: 100%;
-} */
 .hidden {
     display: none;
 }
