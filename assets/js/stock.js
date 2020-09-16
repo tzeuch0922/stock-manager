@@ -706,11 +706,11 @@ function editStockAlerts()
     document.querySelector("#stock-beta-input .min").value = stock[index].betaMin;
     document.querySelector("#stock-beta-input .max").value = stock[index].betaMax;
     
-    document.querySelector("#stock-50avg-input .min").value = stock[index].f50avgMin;
-    document.querySelector("#stock-50avg-input .max").value = stock[index].f50avgMax;
+    document.querySelector("#stock-50avg-input .min").value = stock[index].f50AvgMin;
+    document.querySelector("#stock-50avg-input .max").value = stock[index].f50AvgMax;
     
-    document.querySelector("#stock-200avg-input .min").value = stock[index].t200avgMin;
-    document.querySelector("#stock-200avg-input .max").value = stock[index].t200avgMax;
+    document.querySelector("#stock-200avg-input .min").value = stock[index].t200AvgMin;
+    document.querySelector("#stock-200avg-input .max").value = stock[index].t200AvgMax;
 
     // Make edit modal visible
     var stockModalEl = document.querySelector("#stock-edit-modal");
