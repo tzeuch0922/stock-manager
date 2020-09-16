@@ -50,11 +50,10 @@ The deployment link to display the application web page is:
 3) Date and time information is acquired and manipulated via 'moment.js'.
 4) Several different public APIs are used to acquire the financial data:
    * AlphaAdvantage.co
-   * FinancialModelingPrep.com
    * Finnhub.io
    * nomics.com
 
 ## Application Screen Shot
 
-![Stockman Image]()
+![Stockman Image](https://github.com/Team-Antman-Project-1/stockman/blob/feature/apis/stockman1.jpg)
 

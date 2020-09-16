@@ -121,9 +121,9 @@
     <section id="stockpage" class="hidden">
         <!-- Equity Information section -->
         <div class="has-text-centered my-2">
-            <h2 class="title is-size-3">Equity Information</h2>
+            <!-- <h2 class="title is-size-3">Equity Information</h2> -->
             <!-- Major Indexes table -->
-            <table class="table is-bordered is-narrow center has-text-left">
+            <!-- <table class="table is-bordered is-narrow center has-text-left">
                 <tr>
                     <th>Major Index</th>
                     <th>Value</th>
@@ -144,98 +144,156 @@
                     <td>DOW</td> 
                     <td id="dow_raw" class="raw">####.##</td> 
                 </tr>
-            </table>
+            </table> -->
         </div>
 
         <!-- Selected Stock Section -->
         <div class="has-text-centered my-2">
             <h2 class="title is-size-3">Select Stock</h2>
-            <!-- Dropdown Menu -->
-            <div class="dropdown mb-4">
-                <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span>Watched Stocks</span>
-                        <span class="icon is-small">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </div>
-                <div class="dropdown-menu" id="stock-dropdown" role="menu">
-                    <!-- Dropdown Menu items-->
-                    <div class="dropdown-content">
-                        <a href="" class="dropdown-item">1</a>
-                        <a href="" class="dropdown-item">2</a>
-                        <a href="" class="dropdown-item">3</a>
-                        <a href="" class="dropdown-item">4</a>
-                        <a href="" class="dropdown-item">5</a>
-                    </div>
-                </div>
+            <!-- Select Menu for Stocks -->
+            <div class="select">
+                <select id="select-stock-list" onchange="updateMainStock()">
+                  <option value="" selected disabled hidden>Watched Stocks</option>
+                  <option value="" disabled>No Stocks Found</option>
+                </select>
             </div>
-            <!-- Stock General information -->
-            <div id="stock-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
-                <p>Name: <span id="stock-name"></span></p>
-                <p>Symbol: <span id="stock-symbol"></span></p>
-                <p>Exchange: <span id="stock-exchange"></span></p>
+            <div id="select-stock" class="hidden">
+                <!-- Stock General information -->
+                <div id="stock-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
+                    <p>Name: <span id="stock-name"></span></p>
+                    <p>Symbol: <span id="stock-symbol"></span></p>
+                    <p>Exchange: <span id="stock-exchange"></span></p>
+                </div>
+                <!-- Stock Table with alerts-->
+                <table class="table is-bordered is-narrow center has-text-left">
+                    <tr>
+                        <th>Parameters</th>
+                        <th>Minimum Value</th>
+                        <th>Current Value</th>
+                        <th>Maximum Value</th>
+                        <th>Alert</th>
+                    </tr>
+                    <tr id="stock-price">
+                        <th>Price</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                    <tr id="stock-target">
+                        <th>Target</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                    <tr id="stock-eps">
+                        <th>Earnings Per Share</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"><i class="fas fa-question-circle"></i></td>
+                    </tr>
+                    <tr id="stock-per">
+                        <th>Price to Earnings Ratio</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"><i class="fas fa-check-circle"></i></td>
+                    </tr>
+                    <tr id="stock-beta">
+                        <th>Beta</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                    <tr id="stock-50avg">
+                        <th>50-day Average</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                    <tr id="stock-200avg">
+                        <th>200-day Average</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                </table>
+                <button class="button is-success" id="stock-edit-btn">Edit Ranges</button>
+                <button class="button is-danger" id="stock-remove-btn">Remove</button>
             </div>
-            <!-- Stock Table with alerts-->
-            <table class="table is-bordered is-narrow center has-text-left">
-                <tr>
-                    <th>Parameters</th>
-                    <th>Minimum Value</th>
-                    <th>Current Value</th>
-                    <th>Maximum Value</th>
-                    <th>Alert</th>
-                </tr>
-                <tr id="stock-price">
-                    <th>Price</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-                <tr id="stock-target">
-                    <th>Target</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-                <tr id="stock-eps">
-                    <th>Earnings Per Share</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"><i class="fas fa-question-circle"></i></td>
-                </tr>
-                <tr id="stock-per">
-                    <th>Price to Earnings Ratio</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"><i class="fas fa-check-circle"></i></td>
-                </tr>
-                <tr id="stock-beta">
-                    <th>Beta</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-                <tr id="stock-50avg">
-                    <th>50-day Average</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-                <tr id="stock-200avg">
-                    <th>200-day Average</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-            </table>
+        </div>
+
+        <!-- Modal for Editing Alarms -->
+        <div class="modal" id="stock-edit-modal">
+            <div class="modal-background"></div>
+            <div class="modal-card is-large">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Stock Alerts</p>
+                    <button class="delete" aria-label="close" id="stock-close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p>This will set an alert that will notify you on the general tab and the stock tab, if your stock went above the max value or below the min value.</p>
+                    <table class="table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th class="has-text-right">Value</th>
+                            <th class="has-text-right">Min Value</th>
+                            <th class="has-text-right">Max Value</th>
+                        </tr>
+                        <tr id="stock-price-input">
+                            <td>Price</td>
+                            <td class="has-text-right"><span id="stock-price-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-target-input">
+                            <td>Target</td>
+                            <td class="has-text-right"><span id="stock-target-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-eps-input">
+                            <td>Earnings per Share</td>
+                            <td class="has-text-right"><span id="stock-eps-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-per-input">
+                            <td>Price-to-Earnings Ratio</td>
+                            <td class="has-text-right"><span id="stock-per-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-beta-input">
+                            <td>Beta</td>
+                            <td class="has-text-right"><span id="stock-beta-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-50avg-input">
+                            <td>50-day Average</td>
+                            <td class="has-text-right"><span id="stock-50avg-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="stock-200avg-input">
+                            <td>200-day Average</td>
+                            <td class="has-text-right"><span id="stock-200avg-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                    </table>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success" id="stock-confirm-btn">Confirm</button>
+                    <button class="button" id="stock-close-btn">Cancel</button>
+                </footer>
+            </div>
         </div>
     </section>
 
@@ -243,74 +301,120 @@
     <section id="cryptopage" class="hidden">
         <div class="has-text-centered my-2">
             <h2 class="title is-size-3">Select Cryptocurrency</h2>
-            <!-- Dropdown Menu -->
-            <div class="dropdown mb-4">
-                <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span>Watched Cryptocurrency</span>
-                        <span class="icon is-small">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </button>
-                </div>
-                <div class="dropdown-menu" id="stock-dropdown" role="menu">
-                    <!-- Dropdown Menu items-->
-                    <div class="dropdown-content">
-                        <a href="" class="dropdown-item">1</a>
-                        <a href="" class="dropdown-item">2</a>
-                        <a href="" class="dropdown-item">3</a>
-                        <a href="" class="dropdown-item">4</a>
-                        <a href="" class="dropdown-item">5</a>
-                    </div>
-                </div>
+            <!-- Select Menu for Crypto -->
+            <div class="select">
+                <select id="select-crypto-list" onchange="updateMainCrypto()">
+                  <option value="" selected disabled hidden>Watched Cryptocurrency</option>
+                  <option value="" disabled>No Cryptocurrency Found</option>
+                </select>
             </div>
             <!-- Cryptocurrency general data -->
-            <div id="crypto-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
-                <p>Name: <span id="crypto-name"></span></p>
-                <p>Symbol: <span id="crypto-symbol"></span></p>
+            <div id="select-crypto" class="hidden">
+                <div id="crypto-data" class="has-text-left is-size-6 has-text-weight-bold my-3">
+                    <p>Name: <span id="crypto-name"></span></p>
+                    <p>Symbol: <span id="crypto-symbol"></span></p>
+                </div>
+                <table class="table is-bordered is-narrow center has-text-left">
+                    <tr>
+                        <th>Parameters</th>
+                        <th>Minimum Value</th>
+                        <th>Current Value</th>
+                        <th>Maximum Value</th>
+                        <th>Alert</th>
+                    </tr>
+                    <tr id="crypto-price">
+                        <th>Price</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                    <tr id="crypto-volume">
+                        <th>Volume</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                    <tr id="crypto-supply">
+                        <th>Supply</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                    <tr id="crypto-marcap">
+                        <th>Market Cap</th>
+                        <td class="min"></td>
+                        <td class="current"></td>
+                        <td class="max"></td>
+                        <td class="alert"></td>
+                    </tr>
+                </table>
+                <button class="button is-success" id="crypto-edit-btn">Edit Ranges</button>
+                <button class="button is-danger" id="crypto-remove-btn">Remove</button>
             </div>
-            <table class="table is-bordered is-narrow center has-text-left">
-                <tr>
-                    <th>Parameters</th>
-                    <th>Minimum Value</th>
-                    <th>Current Value</th>
-                    <th>Maximum Value</th>
-                    <th>Alert</th>
-                </tr>
-                <tr id="crypto-price">
-                    <th>Price</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-                <tr id="crypto-volume">
-                    <th>Volume</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-                <tr id="crypto-supply">
-                    <th>Supply</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-                <tr id="crypto-marcap">
-                    <th>Market Cap</th>
-                    <td class="min"></td>
-                    <td class="current"></td>
-                    <td class="max"></td>
-                    <td class="alert"></td>
-                </tr>
-            </table>
+        </div>
+
+        <!-- Modal for Editing Alarms -->
+        <div class="modal" id="crypto-edit-modal">
+            <div class="modal-background"></div>
+            <div class="modal-card is-large">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Cryptocurrency Alerts</p>
+                    <button class="delete" aria-label="close" id="crypto-close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p>This will set an alert that will notify you on the general tab and the cryptocurrency tab, if your stock went above the max value or below the min value.</p>
+                    <table class="table">
+                        <tr>
+                            <th>Parameter</th>
+                            <th class="has-text-right">Value</th>
+                            <th class="has-text-right">Min Value</th>
+                            <th class="has-text-right">Max Value</th>
+                        </tr>
+                        <tr id="crypto-price-input">
+                            <td>Price</td>
+                            <td class="has-text-right"><span id="crypto-price-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="crypto-volume-input">
+                            <td>Volume</td>
+                            <td class="has-text-right"><span id="crypto-volume-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="crypto-supply-input">
+                            <td>Supply</td>
+                            <td class="has-text-right"><span id="crypto-supply-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                        <tr id="crypto-marcap-input">
+                            <td>Market Cap</td>
+                            <td class="has-text-right"><span id="crypto-marcap-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                        </tr>
+                    </table>
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button is-success" id="crypto-confirm-btn">Confirm</button>
+                    <button class="button" id="crypto-close-btn">Cancel</button>
+                </footer>
+            </div>
         </div>
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/general.js"></script>
+    <script src="./assets/js/stock.js"></script>
+    <script src="./assets/js/crypto.js"></script>
+    <script src="./assets/js/main.js"></script>
+    <!-- <script src="./assets/js/script.js"></script> -->
 </body>
 </html>
