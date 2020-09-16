@@ -56,4 +56,6 @@ The deployment link to display the application web page is:
 ## Application Screen Shot
 
 ![Stockman Image](https://github.com/Team-Antman-Project-1/stockman/blob/feature/apis/stockman1.jpg)
+![Stockman Image](https://github.com/Team-Antman-Project-1/stockman/blob/feature/apis/stockman2.jpg)
+![Stockman Image](https://github.com/Team-Antman-Project-1/stockman/blob/feature/apis/stockman3.jpg)
 
