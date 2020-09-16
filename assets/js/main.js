@@ -1,4 +1,3 @@
-
 ////////////////////////////////////////////////////////////////////////////
 // Global Variable Definitions
 
@@ -6,12 +5,6 @@
 var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
 
 var checkSymbol;         // symbol for the "alert" columns
-
-// Temporary search buttons and event listeners, will delete later.
-// var searchStockEl = document.querySelector("#stock-search-btn");
-// var searchCryptoEl = document.querySelector("#crypto-search-btn");
-// searchStockEl.addEventListener("click", searchStock);
-// searchCryptoEl.addEventListener("click", searchCrypto);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Start a timer to update the stock and cryptocurrency pages every 10 minutes.

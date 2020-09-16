@@ -67,29 +67,32 @@ var getCryptoParameters = function (cryptoSymbol) {
 
     // Construct the finished URL to obtain the current cryptocurrency data.
     var finalUrl = apiNomicsCryptoPrice + urlKeyNomics + apiNomicsIds + cryptoSymbol + apiNomicsInterval;
-    console.log(finalUrl);
     cryptoValues = 
     {
         name: "",
         symbol: "",
+        alert: errorIcon,
         price: "",
         priceMin: "",
         priceMax: "",
+        priceAlert: errorIcon,
         volume: "",
         volumeMin: "",
         volumeMax: "",
+        volumeAlert: errorIcon,
         supply: "",
         supplyMin: "",
         supplyMax: "",
+        supplyAlert: errorIcon,
         marcap: "",
         marcapMin: "",
-        marcapMax: ""
+        marcapMax: "",
+        marcapAlert: errorIcon
     };
 
     // Make the request for the currency's data
     fetch(finalUrl).then(function (response) 
     {
-        console.log(response);
         return response.json();
     }).then(function (response) 
     {
@@ -98,7 +101,6 @@ var getCryptoParameters = function (cryptoSymbol) {
         //     returnValue = -1;
         //     return (returnValue);
         // }
-        console.log(response);
         if(!response[0].name)
         {
             throw "not found";
@@ -117,7 +119,6 @@ var getCryptoParameters = function (cryptoSymbol) {
 
         updateCryptoTable();
 
-        // showOneCrypto(cryptos.length - 1);
         saveInvestments();
 
         return;
@@ -140,11 +141,9 @@ var updateCryptoParameters = function (index)
     // Make the request for the currency's data
     fetch(finalUrl).then(function (response) 
     {
-        console.log(response);
         return response.json();
     }).then(function (response) 
     {
-        console.log(response[0].name);
         if(!response[0].name)
         {
             throw "not found";
@@ -264,7 +263,9 @@ function updateCryptoTable()
 
         nameEl.textContent = value.name;
         symbolEl.textContent = value.symbol;
-        // Add in alert data here
+        alertEl.classList.add("has-text-centered");
+        alertEl.innerHTML = value.alert;
+        alertEl.id = "crypto-alert-" + index;
 
         dataRowEl.appendChild(nameEl);
         dataRowEl.appendChild(symbolEl);
@@ -345,82 +346,152 @@ var showOneCrypto = function( index ) {
     dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     dataVal = document.querySelector("#crypto-price-modal");
     dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
+    dataVal = document.querySelector("#crypto-price .min");
     if(cryptos[index].priceMin !== "")
     {
-        dataVal = document.querySelector("#crypto-price .min");
         dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#crypto-price .max");
     if(cryptos[index].priceMax !== "")
     {
-        dataVal = document.querySelector("#crypto-price .max");
         dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 4, maximumFractionalDigits:4});
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( cryptos[index].price, cryptos[index].priceMin, cryptos[index].priceMax );
+    cryptos[index].priceAlert = checkSymbol;
     dataVal = document.querySelector("#crypto-price .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the volume of the crypto
     dataVal = document.querySelector("#crypto-volume .current");
     dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-volume-modal");
     dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
+    dataVal = document.querySelector("#crypto-volume .min");
     if(cryptos[index].volumeMin !== "")
     {    
-        dataVal = document.querySelector("#crypto-volume .min");
         dataVal.textContent = parseFloat(cryptos[index].volumeMin).toLocaleString('en-US');
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#crypto-volume .max");
     if(cryptos[index].volumeMax !== "")
     {    
-        dataVal = document.querySelector("#crypto-volume .max");
         dataVal.textContent = parseFloat(cryptos[index].volumeMax).toLocaleString('en-US');
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( cryptos[index].volume, cryptos[index].volumeMin, cryptos[index].volumeMax );
+    cryptos[index].volumeAlert = checkSymbol;
     dataVal = document.querySelector("#crypto-volume .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the supply of the crypto
     dataVal = document.querySelector("#crypto-supply .current");
     dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-supply-modal");
     dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
+    dataVal = document.querySelector("#crypto-supply .min");
     if(cryptos[index].supplyMin !== "")
     {    
-        dataVal = document.querySelector("#crypto-supply .min");
         dataVal.textContent = parseFloat(cryptos[index].supplyMin).toLocaleString('en-US');
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#crypto-supply .max");
     if(cryptos[index].supplyMax !== "")
     {    
-        dataVal = document.querySelector("#crypto-supply .max");
         dataVal.textContent = parseFloat(cryptos[index].supplyMax).toLocaleString('en-US');  
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( cryptos[index].supply, cryptos[index].supplyMin, cryptos[index].supplyMax );
+    cryptos[index].supplyAlert = checkSymbol;
     dataVal = document.querySelector("#crypto-supply .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display market cap of crypto
     dataVal = document.querySelector("#crypto-marcap .current");
     dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
     dataVal = document.querySelector("#crypto-marcap-modal");
     dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
+    dataVal = document.querySelector("#crypto-marcap .min");
     if(cryptos[index].marcapMin !== "")
     {    
-        dataVal = document.querySelector("#crypto-marcap .min");
         dataVal.textContent = parseFloat(cryptos[index].marcapMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#crypto-marcap .max");
     if(cryptos[index].marcapMax !== "")
     {    
-        dataVal = document.querySelector("#crypto-marcap .max");
         dataVal.textContent = parseFloat(cryptos[index].marcapMax).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});  
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( cryptos[index].marcap, cryptos[index].marcapMin, cryptos[index].marcapMax );
+    cryptos[index].marcapAlert = checkSymbol;
     dataVal = document.querySelector("#crypto-marcap .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the basic info of the crypto
     dataVal = document.querySelector( "#crypto-name" );
     dataVal.textContent = cryptos[index].name;
     dataVal = document.querySelector( "#crypto-symbol" );
     dataVal.textContent = cryptos[index].symbol;
+}
+
+// Updates all alerts
+function updateCryptoAlerts()
+{
+    cryptos.forEach(function(value, index)
+    {
+        var alerts = [];
+        value.priceAlert = verifyInvestmentItem(value.price, value.priceMin, value.priceMax);
+        alerts.push(value.priceAlert);
+        value.volumeAlert = verifyInvestmentItem(value.volume, value.volumeMin, value.volumeMax);
+        alerts.push(value.volumeAlert);
+        value.supplyAlert = verifyInvestmentItem(value.supply, value.supplyMin, value.supplyMax);
+        alerts.push(value.supplyAlert);
+        value.marcapAlert = verifyInvestmentItem(value.marcap, value.marcapMin, value.marcapMax);
+        alerts.push(value.marcapAlert);
+
+        var prioritizedValue;
+        alerts.forEach(function(symbol, index)
+        {
+            if(index === 0 || prioritizedValue === errorIcon)
+            {
+                prioritizedValue = symbol;
+            }
+            else if(prioritizedValue === checkIcon && symbol === alertIcon)
+            {
+                prioritizedValue = symbol;
+            }
+        });
+        value.alert = prioritizedValue;
+
+        // Update general crypto table only
+        document.querySelector("#crypto-alert-"+index).innerHTML = value.alert;
+    });
 }
 
 // Remove current crypto
@@ -443,8 +514,25 @@ function removeCrypto()
 // Edit crypto data
 function editCryptoAlerts()
 {
-    var cryptoModalEl = $("#crypto-edit-modal");
-    cryptoModalEl.addClass("is-active");
+    // Get list index of active crypto element
+    var index = document.querySelector("#select-crypto-list").value;
+
+    // Populate input values, if they exist
+    document.querySelector("#crypto-price-input .min").value = cryptos[index].priceMin;
+    document.querySelector("#crypto-price-input .max").value = cryptos[index].priceMax;
+    
+    document.querySelector("#crypto-volume-input .min").value = cryptos[index].volumeMin;
+    document.querySelector("#crypto-volume-input .max").value = cryptos[index].volumeMax;
+    
+    document.querySelector("#crypto-supply-input .min").value = cryptos[index].supplyMin;
+    document.querySelector("#crypto-supply-input .max").value = cryptos[index].supplyMax;
+    
+    document.querySelector("#crypto-marcap-input .min").value = cryptos[index].marcapMin;
+    document.querySelector("#crypto-marcap-input .max").value = cryptos[index].marcapMax;
+
+    // Reveal crypto edit modal
+    var cryptoModalEl = document.querySelector("#crypto-edit-modal");
+    cryptoModalEl.classList.add("is-active");
 }
 
 // Apply changes from crypto edit modal
@@ -463,6 +551,8 @@ function confirmCryptoEdits()
     {
         cryptos[index].priceMax = cryptoEl.querySelector(".max").value;
     }
+    cryptoEl.querySelector(".min").value = "";
+    cryptoEl.querySelector(".max").value = "";
 
     // Update volumemin and volumemax
     cryptoEl = document.querySelector("#crypto-volume-input");
@@ -474,6 +564,8 @@ function confirmCryptoEdits()
     {
         cryptos[index].volumeMax = cryptoEl.querySelector(".max").value;
     }
+    cryptoEl.querySelector(".min").value = "";
+    cryptoEl.querySelector(".max").value = "";
 
     // Update supplymin and supplymax
     cryptoEl = document.querySelector("#crypto-supply-input");
@@ -485,6 +577,8 @@ function confirmCryptoEdits()
     {
         cryptos[index].supplyMax = cryptoEl.querySelector(".max").value;
     }
+    cryptoEl.querySelector(".min").value = "";
+    cryptoEl.querySelector(".max").value = "";
 
     // Update marcapmin and marcapmax
     cryptoEl = document.querySelector("#crypto-marcap-input");
@@ -496,10 +590,14 @@ function confirmCryptoEdits()
     {
         cryptos[index].marcapMax = cryptoEl.querySelector(".max").value;
     }
+    cryptoEl.querySelector(".min").value = "";
+    cryptoEl.querySelector(".max").value = "";
+
+    // Update alert symbols
+    updateCryptoAlerts();
 
     // Update crypto table with values
     showOneCrypto(index);
-
 
     // Close modal
     closeCryptoEdit();
@@ -512,14 +610,3 @@ function closeCryptoEdit()
     var cryptoModalEl = document.querySelector("#crypto-edit-modal");
     cryptoModalEl.classList.remove("is-active");
 }
-
-
-
-
-
-
-
-
-
-
-

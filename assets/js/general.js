@@ -14,6 +14,11 @@ var modalCloseBtnEl = document.querySelector("#error-close");
 // Event listeners
 modalCloseBtnEl.addEventListener("click", closeModal);
 
+// Constant alert icons
+var errorIcon = '<i style="color:blue" class="fas fa-question-circle"></i>';
+var alertIcon = '<i style="color:crimson" class="fas fa-exclamation-triangle"></i>';
+var checkIcon = '<i style="color:green" class="fas fa-check-circle"></i>';
+
 //////////////////////////////////////////////////////////////
 //                  Page Update Functions                   //
 //////////////////////////////////////////////////////////////
@@ -60,14 +65,17 @@ tabListEl.addEventListener("click", function(event)
 verifyInvestmentItem = function( value, valueMin, valueMax ) 
 {
     // Need to make sure both min/max values are defined.
-    if( valueMin == ""  ||  valueMax == "" ) {
-        return "?";
+    if( (valueMin !== "" && value < valueMin)  ||  (valueMax !== "" && value > valueMax) ) 
+    {
+        return alertIcon;
     }
-    else if( value < valueMin  ||  value > valueMax ) {
-        return "*";
+    else if( valueMin === ""  &&  valueMax === "" ) 
+    {
+        return errorIcon;
     }
-    else {
-        return " ";
+    else 
+    {
+        return checkIcon;
     }
 }
 

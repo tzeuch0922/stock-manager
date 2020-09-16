@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////
 //                  Global Variables                        //
-//////////////////////////////////////////////////////////////f
+//////////////////////////////////////////////////////////////
 
 // Button Queries
 var editStockButton = document.querySelector("#stock-edit-btn");
@@ -70,27 +70,35 @@ var getStockParameters = function (stockSymbol)
         name : "",
         symbol : "",
         exchange : "",
+        alert : errorIcon,
         price: "",
         priceMin: "",
         priceMax: "",
+        priceAlert: errorIcon,
         eps : "",
         epsMin : "",
         epsMax : "",
+        epsAlert: errorIcon,
         beta : "",
         betaMin : "",
         betaMax : "",
+        betaAlert : errorIcon,
         pe : "",
         peMin : "",
         peMax : "",
+        peAlert : errorIcon,
         target : "",
         targetMin : "",
         targetMax : "",
+        targetAlert : errorIcon,
         f50Avg : "",
         f50AvgMin : "",
         f50AvgMax : "",
+        f50AvgAlert : errorIcon,
         t200Avg : "",
         t200AvgMin : "",
-        t200AvgMax : ""
+        t200AvgMax : "", 
+        t200AvgAlert : errorIcon
     };
 
     finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
@@ -176,8 +184,8 @@ var updateStockParameters = function (index)
     // Make the request for the stock's price
     fetch(finalUrl).then(function (response) 
     {
+        console.log(response);
         return response.json();
-
     }).then(function (response) 
     {
         console.log(response);
@@ -192,73 +200,45 @@ var updateStockParameters = function (index)
 
         return true;
 
-    }).then(function () 
+    }).then(function (response) 
     {
-        // Construct the finished URL to obtain the market index values 
-        finalUrl = apiMarketIndexUrl + urlKeyFinancialModeling;
+        // Check the "dailyCheck" flag, so the basic stock parameters
+        // are only checked once a day - since they won't be changed 
+        // until after the market closes.
 
-        // Make the request for the stock's data
-        fetch(finalUrl).then(function (response) {
-            return response.json();
-
-        }).then(function (response) {
-            // Verify that data was acquired
-            if (response.cod == 404) {
-                returnValue = -1;
-                return (returnValue);
-            }
-
-            // Get the index values and put them in the return variables.
-            indexes[0] = response[7].price;     // S&P 500
-            indexes[1] = response[19].price;    // NASDAQ
-            indexes[2] = response[12].price;    // NYSE
-            indexes[3] = response[31].price;    // DOW
-
-            // Update the HTML page with these values
-            showEquityIndexes(index);
-
+        if (dailyCheckStocks)
+        {
+            saveInvestments();
             return;
+        }
 
+        finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
+
+        // Make the request for the stock's data (updated daily)
+        fetch(finalUrl).then(function (response) 
+        {
+            return response.json();
         }).then(function (response) 
         {
-            // Check the "dailyCheck" flag, so the basic stock parameters
-            // are only checked once a day - since they won't be changed 
-            // until after the market closes.
-
-            if (dailyCheckStocks)
+            // Verify that data was acquired
+            if (!response.Name) 
             {
-                saveInvestments();
-                return;
+                throw "Error: Symbol not found.";
             }
+            stock[index].eps     = response.EPS;
+            stock[index].beta    = response.Beta;
+            stock[index].pe      = response.PERatio;
+            stock[index].target  = response.AnalystTargetPrice;
+            stock[index].f50Avg  = response["50DayMovingAverage"];
+            stock[index].t200Avg = response["200DayMovingAverage"];
 
-            finalUrl = apiStockParamsUrl + stockSymbol + urlKeyStockAlphaAdvantage;
+            // Reset the "dailyCheck" flag, so this is only done once.
+            dailyCheckStocks = true;
 
-            // Make the request for the stock's data (updated daily)
-            fetch(finalUrl).then(function (response) 
-            {
-                return response.json();
-            }).then(function (response) 
-            {
-                // Verify that data was acquired
-                if (!response.Name) 
-                {
-                    throw "Error: Symbol not found.";
-                }
-                stock[index].eps     = response.EPS;
-                stock[index].beta    = response.Beta;
-                stock[index].pe      = response.PERatio;
-                stock[index].target  = response.AnalystTargetPrice;
-                stock[index].f50Avg  = response["50DayMovingAverage"];
-                stock[index].t200Avg = response["200DayMovingAverage"];
+            // This save is necessary because we updated the stock parameters.
+            saveInvestments();
 
-                // Reset the "dailyCheck" flag, so this is only done once.
-                dailyCheckStocks = true;
-
-                // This save is necessary because we updated the stock parameters.
-                saveInvestments();
-
-                return true;
-            })
+            return true;
         })
     }).catch(function (error) 
     {
@@ -363,6 +343,11 @@ function updateStockTable()
 
         nameEl.textContent = value.name;
         symbolEl.textContent = value.symbol;
+        alertEl.classList.add("has-text-centered");
+        alertEl.innerHTML = value.alert;
+        alertEl.id = "stock-alert-" + index;
+        console.log(alertEl.id);
+        console.log(alertEl);
         // Add in alert data
 
         dataRowEl.appendChild(nameEl);
@@ -370,6 +355,7 @@ function updateStockTable()
         dataRowEl.appendChild(alertEl);
         
         generalStockTableEl.appendChild(dataRowEl);
+        console.log(document.querySelector("#stock-alert-"+index));
 
         // Add option to select menu.
         var selectItemEl = document.createElement("option");
@@ -439,133 +425,196 @@ var showOneStock = function( index ) {
     dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-price-modal");
     dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-price .min");
     if(stock[index].priceMin !== "")
     {
-        dataVal = document.querySelector("#stock-price .min");
         dataVal.textContent = parseFloat(stock[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#stock-price .max");
     if(stock[index].priceMax !== "")
     {
-        dataVal = document.querySelector("#stock-price .max");
         dataVal.textContent = parseFloat(stock[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( stock[index].price, stock[index].priceMin, stock[index].priceMax );
+    stock[index].priceAlert = checkSymbol;
     dataVal = document.querySelector("#stock-price .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the eps data of the stock
     dataVal = document.querySelector("#stock-eps .current");
     dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-eps-modal");
     dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-eps .min");
     if(stock[index].epsMin !== "")
     {    
-        dataVal = document.querySelector("#stock-eps .min");
         dataVal.textContent = parseFloat(stock[index].epsMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#stock-eps .max");
     if(stock[index].epsMax !== "")
     {    
-        dataVal = document.querySelector("#stock-eps .max");
         dataVal.textContent = parseFloat(stock[index].epsMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});;
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( stock[index].eps, stock[index].epsMin, stock[index].epsMax );
+    stock[index].epsAlert = checkSymbol;
     dataVal = document.querySelector("#stock-eps .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the beta data of the stock
     dataVal = document.querySelector("#stock-beta .current");
     dataVal.textContent = stock[index].beta;
     dataVal = document.querySelector("#stock-beta-modal");
     dataVal.textContent = stock[index].beta;
+    dataVal = document.querySelector("#stock-beta .min");
     if(stock[index].betaMin !== "")
     {
-        dataVal = document.querySelector("#stock-beta .min");
         dataVal.textContent = stock[index].betaMin;
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#stock-beta .max");
     if(stock[index].betaMax !== "")
     {
-        dataVal = document.querySelector("#stock-beta .max");
         dataVal.textContent = stock[index].betaMax;
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( stock[index].beta, stock[index].betaMin, stock[index].betaMax );
+    stock[index].betaAlert = checkSymbol;
     dataVal = document.querySelector("#stock-beta .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the per data of the stock
     dataVal = document.querySelector("#stock-per .current");
     dataVal.textContent = stock[index].pe;
     dataVal = document.querySelector("#stock-per-modal");
     dataVal.textContent = stock[index].pe;
+    dataVal = document.querySelector("#stock-per .min");
     if(stock[index].peMin !== "")
     {
-        dataVal = document.querySelector("#stock-per .min");
         dataVal.textContent = stock[index].peMin;
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#stock-per .max");
     if(stock[index].peMax !== "")
     {
-        dataVal = document.querySelector("#stock-per .max");
         dataVal.textContent = stock[index].peMax;
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( stock[index].pe, stock[index].peMin, stock[index].peMax );
+    stock[index].peAlert = checkSymbol;
     dataVal = document.querySelector("#stock-per .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the target data of the stock
     dataVal = document.querySelector("#stock-target .current");
     dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-target-modal");
     dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-target .min");
     if(stock[index].targetMin !== "")
     {    
-        dataVal = document.querySelector("#stock-target .min");
         dataVal.textContent = parseFloat(stock[index].targetMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#stock-target .max");
     if(stock[index].targetMax !== "")
     {
-        dataVal = document.querySelector("#stock-target .max");
         dataVal.textContent = parseFloat(stock[index].targetMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( stock[index].target, stock[index].targetMin, stock[index].targetMax );
+    stock[index].targetAlert = checkSymbol;
     dataVal = document.querySelector("#stock-target .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the 50day avg data of the stock
     dataVal = document.querySelector("#stock-50avg .current");
     dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-50avg-modal");
     dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-50avg .min");
     if(stock[index].f50AvgMin !== "")
     {
-        dataVal = document.querySelector("#stock-50avg .min");
         dataVal.textContent = parseFloat(stock[index].f50AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#stock-50avg .max");
     if(stock[index].f50AvgMax !== "")
     {
-        dataVal = document.querySelector("#stock-50avg .max");
         dataVal.textContent = parseFloat(stock[index].f50AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( stock[index].f50Avg, stock[index].f50AvgMin, stock[index].f50AvgMax );
+    stock[index].f50AvgAlert = checkSymbol;
     dataVal = document.querySelector("#stock-50avg .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the 200 day avg data of the stock
     dataVal = document.querySelector("#stock-200avg .current");
     dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-200avg-modal");
     dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
+    dataVal = document.querySelector("#stock-200avg .min");
     if(stock[index].t200AvgMin !== "")
     {
-        dataVal = document.querySelector("#stock-200avg .min");
         dataVal.textContent = parseFloat(stock[index].t200AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }
+    else
+    {
+        dataVal.textContent = "";
+    }
+    dataVal = document.querySelector("#stock-200avg .max");
     if(stock[index].t200AvgMax !== "")
     {
-        dataVal = document.querySelector("#stock-200avg .max");
         dataVal.textContent = parseFloat(stock[index].t200AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     }    
+    else
+    {
+        dataVal.textContent = "";
+    }
     checkSymbol = verifyInvestmentItem( stock[index].t200Avg, stock[index].t200AvgMin, stock[index].t200AvgMax );
+    stock[index].t200AvgAlert = checkSymbol;
     dataVal = document.querySelector("#stock-200avg .alert");
-    dataVal.textContent = checkSymbol;
+    dataVal.innerHTML = checkSymbol;
 
     // display the basic info of the stock
     dataVal = document.querySelector( "#stock-name" );
@@ -574,6 +623,47 @@ var showOneStock = function( index ) {
     dataVal.textContent = stock[index].symbol;
     dataVal = document.querySelector( "#stock-exchange" );
     dataVal.textContent = stock[index].exchange;
+}
+
+// Updates all alerts
+function updateStockAlerts()
+{
+    stock.forEach(function(value, index)
+    {
+        var alerts = [];
+        value.priceAlert = verifyInvestmentItem(value.price, value.priceMin, value.priceMax);
+        alerts.push(value.priceAlert);
+        console.log("priceAlert:", value.price, value.priceMin, value.priceMax, value.priceAlert);
+        value.targetAlert = verifyInvestmentItem(value.target, value.targetMin, value.targetMax);
+        alerts.push(value.targetAlert);
+        value.epsAlert = verifyInvestmentItem(value.eps, value.epsMin, value.epsMax);
+        alerts.push(value.epsAlert);
+        value.peAlert = verifyInvestmentItem(value.pe, value.peMin, value.peMax);
+        alerts.push(value.peAlert);
+        value.betaAlert = verifyInvestmentItem(value.beta, value.betaMin, value.betaMax);
+        alerts.push(value.betaAlert);
+        value.f50AvgAlert = verifyInvestmentItem(value.f50Avg, value.f50AvgMin, value.f50AvgMax);
+        alerts.push(value.f50AvgAlert);
+        value.t200AvgAlert = verifyInvestmentItem(value.t200Avg, value.t200AvgMin, value.t200AvgMax);
+        alerts.push(value.t200AvgAlert);
+
+        var prioritizedValue;
+        alerts.forEach(function(symbol, index)
+        {
+            if(index === 0 || prioritizedValue === errorIcon)
+            {
+                prioritizedValue = symbol;
+            }
+            else if(prioritizedValue === checkIcon && symbol === alertIcon)
+            {
+                prioritizedValue = symbol;
+            }
+        });
+        value.alert = prioritizedValue;
+
+        // Update general stock table only
+        document.querySelector("#stock-alert-"+index).innerHTML = value.alert;
+    });
 }
 
 // Remove current stock
@@ -596,8 +686,35 @@ function removeStock()
 // Open modal to edit stock ranges
 function editStockAlerts()
 {
-    var stockModalEl = $("#stock-edit-modal");
-    stockModalEl.addClass("is-active");
+    // Get list index of active stock element
+    var index = document.querySelector("#select-stock-list").value;
+    console.log(index);
+
+    // Populate input values, if they exist
+    document.querySelector("#stock-price-input .min").value = stock[index].priceMin;
+    document.querySelector("#stock-price-input .max").value = stock[index].priceMax;
+    
+    document.querySelector("#stock-target-input .min").value = stock[index].targetMin;
+    document.querySelector("#stock-target-input .max").value = stock[index].targetMax;
+    
+    document.querySelector("#stock-eps-input .min").value = stock[index].epsMin;
+    document.querySelector("#stock-eps-input .max").value = stock[index].epsMax;
+    
+    document.querySelector("#stock-per-input .min").value = stock[index].peMin;
+    document.querySelector("#stock-per-input .max").value = stock[index].peMax;
+    
+    document.querySelector("#stock-beta-input .min").value = stock[index].betaMin;
+    document.querySelector("#stock-beta-input .max").value = stock[index].betaMax;
+    
+    document.querySelector("#stock-50avg-input .min").value = stock[index].f50avgMin;
+    document.querySelector("#stock-50avg-input .max").value = stock[index].f50avgMax;
+    
+    document.querySelector("#stock-200avg-input .min").value = stock[index].t200avgMin;
+    document.querySelector("#stock-200avg-input .max").value = stock[index].t200avgMax;
+
+    // Make edit modal visible
+    var stockModalEl = document.querySelector("#stock-edit-modal");
+    stockModalEl.classList.add("is-active");
 }
 
 // Apply changes from stock edit ranges modal
@@ -608,14 +725,16 @@ function confirmStockEdits()
 
     // Update pricemin and pricemax
     var stockEl = document.querySelector("#stock-price-input");
-    if(stockEl.querySelector(".min").value  && !isNaN(parseFloat(stockEl.querySelector(".min").value)))
+    if(stockEl.querySelector(".min").value  && !isNaN(stockEl.querySelector(".min").value))
     {
-        stock[index].priceMin = stockEl.querySelector(".min").value;
+        stock[index].priceMin = parseFloat(stockEl.querySelector(".min").value);
     }
-    if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
+    if(stockEl.querySelector(".max").value  && !isNaN(stockEl.querySelector(".max").value))
     {
-        stock[index].priceMax = stockEl.querySelector(".max").value;
+        stock[index].priceMax = parseFloat(stockEl.querySelector(".max").value);
     }
+    stockEl.querySelector(".max").value = "";
+    stockEl.querySelector(".min").value = "";
 
     // Update targetmin and targetmax
     stockEl = document.querySelector("#stock-target-input");
@@ -627,6 +746,8 @@ function confirmStockEdits()
     {
         stock[index].targetMax = stockEl.querySelector(".max").value;
     }
+    stockEl.querySelector(".max").value = "";
+    stockEl.querySelector(".min").value = "";
 
     // Update epsmin and epsmax
     stockEl = document.querySelector("#stock-eps-input");
@@ -638,6 +759,8 @@ function confirmStockEdits()
     {
         stock[index].epsMax = stockEl.querySelector(".max").value;
     }
+    stockEl.querySelector(".max").value = "";
+    stockEl.querySelector(".min").value = "";
 
     // Update permin and permax
     stockEl = document.querySelector("#stock-per-input");
@@ -649,6 +772,8 @@ function confirmStockEdits()
     {
         stock[index].peMax = stockEl.querySelector(".max").value;
     }
+    stockEl.querySelector(".max").value = "";
+    stockEl.querySelector(".min").value = "";
 
     // Update betamin and betamax
     stockEl = document.querySelector("#stock-beta-input");
@@ -660,6 +785,8 @@ function confirmStockEdits()
     {
         stock[index].betaMax = stockEl.querySelector(".max").value;
     }
+    stockEl.querySelector(".max").value = "";
+    stockEl.querySelector(".min").value = "";
 
     // Update 50avgmin and 50avgmax
     stockEl = document.querySelector("#stock-50avg-input");
@@ -671,6 +798,8 @@ function confirmStockEdits()
     {
         stock[index].f50AvgMax = stockEl.querySelector(".max").value;
     }
+    stockEl.querySelector(".max").value = "";
+    stockEl.querySelector(".min").value = "";
     
     // Update 200avgmin and 200avgmax
     stockEl = document.querySelector("#stock-200avg-input");
@@ -682,6 +811,11 @@ function confirmStockEdits()
     {
         stock[index].t200AvgMax = stockEl.querySelector(".max").value;
     }
+    stockEl.querySelector(".max").value = "";
+    stockEl.querySelector(".min").value = "";
+
+    // Update alert symbols
+    updateStockAlerts();
 
     // Update stock table with values
     showOneStock(index);
@@ -694,6 +828,6 @@ function confirmStockEdits()
 // Close edit stock modal
 function closeStockEdit()
 {
-    var stockModalEl = $("#stock-edit-modal");
-    stockModalEl.removeClass("is-active");
+    var stockModalEl = document.querySelector("#stock-edit-modal");
+    stockModalEl.classList.remove("is-active");
 }
