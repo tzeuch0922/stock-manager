@@ -14,12 +14,14 @@ var updateAll = setInterval( function()
     stock.forEach(function(value, index)
     {
         updateStockParameters(index);
+        updateStockAlerts();
     });
 
     // Update the data in the 'cryptos' array.
     cryptos.forEach(function(value, index)
     {
         updateCryptoParameters(index);
+        updateCryptoAlerts();
     });
 
 }, (1000 * 60 * 10) );   // 1000 milliseconds/second * 60 seconds/minute * 10 minutes.

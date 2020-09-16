@@ -463,6 +463,7 @@ var showOneCrypto = function( index ) {
 // Updates all alerts
 function updateCryptoAlerts()
 {
+    var playAlert = false;
     cryptos.forEach(function(value, index)
     {
         var alerts = [];
@@ -488,10 +489,18 @@ function updateCryptoAlerts()
             }
         });
         value.alert = prioritizedValue;
+        if(prioritizedValue === alertIcon)
+        {
+            playAlert = true;
+        }
 
         // Update general crypto table only
         document.querySelector("#crypto-alert-"+index).innerHTML = value.alert;
     });
+    if(playAlert)
+    {
+        playSound();
+    }
 }
 
 // Remove current crypto

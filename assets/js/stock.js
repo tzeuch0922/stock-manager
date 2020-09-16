@@ -346,8 +346,6 @@ function updateStockTable()
         alertEl.classList.add("has-text-centered");
         alertEl.innerHTML = value.alert;
         alertEl.id = "stock-alert-" + index;
-        console.log(alertEl.id);
-        console.log(alertEl);
         // Add in alert data
 
         dataRowEl.appendChild(nameEl);
@@ -628,6 +626,7 @@ var showOneStock = function( index ) {
 // Updates all alerts
 function updateStockAlerts()
 {
+    var playAlert = false;
     stock.forEach(function(value, index)
     {
         var alerts = [];
@@ -660,10 +659,18 @@ function updateStockAlerts()
             }
         });
         value.alert = prioritizedValue;
+        if(prioritizedValue === alertIcon)
+        {
+            playAlert = true;
+        }
 
         // Update general stock table only
         document.querySelector("#stock-alert-"+index).innerHTML = value.alert;
     });
+    if(playAlert)
+    {
+        playSound();
+    }
 }
 
 // Remove current stock

@@ -145,3 +145,11 @@ var retrieveInvestments = function()
         cryptos = cryptosRead;
     }
 }
+
+// play sound
+function playSound()
+{
+    console.log("play sound function");
+    var audio = new Audio('alarm07.wav');
+    audio.play();
+}
