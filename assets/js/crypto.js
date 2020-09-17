@@ -353,13 +353,13 @@ var showOneCrypto = function( index ) {
 
     // Display the price of the crypto
     dataVal = document.querySelector("#crypto-price-current");
-    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 2, maximumFractionalDigits:2});
+    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     dataVal = document.querySelector("#crypto-price-modal");
-    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 2, maximumFractionalDigits:2});
+    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     dataVal = document.querySelector("#crypto-price-min");
     if(cryptos[index].priceMin !== "")
     {
-        dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 2, maximumFractionalDigits:2});
+        dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     }
     else
     {
@@ -368,7 +368,7 @@ var showOneCrypto = function( index ) {
     dataVal = document.querySelector("#crypto-price-max");
     if(cryptos[index].priceMax !== "")
     {
-        dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 2, maximumFractionalDigits:2});
+        dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 4, maximumFractionalDigits:4});
     }
     else
     {
