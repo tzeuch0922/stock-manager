@@ -18,7 +18,7 @@ cryptoRemoveEl.addEventListener("click", removeCrypto);
 
 // API URLs and API keys
 var urlKeyNomics            = "25f6ac7783932e08f376ee60095ddd35";
-var apiNomicsCryptoPrice    = "https://api.nomics.com/v1/currencies/ticker?key=";
+var apiNomicsCryptoPrice    = "https://cors-anywhere.herokuapp.com/https://api.nomics.com/v1/currencies/ticker?key=";
 // https://cors-anywhere.herokuapp.com/
 var apiNomicsIds            = "&ids=";
 var apiNomicsInterval       = "&interval=1d&convert=USD";
