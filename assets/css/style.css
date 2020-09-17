@@ -17,3 +17,6 @@ table.center {
     text-decoration: none;
     color: darkblue;
 }
+table tr .center-table {
+    vertical-align: middle;
+}

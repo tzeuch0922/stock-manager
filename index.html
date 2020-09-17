@@ -166,59 +166,106 @@
                 <table class="table is-bordered is-narrow center has-text-left">
                     <tr>
                         <th>Parameters</th>
-                        <th>Minimum Value</th>
-                        <th>Current Value</th>
-                        <th>Maximum Value</th>
+                        <th colspan="2">Values</th>
                         <th>Alert</th>
                     </tr>
-                    <tr id="stock-price">
-                        <th>Price</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <th rowspan="3" class="center-table">Price</th>
+                        <td>Min</td>
+                        <td id="stock-price-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="stock-price-alert"></td>
                     </tr>
-                    <tr id="stock-target">
-                        <th>Target</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <td>Current</td>
+                        <td id="stock-price-current"></td>
                     </tr>
-                    <tr id="stock-eps">
-                        <th>Earnings Per Share</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"><i class="fas fa-question-circle"></i></td>
+                    <tr>
+                        <td>Max</td>
+                        <td id="stock-price-max"></td>
                     </tr>
-                    <tr id="stock-per">
-                        <th>Price to Earnings Ratio</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"><i class="fas fa-check-circle"></i></td>
+                    <tr>
+                        <th rowspan="3" class="center-table">Target</th>
+                        <td>Min</td>
+                        <td id="stock-target-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="stock-target-alert"></td>
                     </tr>
-                    <tr id="stock-beta">
-                        <th>Beta</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <td>Current</td>
+                        <td id="stock-target-current"></td>
                     </tr>
-                    <tr id="stock-50avg">
-                        <th>50-day Average</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <td>Max</td>
+                        <td id="stock-target-max"></td>
                     </tr>
-                    <tr id="stock-200avg">
-                        <th>200-day Average</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <th rowspan="3" class="center-table">Earnings Per Share</th>
+                        <td>Min</td>
+                        <td id="stock-eps-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="stock-eps-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="stock-eps-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="stock-eps-max"></td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3" class="center-table">Price-to-Earnings Ratio</th>
+                        <td>Min</td>
+                        <td id="stock-per-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="stock-per-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="stock-per-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="stock-per-max"></td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3" class="center-table">Beta</th>
+                        <td>Min</td>
+                        <td id="stock-beta-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="stock-beta-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="stock-beta-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="stock-beta-max"></td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3" class="center-table">50-Day Average</th>
+                        <td>Min</td>
+                        <td id="stock-50avg-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="stock-50avg-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="stock-50avg-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="stock-50avg-max"></td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3" class="center-table">200-Day Average</th>
+                        <td>Min</td>
+                        <td id="stock-200avg-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="stock-200avg-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="stock-200avg-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="stock-200avg-max"></td>
                     </tr>
                 </table>
                 <button class="button is-success" id="stock-edit-btn">Edit Ranges</button>
@@ -238,52 +285,52 @@
                     <p>This will set an alert that will notify you on the general tab and the stock tab, if your stock went above the max value or below the min value.</p>
                     <table class="table">
                         <tr>
-                            <th>Parameter</th>
-                            <th class="has-text-right">Value</th>
-                            <th class="has-text-right">Min Value</th>
-                            <th class="has-text-right">Max Value</th>
+                            <th class="is-size-7-mobile">Parameter</th>
+                            <th class="has-text-right is-size-7-mobile">Value</th>
+                            <th class="has-text-right is-size-7-mobile">Min Value</th>
+                            <th class="has-text-right is-size-7-mobile">Max Value</th>
                         </tr>
                         <tr id="stock-price-input">
-                            <td>Price</td>
-                            <td class="has-text-right"><span id="stock-price-modal"></span></td>
-                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Price</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="stock-price-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="stock-target-input">
-                            <td>Target</td>
-                            <td class="has-text-right"><span id="stock-target-modal"></span></td>
-                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Target</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="stock-target-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="stock-eps-input">
-                            <td>Earnings per Share</td>
-                            <td class="has-text-right"><span id="stock-eps-modal"></span></td>
-                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Earnings per Share</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="stock-eps-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="stock-per-input">
-                            <td>Price-to-Earnings Ratio</td>
-                            <td class="has-text-right"><span id="stock-per-modal"></span></td>
-                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Price-to-Earnings Ratio</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="stock-per-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="stock-beta-input">
-                            <td>Beta</td>
-                            <td class="has-text-right"><span id="stock-beta-modal"></span></td>
-                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Beta</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="stock-beta-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="stock-50avg-input">
-                            <td>50-day Average</td>
-                            <td class="has-text-right"><span id="stock-50avg-modal"></span></td>
-                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">50-day Average</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="stock-50avg-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="stock-200avg-input">
-                            <td>200-day Average</td>
-                            <td class="has-text-right"><span id="stock-200avg-modal"></span></td>
-                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">200-day Average</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="stock-200avg-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                     </table>
                 </section>
@@ -315,38 +362,64 @@
                 <table class="table is-bordered is-narrow center has-text-left">
                     <tr>
                         <th>Parameters</th>
-                        <th>Minimum Value</th>
-                        <th>Current Value</th>
-                        <th>Maximum Value</th>
+                        <th colspan="2">Values</th>
                         <th>Alert</th>
                     </tr>
-                    <tr id="crypto-price">
-                        <th>Price</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <th rowspan="3" class="center-table">Price</th>
+                        <td>Min</td>
+                        <td id="crypto-price-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="crypto-price-alert"></td>
                     </tr>
-                    <tr id="crypto-volume">
-                        <th>Volume</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <td>Current</td>
+                        <td id="crypto-price-current"></td>
                     </tr>
-                    <tr id="crypto-supply">
-                        <th>Supply</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <td>Max</td>
+                        <td id="crypto-price-max"></td>
                     </tr>
-                    <tr id="crypto-marcap">
-                        <th>Market Cap</th>
-                        <td class="min"></td>
-                        <td class="current"></td>
-                        <td class="max"></td>
-                        <td class="alert"></td>
+                    <tr>
+                        <th rowspan="3" class="center-table">Volume</th>
+                        <td>Min</td>
+                        <td id="crypto-volume-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="crypto-volume-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="crypto-volume-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="crypto-volume-max"></td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3" class="center-table">Supply</th>
+                        <td>Min</td>
+                        <td id="crypto-supply-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="crypto-supply-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="crypto-supply-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="crypto-supply-max"></td>
+                    </tr>
+                    <tr>
+                        <th rowspan="3" class="center-table">Market Cap</th>
+                        <td>Min</td>
+                        <td id="crypto-marcap-min"></td>
+                        <td rowspan="3" class="center-table has-text-centered" id="crypto-marcap-alert"></td>
+                    </tr>
+                    <tr>
+                        <td>Current</td>
+                        <td id="crypto-marcap-current"></td>
+                    </tr>
+                    <tr>
+                        <td>Max</td>
+                        <td id="crypto-marcap-max"></td>
                     </tr>
                 </table>
                 <button class="button is-success" id="crypto-edit-btn">Edit Ranges</button>
@@ -366,34 +439,34 @@
                     <p>This will set an alert that will notify you on the general tab and the cryptocurrency tab, if your stock went above the max value or below the min value.</p>
                     <table class="table">
                         <tr>
-                            <th>Parameter</th>
-                            <th class="has-text-right">Value</th>
-                            <th class="has-text-right">Min Value</th>
-                            <th class="has-text-right">Max Value</th>
+                            <th class="is-size-7-mobile">Parameter</th>
+                            <th class="has-text-right is-size-7-mobile">Value</th>
+                            <th class="has-text-right is-size-7-mobile">Min Value</th>
+                            <th class="has-text-right is-size-7-mobile">Max Value</th>
                         </tr>
                         <tr id="crypto-price-input">
-                            <td>Price</td>
-                            <td class="has-text-right"><span id="crypto-price-modal"></span></td>
-                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Price</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="crypto-price-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="crypto-volume-input">
-                            <td>Volume</td>
-                            <td class="has-text-right"><span id="crypto-volume-modal"></span></td>
-                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Volume</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="crypto-volume-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="crypto-supply-input">
-                            <td>Supply</td>
-                            <td class="has-text-right"><span id="crypto-supply-modal"></span></td>
-                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Supply</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="crypto-supply-modal"></span></td>
+                            <td class="has-text-right"><input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right"><input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                         <tr id="crypto-marcap-input">
-                            <td>Market Cap</td>
-                            <td class="has-text-right"><span id="crypto-marcap-modal"></span></td>
-                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input"></td>
-                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input"></td>
+                            <td class="is-size-7-mobile">Market Cap</td>
+                            <td class="has-text-right is-size-7-mobile"><span id="crypto-marcap-modal"></span></td>
+                            <td class="has-text-right">$<input type="text" placeholder="min" class="min modal-input is-size-7-mobile"></td>
+                            <td class="has-text-right">$<input type="text" placeholder="max" class="max modal-input is-size-7-mobile"></td>
                         </tr>
                     </table>
                 </section>

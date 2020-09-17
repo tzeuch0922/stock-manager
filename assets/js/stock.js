@@ -426,11 +426,11 @@ var showOneStock = function( index ) {
     }
 
     // Display the price data of the stock
-    var dataVal = document.querySelector("#stock-price .current");
+    var dataVal = document.querySelector("#stock-price-current");
     dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-price-modal");
     dataVal.textContent = parseFloat(stock[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-price .min");
+    dataVal = document.querySelector("#stock-price-min");
     if(stock[index].priceMin !== "")
     {
         dataVal.textContent = parseFloat(stock[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -439,7 +439,7 @@ var showOneStock = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#stock-price .max");
+    dataVal = document.querySelector("#stock-price-max");
     if(stock[index].priceMax !== "")
     {
         dataVal.textContent = parseFloat(stock[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -450,15 +450,15 @@ var showOneStock = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( stock[index].price, stock[index].priceMin, stock[index].priceMax );
     stock[index].priceAlert = checkSymbol;
-    dataVal = document.querySelector("#stock-price .alert");
+    dataVal = document.querySelector("#stock-price-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the eps data of the stock
-    dataVal = document.querySelector("#stock-eps .current");
+    dataVal = document.querySelector("#stock-eps-current");
     dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-eps-modal");
     dataVal.textContent = parseFloat(stock[index].eps).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-eps .min");
+    dataVal = document.querySelector("#stock-eps-min");
     if(stock[index].epsMin !== "")
     {    
         dataVal.textContent = parseFloat(stock[index].epsMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -467,7 +467,7 @@ var showOneStock = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#stock-eps .max");
+    dataVal = document.querySelector("#stock-eps-max");
     if(stock[index].epsMax !== "")
     {    
         dataVal.textContent = parseFloat(stock[index].epsMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});;
@@ -478,15 +478,15 @@ var showOneStock = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( stock[index].eps, stock[index].epsMin, stock[index].epsMax );
     stock[index].epsAlert = checkSymbol;
-    dataVal = document.querySelector("#stock-eps .alert");
+    dataVal = document.querySelector("#stock-eps-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the beta data of the stock
-    dataVal = document.querySelector("#stock-beta .current");
+    dataVal = document.querySelector("#stock-beta-current");
     dataVal.textContent = stock[index].beta;
     dataVal = document.querySelector("#stock-beta-modal");
     dataVal.textContent = stock[index].beta;
-    dataVal = document.querySelector("#stock-beta .min");
+    dataVal = document.querySelector("#stock-beta-min");
     if(stock[index].betaMin !== "")
     {
         dataVal.textContent = stock[index].betaMin;
@@ -495,7 +495,7 @@ var showOneStock = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#stock-beta .max");
+    dataVal = document.querySelector("#stock-beta-max");
     if(stock[index].betaMax !== "")
     {
         dataVal.textContent = stock[index].betaMax;
@@ -506,15 +506,15 @@ var showOneStock = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( stock[index].beta, stock[index].betaMin, stock[index].betaMax );
     stock[index].betaAlert = checkSymbol;
-    dataVal = document.querySelector("#stock-beta .alert");
+    dataVal = document.querySelector("#stock-beta-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the per data of the stock
-    dataVal = document.querySelector("#stock-per .current");
+    dataVal = document.querySelector("#stock-per-current");
     dataVal.textContent = stock[index].pe;
     dataVal = document.querySelector("#stock-per-modal");
     dataVal.textContent = stock[index].pe;
-    dataVal = document.querySelector("#stock-per .min");
+    dataVal = document.querySelector("#stock-per-min");
     if(stock[index].peMin !== "")
     {
         dataVal.textContent = stock[index].peMin;
@@ -523,7 +523,7 @@ var showOneStock = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#stock-per .max");
+    dataVal = document.querySelector("#stock-per-max");
     if(stock[index].peMax !== "")
     {
         dataVal.textContent = stock[index].peMax;
@@ -534,15 +534,15 @@ var showOneStock = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( stock[index].pe, stock[index].peMin, stock[index].peMax );
     stock[index].peAlert = checkSymbol;
-    dataVal = document.querySelector("#stock-per .alert");
+    dataVal = document.querySelector("#stock-per-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the target data of the stock
-    dataVal = document.querySelector("#stock-target .current");
+    dataVal = document.querySelector("#stock-target-current");
     dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-target-modal");
     dataVal.textContent = parseFloat(stock[index].target).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-target .min");
+    dataVal = document.querySelector("#stock-target-min");
     if(stock[index].targetMin !== "")
     {    
         dataVal.textContent = parseFloat(stock[index].targetMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -551,7 +551,7 @@ var showOneStock = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#stock-target .max");
+    dataVal = document.querySelector("#stock-target-max");
     if(stock[index].targetMax !== "")
     {
         dataVal.textContent = parseFloat(stock[index].targetMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -562,15 +562,15 @@ var showOneStock = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( stock[index].target, stock[index].targetMin, stock[index].targetMax );
     stock[index].targetAlert = checkSymbol;
-    dataVal = document.querySelector("#stock-target .alert");
+    dataVal = document.querySelector("#stock-target-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the 50day avg data of the stock
-    dataVal = document.querySelector("#stock-50avg .current");
+    dataVal = document.querySelector("#stock-50avg-current");
     dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-50avg-modal");
     dataVal.textContent = parseFloat(stock[index].f50Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-50avg .min");
+    dataVal = document.querySelector("#stock-50avg-min");
     if(stock[index].f50AvgMin !== "")
     {
         dataVal.textContent = parseFloat(stock[index].f50AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -579,7 +579,7 @@ var showOneStock = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#stock-50avg .max");
+    dataVal = document.querySelector("#stock-50avg-max");
     if(stock[index].f50AvgMax !== "")
     {
         dataVal.textContent = parseFloat(stock[index].f50AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -590,15 +590,15 @@ var showOneStock = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( stock[index].f50Avg, stock[index].f50AvgMin, stock[index].f50AvgMax );
     stock[index].f50AvgAlert = checkSymbol;
-    dataVal = document.querySelector("#stock-50avg .alert");
+    dataVal = document.querySelector("#stock-50avg-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the 200 day avg data of the stock
-    dataVal = document.querySelector("#stock-200avg .current");
+    dataVal = document.querySelector("#stock-200avg-current");
     dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
     dataVal = document.querySelector("#stock-200avg-modal");
     dataVal.textContent = parseFloat(stock[index].t200Avg).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
-    dataVal = document.querySelector("#stock-200avg .min");
+    dataVal = document.querySelector("#stock-200avg-min");
     if(stock[index].t200AvgMin !== "")
     {
         dataVal.textContent = parseFloat(stock[index].t200AvgMin).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -607,7 +607,7 @@ var showOneStock = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#stock-200avg .max");
+    dataVal = document.querySelector("#stock-200avg-max");
     if(stock[index].t200AvgMax !== "")
     {
         dataVal.textContent = parseFloat(stock[index].t200AvgMax).toLocaleString('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2});
@@ -618,7 +618,7 @@ var showOneStock = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( stock[index].t200Avg, stock[index].t200AvgMin, stock[index].t200AvgMax );
     stock[index].t200AvgAlert = checkSymbol;
-    dataVal = document.querySelector("#stock-200avg .alert");
+    dataVal = document.querySelector("#stock-200avg-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the basic info of the stock
@@ -665,10 +665,18 @@ function updateStockAlerts()
                 prioritizedValue = symbol;
             }
         });
-        value.alert = prioritizedValue;
         if(prioritizedValue === alertIcon)
         {
             playAlert = true;
+            value.alert = alertIconSm;
+        }
+        else if(prioritizedValue === checkIcon)
+        {
+            value.alert = checkIconSm;
+        }
+        else
+        {
+            value.alert = errorIconSm;
         }
 
         // Update general stock table only

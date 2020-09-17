@@ -19,9 +19,12 @@ var modalCloseBtnEl = document.querySelector("#error-close");
 modalCloseBtnEl.addEventListener("click", closeModal);
 
 // Constant alert icons
-var errorIcon = '<i style="color:blue" class="fas fa-question-circle"></i>';
-var alertIcon = '<i style="color:crimson" class="fas fa-exclamation-triangle"></i>';
-var checkIcon = '<i style="color:green" class="fas fa-check-circle"></i>';
+var errorIconSm = '<i style="color:blue" class="fas fa-question-circle fa-lg"></i>';
+var alertIconSm = '<i style="color:crimson" class="fas fa-exclamation-triangle fa-lg"></i>';
+var checkIconSm = '<i style="color:green" class="fas fa-check-circle fa-lg"></i>';
+var errorIcon = '<i style="color:blue" class="fas fa-question-circle fa-2x"></i>';
+var alertIcon = '<i style="color:crimson" class="fas fa-exclamation-triangle fa-2x"></i>';
+var checkIcon = '<i style="color:green" class="fas fa-check-circle fa-2x"></i>';
 
 //////////////////////////////////////////////////////////////
 //                  Page Update Functions                   //
