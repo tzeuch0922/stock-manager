@@ -240,6 +240,13 @@ var updateStockParameters = function (index)
 
             return true;
         })
+    }).then(function()
+    {
+        if(document.querySelector("#select-stock-list").value !== "")
+        {
+            showOneStock(document.querySelector("#select-stock-list").value);
+        }
+        updateStockAlerts();
     }).catch(function (error) 
     {
         console.log(error);

@@ -162,6 +162,13 @@ var updateCryptoParameters = function (index)
         saveInvestments();
 
         return;
+    }).then(function()
+    {
+        if(document.querySelector("#select-crypto-list").value !== "")
+        {
+            showOneCrypto(document.querySelector("#select-crypto-list").value);
+        }
+        updateCryptoAlerts();
     })
     .catch(function (error) 
     {
