@@ -13,3 +13,7 @@ table.center {
 .hidden {
     display: none;
 }
+.hoverable:hover {
+    text-decoration: none;
+    color: darkblue;
+}
