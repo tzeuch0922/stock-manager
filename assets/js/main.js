@@ -21,7 +21,7 @@ var updateAll = setInterval( function()
     {
         updateCryptoParameters(index);
     });
-
+    saveInvestments();
 }, (1000 * 60 * 10));   // 1000 milliseconds/second * 60 seconds/minute * 10 minutes.
 
 retrieveInvestments();

@@ -511,6 +511,7 @@ function updateCryptoAlerts()
     {
         playSound();
     }
+    saveInvestments();
 }
 
 // Remove current crypto
@@ -524,6 +525,7 @@ function removeCrypto()
 
     // Update table and hide it
     updateCryptoTable();
+    saveInvestments();
 }
 
 //////////////////////////////////////////////////////////////

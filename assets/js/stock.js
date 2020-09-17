@@ -678,6 +678,7 @@ function updateStockAlerts()
     {
         playSound();
     }
+    saveInvestments();
 }
 
 // Remove current stock
@@ -691,6 +692,7 @@ function removeStock()
 
     // Update table and hide it
     updateStockTable();
+    saveInvestments();
 }
 
 //////////////////////////////////////////////////////////////
