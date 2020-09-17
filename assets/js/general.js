@@ -6,6 +6,10 @@
 var stock = [];
 var cryptos = [];
 
+// Global variables
+var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
+var checkSymbol;         // symbol for the "alert" columns
+
 // Button queries
 var tabListEl = document.querySelector("#tab-list");
 var activeTab = document.querySelector("#general-tab");
@@ -144,4 +148,12 @@ var retrieveInvestments = function()
     {
         cryptos = cryptosRead;
     }
+}
+
+// play sound
+function playSound()
+{
+    console.log("play sound function");
+    var audio = new Audio('alarm07.wav');
+    audio.play();
 }

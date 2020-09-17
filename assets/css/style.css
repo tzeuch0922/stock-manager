@@ -7,9 +7,13 @@ table.center {
     margin-left: auto;
     margin-right: auto;
 }
-.modal-card-body .modal-input{
+.modal-card-body .modal-input {
     width: 80%;
 }
 .hidden {
     display: none;
+}
+.hoverable:hover {
+    text-decoration: none;
+    color: darkblue;
 }

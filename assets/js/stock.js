@@ -240,6 +240,13 @@ var updateStockParameters = function (index)
 
             return true;
         })
+    }).then(function()
+    {
+        if(document.querySelector("#select-stock-list").value !== "")
+        {
+            showOneStock(document.querySelector("#select-stock-list").value);
+        }
+        updateStockAlerts();
     }).catch(function (error) 
     {
         console.log(error);
@@ -346,8 +353,6 @@ function updateStockTable()
         alertEl.classList.add("has-text-centered");
         alertEl.innerHTML = value.alert;
         alertEl.id = "stock-alert-" + index;
-        console.log(alertEl.id);
-        console.log(alertEl);
         // Add in alert data
 
         dataRowEl.appendChild(nameEl);
@@ -628,6 +633,7 @@ var showOneStock = function( index ) {
 // Updates all alerts
 function updateStockAlerts()
 {
+    var playAlert = false;
     stock.forEach(function(value, index)
     {
         var alerts = [];
@@ -660,10 +666,19 @@ function updateStockAlerts()
             }
         });
         value.alert = prioritizedValue;
+        if(prioritizedValue === alertIcon)
+        {
+            playAlert = true;
+        }
 
         // Update general stock table only
         document.querySelector("#stock-alert-"+index).innerHTML = value.alert;
     });
+    if(playAlert)
+    {
+        playSound();
+    }
+    saveInvestments();
 }
 
 // Remove current stock
@@ -677,6 +692,7 @@ function removeStock()
 
     // Update table and hide it
     updateStockTable();
+    saveInvestments();
 }
 
 //////////////////////////////////////////////////////////////
@@ -706,11 +722,11 @@ function editStockAlerts()
     document.querySelector("#stock-beta-input .min").value = stock[index].betaMin;
     document.querySelector("#stock-beta-input .max").value = stock[index].betaMax;
     
-    document.querySelector("#stock-50avg-input .min").value = stock[index].f50avgMin;
-    document.querySelector("#stock-50avg-input .max").value = stock[index].f50avgMax;
+    document.querySelector("#stock-50avg-input .min").value = stock[index].f50AvgMin;
+    document.querySelector("#stock-50avg-input .max").value = stock[index].f50AvgMax;
     
-    document.querySelector("#stock-200avg-input .min").value = stock[index].t200avgMin;
-    document.querySelector("#stock-200avg-input .max").value = stock[index].t200avgMax;
+    document.querySelector("#stock-200avg-input .min").value = stock[index].t200AvgMin;
+    document.querySelector("#stock-200avg-input .max").value = stock[index].t200AvgMax;
 
     // Make edit modal visible
     var stockModalEl = document.querySelector("#stock-edit-modal");

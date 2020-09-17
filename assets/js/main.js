@@ -1,10 +1,7 @@
-////////////////////////////////////////////////////////////////////////////
-// Global Variable Definitions
+//////////////////////////////////////////////////////////////
+//                  Main Function                           //
+//////////////////////////////////////////////////////////////
 
-var dailyCheckStocks;    // if "true", the daily parameters have been obtained, no need to request again.
-var checkSymbol;         // symbol for the "alert" columns
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Start a timer to update the stock and cryptocurrency pages every 10 minutes.
 var updateAll = setInterval( function() 
 {
@@ -21,8 +18,8 @@ var updateAll = setInterval( function()
     {
         updateCryptoParameters(index);
     });
-
-}, (1000 * 60 * 10) );   // 1000 milliseconds/second * 60 seconds/minute * 10 minutes.
+    saveInvestments();
+}, (1000 * 60 * 10));   // 1000 milliseconds/second * 60 seconds/minute * 10 minutes.
 
 retrieveInvestments();
 updateStockTable();

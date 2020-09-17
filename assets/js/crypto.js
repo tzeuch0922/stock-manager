@@ -134,6 +134,9 @@ var getCryptoParameters = function (cryptoSymbol) {
 // Function to update the data for the crypto at the specified index.
 var updateCryptoParameters = function (index) 
 {
+    // Get the stock symbol from the array.
+    var cryptoSymbol = cryptos[index].symbol;
+
     // Construct the finished URL to obtain the current cryptocurrency data.
     var finalUrl = apiNomicsCryptoPrice + urlKeyNomics + apiNomicsIds + cryptoSymbol + apiNomicsInterval;
     console.log(finalUrl);
@@ -159,6 +162,13 @@ var updateCryptoParameters = function (index)
         saveInvestments();
 
         return;
+    }).then(function()
+    {
+        if(document.querySelector("#select-crypto-list").value !== "")
+        {
+            showOneCrypto(document.querySelector("#select-crypto-list").value);
+        }
+        updateCryptoAlerts();
     })
     .catch(function (error) 
     {
@@ -463,6 +473,7 @@ var showOneCrypto = function( index ) {
 // Updates all alerts
 function updateCryptoAlerts()
 {
+    var playAlert = false;
     cryptos.forEach(function(value, index)
     {
         var alerts = [];
@@ -488,10 +499,19 @@ function updateCryptoAlerts()
             }
         });
         value.alert = prioritizedValue;
+        if(prioritizedValue === alertIcon)
+        {
+            playAlert = true;
+        }
 
         // Update general crypto table only
         document.querySelector("#crypto-alert-"+index).innerHTML = value.alert;
     });
+    if(playAlert)
+    {
+        playSound();
+    }
+    saveInvestments();
 }
 
 // Remove current crypto
@@ -505,6 +525,7 @@ function removeCrypto()
 
     // Update table and hide it
     updateCryptoTable();
+    saveInvestments();
 }
 
 //////////////////////////////////////////////////////////////
