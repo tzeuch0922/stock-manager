@@ -352,11 +352,11 @@ var showOneCrypto = function( index ) {
     }
 
     // Display the price of the crypto
-    dataVal = document.querySelector("#crypto-price .current");
+    dataVal = document.querySelector("#crypto-price-current");
     dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
     dataVal = document.querySelector("#crypto-price-modal");
     dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
-    dataVal = document.querySelector("#crypto-price .min");
+    dataVal = document.querySelector("#crypto-price-min");
     if(cryptos[index].priceMin !== "")
     {
         dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
@@ -365,7 +365,7 @@ var showOneCrypto = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#crypto-price .max");
+    dataVal = document.querySelector("#crypto-price-max");
     if(cryptos[index].priceMax !== "")
     {
         dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 4, maximumFractionalDigits:4});
@@ -376,15 +376,15 @@ var showOneCrypto = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( cryptos[index].price, cryptos[index].priceMin, cryptos[index].priceMax );
     cryptos[index].priceAlert = checkSymbol;
-    dataVal = document.querySelector("#crypto-price .alert");
+    dataVal = document.querySelector("#crypto-price-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the volume of the crypto
-    dataVal = document.querySelector("#crypto-volume .current");
+    dataVal = document.querySelector("#crypto-volume-current");
     dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-volume-modal");
     dataVal.textContent = parseFloat(cryptos[index].volume).toLocaleString('en-US');
-    dataVal = document.querySelector("#crypto-volume .min");
+    dataVal = document.querySelector("#crypto-volume-min");
     if(cryptos[index].volumeMin !== "")
     {    
         dataVal.textContent = parseFloat(cryptos[index].volumeMin).toLocaleString('en-US');
@@ -393,7 +393,7 @@ var showOneCrypto = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#crypto-volume .max");
+    dataVal = document.querySelector("#crypto-volume-max");
     if(cryptos[index].volumeMax !== "")
     {    
         dataVal.textContent = parseFloat(cryptos[index].volumeMax).toLocaleString('en-US');
@@ -404,15 +404,15 @@ var showOneCrypto = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( cryptos[index].volume, cryptos[index].volumeMin, cryptos[index].volumeMax );
     cryptos[index].volumeAlert = checkSymbol;
-    dataVal = document.querySelector("#crypto-volume .alert");
+    dataVal = document.querySelector("#crypto-volume-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the supply of the crypto
-    dataVal = document.querySelector("#crypto-supply .current");
+    dataVal = document.querySelector("#crypto-supply-current");
     dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
     dataVal = document.querySelector("#crypto-supply-modal");
     dataVal.textContent = parseFloat(cryptos[index].supply).toLocaleString('en-US');
-    dataVal = document.querySelector("#crypto-supply .min");
+    dataVal = document.querySelector("#crypto-supply-min");
     if(cryptos[index].supplyMin !== "")
     {    
         dataVal.textContent = parseFloat(cryptos[index].supplyMin).toLocaleString('en-US');
@@ -421,7 +421,7 @@ var showOneCrypto = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#crypto-supply .max");
+    dataVal = document.querySelector("#crypto-supply-max");
     if(cryptos[index].supplyMax !== "")
     {    
         dataVal.textContent = parseFloat(cryptos[index].supplyMax).toLocaleString('en-US');  
@@ -432,15 +432,15 @@ var showOneCrypto = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( cryptos[index].supply, cryptos[index].supplyMin, cryptos[index].supplyMax );
     cryptos[index].supplyAlert = checkSymbol;
-    dataVal = document.querySelector("#crypto-supply .alert");
+    dataVal = document.querySelector("#crypto-supply-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display market cap of crypto
-    dataVal = document.querySelector("#crypto-marcap .current");
+    dataVal = document.querySelector("#crypto-marcap-current");
     dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
     dataVal = document.querySelector("#crypto-marcap-modal");
     dataVal.textContent = parseFloat(cryptos[index].marcap).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
-    dataVal = document.querySelector("#crypto-marcap .min");
+    dataVal = document.querySelector("#crypto-marcap-min");
     if(cryptos[index].marcapMin !== "")
     {    
         dataVal.textContent = parseFloat(cryptos[index].marcapMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});
@@ -449,7 +449,7 @@ var showOneCrypto = function( index ) {
     {
         dataVal.textContent = "";
     }
-    dataVal = document.querySelector("#crypto-marcap .max");
+    dataVal = document.querySelector("#crypto-marcap-max");
     if(cryptos[index].marcapMax !== "")
     {    
         dataVal.textContent = parseFloat(cryptos[index].marcapMax).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 0, maximumFractionDigits:0});  
@@ -460,7 +460,7 @@ var showOneCrypto = function( index ) {
     }
     checkSymbol = verifyInvestmentItem( cryptos[index].marcap, cryptos[index].marcapMin, cryptos[index].marcapMax );
     cryptos[index].marcapAlert = checkSymbol;
-    dataVal = document.querySelector("#crypto-marcap .alert");
+    dataVal = document.querySelector("#crypto-marcap-alert");
     dataVal.innerHTML = checkSymbol;
 
     // display the basic info of the crypto
@@ -498,10 +498,18 @@ function updateCryptoAlerts()
                 prioritizedValue = symbol;
             }
         });
-        value.alert = prioritizedValue;
         if(prioritizedValue === alertIcon)
         {
             playAlert = true;
+            value.alert = alertIconSm;
+        }
+        else if(prioritizedValue === checkIcon)
+        {
+            value.alert = checkIconSm;
+        }
+        else
+        {
+            value.alert = errorIconSm;
         }
 
         // Update general crypto table only
@@ -568,9 +576,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].priceMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].priceMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].priceMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].priceMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";
@@ -581,9 +597,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].volumeMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].volumeMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].volumeMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].volumeMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";
@@ -594,9 +618,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].supplyMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].supplyMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].supplyMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].supplyMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";
@@ -607,9 +639,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].marcapMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].marcapMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].marcapMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].marcapMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";
