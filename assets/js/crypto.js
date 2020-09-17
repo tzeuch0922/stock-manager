@@ -71,7 +71,7 @@ var getCryptoParameters = function (cryptoSymbol) {
     {
         name: "",
         symbol: "",
-        alert: errorIcon,
+        alert: errorIconSm,
         price: "",
         priceMin: "",
         priceMax: "",

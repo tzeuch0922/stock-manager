@@ -70,7 +70,7 @@ var getStockParameters = function (stockSymbol)
         name : "",
         symbol : "",
         exchange : "",
-        alert : errorIcon,
+        alert : errorIconSm,
         price: "",
         priceMin: "",
         priceMax: "",
