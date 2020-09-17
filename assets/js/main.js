@@ -5,8 +5,6 @@
 // Start a timer to update the stock and cryptocurrency pages every 10 minutes.
 var updateAll = setInterval( function() 
 {
-    console.log( "In 10-min update function.");
-    
     // Update the data in the 'stock' array.
     stock.forEach(function(value, index)
     {

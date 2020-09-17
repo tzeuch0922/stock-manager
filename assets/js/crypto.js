@@ -105,7 +105,6 @@ var getCryptoParameters = function (cryptoSymbol) {
         {
             throw "not found";
         }
-        console.log("different error");
 
         // Put the currency's  data in the return variables.
         cryptoValues.name      = response[0].name;
@@ -139,7 +138,6 @@ var updateCryptoParameters = function (index)
 
     // Construct the finished URL to obtain the current cryptocurrency data.
     var finalUrl = apiNomicsCryptoPrice + urlKeyNomics + apiNomicsIds + cryptoSymbol + apiNomicsInterval;
-    console.log(finalUrl);
 
     // Make the request for the currency's data
     fetch(finalUrl).then(function (response) 
@@ -336,8 +334,6 @@ function updateMainCrypto()
 {
     // Query select menu
     var selectCryptoEl = document.querySelector("#select-crypto-list");
-    console.log(selectCryptoEl);
-    console.log(selectCryptoEl.value);
     showOneCrypto(selectCryptoEl.value);
 }
 
