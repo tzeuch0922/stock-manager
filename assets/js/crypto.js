@@ -353,13 +353,13 @@ var showOneCrypto = function( index ) {
 
     // Display the price of the crypto
     dataVal = document.querySelector("#crypto-price .current");
-    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
+    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 2, maximumFractionalDigits:2});
     dataVal = document.querySelector("#crypto-price-modal");
-    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
+    dataVal.textContent = parseFloat(cryptos[index].price).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 2, maximumFractionalDigits:2});
     dataVal = document.querySelector("#crypto-price .min");
     if(cryptos[index].priceMin !== "")
     {
-        dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 4, maximumFractionalDigits:4});
+        dataVal.textContent = parseFloat(cryptos[index].priceMin).toLocaleString('en-US', {style:'currency', currency:'USD', minimumFractionDigits: 2, maximumFractionalDigits:2});
     }
     else
     {
@@ -368,7 +368,7 @@ var showOneCrypto = function( index ) {
     dataVal = document.querySelector("#crypto-price .max");
     if(cryptos[index].priceMax !== "")
     {
-        dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 4, maximumFractionalDigits:4});
+        dataVal.textContent = parseFloat(cryptos[index].priceMax).toLocaleString('en-US', {style:'currency', currency:'USD',  minimumFractionDigits: 2, maximumFractionalDigits:2});
     }
     else
     {
@@ -568,9 +568,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].priceMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].priceMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].priceMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].priceMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";
@@ -581,9 +589,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].volumeMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].volumeMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].volumeMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].volumeMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";
@@ -594,9 +610,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].supplyMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].supplyMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].supplyMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].supplyMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";
@@ -607,9 +631,17 @@ function confirmCryptoEdits()
     {
         cryptos[index].marcapMin = cryptoEl.querySelector(".min").value;
     }
+    else
+    {
+        cryptos[index].marcapMin = "";
+    }
     if(cryptoEl.querySelector(".max").value  && !isNaN(parseFloat(cryptoEl.querySelector(".max").value)))
     {
         cryptos[index].marcapMax = cryptoEl.querySelector(".max").value;
+    }
+    else
+    {
+        cryptos[index].marcapMax = "";
     }
     cryptoEl.querySelector(".min").value = "";
     cryptoEl.querySelector(".max").value = "";

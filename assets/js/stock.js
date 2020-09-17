@@ -745,9 +745,17 @@ function confirmStockEdits()
     {
         stock[index].priceMin = parseFloat(stockEl.querySelector(".min").value);
     }
+    else
+    {
+        stock[index].priceMin = "";
+    }
     if(stockEl.querySelector(".max").value  && !isNaN(stockEl.querySelector(".max").value))
     {
         stock[index].priceMax = parseFloat(stockEl.querySelector(".max").value);
+    }
+    else
+    {
+        stock[index].priceMax = "";
     }
     stockEl.querySelector(".max").value = "";
     stockEl.querySelector(".min").value = "";
@@ -758,9 +766,17 @@ function confirmStockEdits()
     {
         stock[index].targetMin = stockEl.querySelector(".min").value;
     }
+    else
+    {
+        stock[index].targetMin = "";
+    }
     if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].targetMax = stockEl.querySelector(".max").value;
+    }
+    else
+    {
+        stock[index].targetMax = "";
     }
     stockEl.querySelector(".max").value = "";
     stockEl.querySelector(".min").value = "";
@@ -771,9 +787,17 @@ function confirmStockEdits()
     {
         stock[index].epsMin = stockEl.querySelector(".min").value;
     }
+    else
+    {
+        stock[index].epsMin = "";
+    }
     if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].epsMax = stockEl.querySelector(".max").value;
+    }
+    else
+    {
+        stock[index].epsMax = "";
     }
     stockEl.querySelector(".max").value = "";
     stockEl.querySelector(".min").value = "";
@@ -784,9 +808,17 @@ function confirmStockEdits()
     {
         stock[index].peMin = stockEl.querySelector(".min").value;
     }
+    else
+    {
+        stock[index].peMin = "";
+    }
     if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].peMax = stockEl.querySelector(".max").value;
+    }
+    else
+    {
+        stock[index].peMax = "";
     }
     stockEl.querySelector(".max").value = "";
     stockEl.querySelector(".min").value = "";
@@ -797,9 +829,17 @@ function confirmStockEdits()
     {
         stock[index].betaMin = stockEl.querySelector(".min").value;
     }
+    else
+    {
+        stock[index].betaMin = "";
+    }
     if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].betaMax = stockEl.querySelector(".max").value;
+    }
+    else
+    {
+        stock[index].betaMax = "";
     }
     stockEl.querySelector(".max").value = "";
     stockEl.querySelector(".min").value = "";
@@ -810,9 +850,17 @@ function confirmStockEdits()
     {
         stock[index].f50AvgMin = stockEl.querySelector(".min").value;
     }
+    else
+    {
+        stock[index].f50AvgMin = "";
+    }
     if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].f50AvgMax = stockEl.querySelector(".max").value;
+    }
+    else
+    {
+        stock[index].f50AvgMax = "";
     }
     stockEl.querySelector(".max").value = "";
     stockEl.querySelector(".min").value = "";
@@ -823,9 +871,17 @@ function confirmStockEdits()
     {
         stock[index].t200AvgMin = stockEl.querySelector(".min").value;
     }
+    else
+    {
+        stock[index].t200AvgMin = "";
+    }
     if(stockEl.querySelector(".max").value  && !isNaN(parseFloat(stockEl.querySelector(".max").value)))
     {
         stock[index].t200AvgMax = stockEl.querySelector(".max").value;
+    }
+    else
+    {
+        stock[index].t200AvgMax = "";
     }
     stockEl.querySelector(".max").value = "";
     stockEl.querySelector(".min").value = "";
