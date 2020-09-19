@@ -70,7 +70,7 @@ var getStockParameters = function (stockSymbol)
         name : "",
         symbol : "",
         exchange : "",
-        alert : errorIcon,
+        alert : errorIconSm,
         price: "",
         priceMin: "",
         priceMax: "",
@@ -184,11 +184,9 @@ var updateStockParameters = function (index)
     // Make the request for the stock's price
     fetch(finalUrl).then(function (response) 
     {
-        console.log(response);
         return response.json();
     }).then(function (response) 
     {
-        console.log(response);
         // Verify that data was acquired
         if (!response.c) {
             console.log("error");
@@ -360,7 +358,6 @@ function updateStockTable()
         dataRowEl.appendChild(alertEl);
         
         generalStockTableEl.appendChild(dataRowEl);
-        console.log(document.querySelector("#stock-alert-"+index));
 
         // Add option to select menu.
         var selectItemEl = document.createElement("option");
@@ -639,7 +636,6 @@ function updateStockAlerts()
         var alerts = [];
         value.priceAlert = verifyInvestmentItem(value.price, value.priceMin, value.priceMax);
         alerts.push(value.priceAlert);
-        console.log("priceAlert:", value.price, value.priceMin, value.priceMax, value.priceAlert);
         value.targetAlert = verifyInvestmentItem(value.target, value.targetMin, value.targetMax);
         alerts.push(value.targetAlert);
         value.epsAlert = verifyInvestmentItem(value.eps, value.epsMin, value.epsMax);
@@ -712,7 +708,6 @@ function editStockAlerts()
 {
     // Get list index of active stock element
     var index = document.querySelector("#select-stock-list").value;
-    console.log(index);
 
     // Populate input values, if they exist
     document.querySelector("#stock-price-input .min").value = stock[index].priceMin;
